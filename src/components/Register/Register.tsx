@@ -4,29 +4,47 @@ import hands from "@assets/images/hands.svg";
 import google from "@assets/images/google.svg";
 import { Button, Input } from "antd";
 import { Link } from "react-router";
-import { useState } from "react";
+import type { IRegister } from "@components/interfaces/Inputs";
+import { useEffect } from "react";
 
-type Inputs = {
-  email: string;
-  password: string;
-  confirmPassword: string;
-};
+// type Inputs = {
+//   email: string;
+//   password: string;
+//   confirmPassword: string;
+// };
 
 export const Register: React.FC = () => {
-  const [inputValue, setInputValue] = useState({
-    email: "",
-    password: "",
-    confirmPassword: "",
-  });
-
   const {
     register,
     handleSubmit,
     watch,
     formState: { errors },
-  } = useForm<Inputs>();
+  } = useForm<IRegister>({
+    defaultValues: {
+      // Add default values
+      email: "",
+      password: "",
+      confirmPassword: "",
+    },
+    mode: "onBlur", // Optional: validate on change
+  });
 
-  const onSubmit = (data: Inputs) => console.log(data);
+  const onSubmit = (data: IRegister) => console.log(data);
+
+  // const watchedEmail = watch("email");
+  // const watchedPassword = watch("password");
+  // const watchedConfirmPassword = watch("confirmPassword");
+
+  const allValues = watch();
+  const { email, password, confirmPassword } = allValues;
+  console.log(allValues); // This should now log values correctly
+
+  useEffect(() => {
+    const subscription = watch((value) => {
+      console.log("Form values changed:", value);
+    });
+    return () => subscription.unsubscribe();
+  }, []);
 
   return (
     <div className={styles.container}>
@@ -35,57 +53,55 @@ export const Register: React.FC = () => {
         <div className={styles.title}>Создать аккаунт</div>
         <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
           <div className="inputWrapper">
-            {inputValue.email && (
+            {email && (
               <div className={styles.labelAbove}>Адрес электронной почты</div>
             )}
             <Input
-              {...register("email", { required: "Email is required" })}
+              {...register("email", {
+                required: "Email is required",
+                pattern: {
+                  value: /^\S+@\S+$/i,
+                  message: "Invalid email address",
+                },
+              })}
               type="email"
               placeholder="Адрес электронной почты"
               name="email"
               allowClear
-              onChange={(e) =>
-                setInputValue({ ...inputValue, email: e.target.value })
-              }
-              value={inputValue.email}
             />
           </div>
           <div className="inputWrapper">
-            {inputValue.password && (
-              <div className={styles.labelAbove}>Пароль</div>
-            )}
+            {password && <div className={styles.labelAbove}>Пароль</div>}
             <Input.Password
-              {...register("password", { required: "Password is required" })}
+              {...register("password", {
+                required: "Password is required",
+                minLength: {
+                  value: 8,
+                  message: "Password must be at least 8 characters",
+                },
+              })}
               type="password"
               placeholder="Пароль"
               name="password"
               allowClear
-              minLength={8}
-              onChange={(e) =>
-                setInputValue({ ...inputValue, password: e.target.value })
-              }
-              value={inputValue.password}
+              // minLength={8}
             />
           </div>
 
           <div className="inputWrapper">
-            {inputValue.confirmPassword && (
+            {confirmPassword && (
               <div className={styles.labelAbove}>Повтор пароля</div>
             )}
             <Input.Password
-              {...register("password", { required: "Password is required" })}
+              {...register("password", {
+                required: "Password is required",
+                validate: (value) =>
+                  value === confirmPassword || "Passwords do not match",
+              })}
               type="password"
               placeholder="Повтор пароля"
               name="confirmPassword"
               allowClear
-              minLength={8}
-              onChange={(e) =>
-                setInputValue({
-                  ...inputValue,
-                  confirmPassword: e.target.value,
-                })
-              }
-              value={inputValue.confirmPassword}
             />
           </div>
           <Button type="primary" htmlType="submit">

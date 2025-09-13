@@ -4,11 +4,12 @@ import lock from "@assets/images/lock.svg";
 import google from "@assets/images/google.svg";
 import { Button, Input } from "antd";
 import { Link } from "react-router";
+import type { ILogin } from "@components/interfaces/Inputs";
 
-type Inputs = {
-  email: string;
-  password: string;
-};
+// type Inputs = {
+//   email: string;
+//   password: string;
+// };
 
 export const Login: React.FC = () => {
   const {
@@ -16,9 +17,9 @@ export const Login: React.FC = () => {
     handleSubmit,
     watch,
     formState: { errors },
-  } = useForm<Inputs>();
+  } = useForm<ILogin>();
 
-  const onSubmit = (data: Inputs) => console.log(data);
+  const onSubmit = (data: ILogin) => console.log(data);
 
   return (
     <>
@@ -51,7 +52,9 @@ export const Login: React.FC = () => {
             <img src={google} alt="Google" className={styles.googleIcon} />
             Google
           </button>
-          <div className={styles.forgot}>Забыли пароль</div>
+          <Link to={"/forgot"} className={styles.forgot}>
+            Забыли пароль
+          </Link>
           <div className={styles.register}>
             <Link to="/register">Зарегистрироваться</Link>
           </div>

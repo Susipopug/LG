@@ -56,7 +56,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 1px solid #ccc;
+  border: 1px solid #1677FF;
   border-radius: 4px;
   padding: 10px;
   background: #fff;
@@ -78,8 +78,7 @@
 
 .forgot {
   margin-top: 10px;
-  font-size: 14px;
-  color: #0066ff;
+  color: #1890ff;
   cursor: pointer;
   display: inline-block;
   margin-bottom: 24px;
@@ -87,8 +86,7 @@
 
 .register {
   margin-top: 20px;
-  font-size: 14px;
-  color: #0066ff;
+  color: #1890ff;
   cursor: pointer;
   display: inline-block;
 }
