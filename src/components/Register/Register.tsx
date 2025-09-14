@@ -3,7 +3,7 @@ import styles from "./Register.module.css";
 import hands from "@assets/images/hands.svg";
 import google from "@assets/images/google.svg";
 import { Button, Input } from "antd";
-import { Link } from "react-router";
+import { Link } from "react-router-dom";
 import type { IRegister } from "@components/interfaces/Inputs";
 import { useEffect } from "react";
 

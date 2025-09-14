@@ -1,7 +1,7 @@
 import styles from "@components/ForgotPassword/ForgotPassword.module.css";
 import mag_glass from "@assets/images/mag-glass.svg";
 import { Button, Input } from "antd";
-import { Link } from "react-router";
+import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import type { ILogin } from "../interfaces/Inputs";
 
@@ -17,7 +17,7 @@ export const ForgotPassword: React.FC = () => {
   return (
     <div className={styles.container}>
       <div className={styles.containerContent}>
-        <img src={mag_glass} alt="lock" />
+        <img src={mag_glass} alt="mag_glass" />
         <div className={styles.title}>Воccтановить пароль</div>
         <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
           <Input

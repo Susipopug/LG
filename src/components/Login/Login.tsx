@@ -3,7 +3,7 @@ import styles from "./Login.module.css";
 import lock from "@assets/images/lock.svg";
 import google from "@assets/images/google.svg";
 import { Button, Input } from "antd";
-import { Link } from "react-router";
+import { Link } from "react-router-dom";
 import type { ILogin } from "@components/interfaces/Inputs";
 
 // type Inputs = {
@@ -52,7 +52,7 @@ export const Login: React.FC = () => {
             <img src={google} alt="Google" className={styles.googleIcon} />
             Google
           </button>
-          <Link to={"/forgot"} className={styles.forgot}>
+          <Link to="/forgot" className={styles.forgot}>
             Забыли пароль
           </Link>
           <div className={styles.register}>
