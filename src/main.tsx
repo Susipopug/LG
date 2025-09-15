@@ -9,6 +9,7 @@ import { Register } from "./components/Register/Register";
 import { ForgotPassword } from "./components/ForgotPassword/ForgotPassword";
 import { Header } from "./components/Header/Header";
 import { LetterSent } from "./components/LetterSent/LetterSent";
+import { RestorePassword } from "./components/RestorePassword/RestorePassword";
 
 const router = createBrowserRouter([
   {
@@ -34,6 +35,10 @@ const router = createBrowserRouter([
       {
         path: "letterSent",
         element: <LetterSent />,
+      },
+      {
+        path: "restorePassword",
+        element: <RestorePassword />,
       },
     ],
   },
