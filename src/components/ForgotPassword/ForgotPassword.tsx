@@ -33,7 +33,7 @@ export const ForgotPassword: React.FC = () => {
           </Button>
         </form>
 
-        <Link to="/login">Назад</Link>
+        <Link to="/login" className={styles.link}>Назад</Link>
       </div>
     </div>
   );

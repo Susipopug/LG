@@ -5,6 +5,7 @@ import google from "@assets/images/google.svg";
 import { Button, Input } from "antd";
 import { Link } from "react-router-dom";
 import type { ILogin } from "@components/interfaces/Inputs";
+import { GoogleButton } from "../UI/GoogleButton/GoogleButton";
 
 // type Inputs = {
 //   email: string;
@@ -47,17 +48,13 @@ export const Login: React.FC = () => {
               Войти
             </Button>
           </form>
-          <div className={styles.separator}> или</div>
-          <button className={styles.googleButton}>
-            <img src={google} alt="Google" className={styles.googleIcon} />
-            Google
-          </button>
-          <Link to="/forgot" className={styles.forgot}>
+          <GoogleButton />
+          <Link to="/forgot" className={styles.link}>
             Забыли пароль
           </Link>
-          <div className={styles.register}>
-            <Link to="/register">Зарегистрироваться</Link>
-          </div>
+          <Link to="/register" className={styles.link}>
+            Зарегистрироваться
+          </Link>
         </div>
       </div>
     </>

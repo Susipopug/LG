@@ -7,7 +7,7 @@ import {
 import styles from "./Register.module.css";
 import hands from "@assets/images/hands.svg";
 import google from "@assets/images/google.svg";
-import { Button, Form, Input } from "antd";
+import { Form, Input } from "antd";
 import { Link } from "react-router-dom";
 import { useEffect } from "react";
 import { useState } from "react";
@@ -17,6 +17,11 @@ import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import InputAdornment from "@mui/material/InputAdornment";
 import ClearIcon from "@mui/icons-material/Clear";
+import Button from "@mui/material/Button";
+import Stack from "@mui/material/Stack";
+import { inherits } from "node:util";
+import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
+import { GoogleButton } from "../UI/GoogleButton/GoogleButton";
 
 // Inside your component...
 
@@ -84,7 +89,7 @@ export const Register: React.FC = () => {
       <div className={styles.containerContent}>
         <img src={hands} alt="hands" />
 
-        <div className={styles.title}>Создать аккаунт</div>
+        <h1 className={styles.title}>Создать аккаунт</h1>
 
         {/* <Form onFinish={handleSubmit(onSubmit, onError)}>
           <Controller
@@ -173,10 +178,16 @@ export const Register: React.FC = () => {
               })}
               type="email"
               // placeholder="Адрес электронной почты"
-              name="email"
               fullWidth
               size="small"
               label="Адрес электронной почты"
+              slotProps={{
+                inputLabel: {
+                  sx: {
+                    color: "grey.400", // Light grey color
+                  },
+                },
+              }}
             />
             {errors.email && (
               <p role="alert" style={{ color: "red" }}>
@@ -185,7 +196,7 @@ export const Register: React.FC = () => {
             )}
           </div>
 
-          <div className="inputWrapper">
+          {/* <div className="inputWrapper">
             {password && <div className={styles.labelAbove}>Пароль</div>}
             <Input.Password
               {...register("password", {
@@ -197,7 +208,6 @@ export const Register: React.FC = () => {
               })}
               type="password"
               placeholder="Пароль"
-              name="password"
               allowClear
               // minLength={8}
             />
@@ -206,7 +216,7 @@ export const Register: React.FC = () => {
                 {errors.password.message}
               </p>
             )}
-          </div>
+          </div> */}
 
           {/* Material UI */}
           <div className="inputWrapper">
@@ -222,17 +232,9 @@ export const Register: React.FC = () => {
               onChange={(e) => setValue(e.target.value)}
               type={showPassword ? "text" : "password"}
               label="Пароль"
-              placeholder="Пароль"
               name="password"
               fullWidth
-              size="small" // Makes the input take the full width of its container
-              error={!!errors.password} // Highlights the field in error state
-              // helperText={errors.password?.message} // Displays error message below
-              // {value && (
-              //   <IconButton onClick={() => setValue("")} size="small">
-              //     <ClearIcon />
-              //   </IconButton>
-              // ))}
+              size="small"
               slotProps={{
                 input: {
                   endAdornment: (
@@ -243,24 +245,36 @@ export const Register: React.FC = () => {
                           onClick={handleClickShowPassword}
                           onMouseDown={handleMouseDownPassword}
                           edge="end"
+                          sx={{ color: "grey.500" }}
                         >
-                          {showPassword ? <VisibilityOff /> : <Visibility />}
+                          {showPassword ? (
+                            <Visibility fontSize="small" />
+                          ) : (
+                            <VisibilityOff fontSize="small" />
+                          )}
                         </IconButton>
                       </InputAdornment>
 
                       {value && (
                         <InputAdornment position="end">
                           <IconButton
+                            size="small"
                             aria-label="clear input"
                             onClick={() => setValue("")}
                             edge="end"
+                            sx={{ color: "grey.500" }}
                           >
-                            <ClearIcon />
+                            <ClearIcon fontSize="small" />
                           </IconButton>
                         </InputAdornment>
                       )}
                     </>
                   ),
+                },
+                inputLabel: {
+                  sx: {
+                    color: "grey.400", // Light grey color
+                  },
                 },
               }}
             />
@@ -272,37 +286,93 @@ export const Register: React.FC = () => {
           </div>
 
           <div className="inputWrapper">
-            {confirmPassword && (
-              <div className={styles.labelAbove}>Повтор пароля</div>
-            )}
-            <Input.Password
-              {...register("confirmPassword", {
+            <TextField
+              {...register("password", {
                 required: "Поле необходимо заполнить",
-                // validate: (value) =>
-                //   value === password || "Passwords do not match",
+                minLength: {
+                  value: 8,
+                  message: "Пароль должен содержать не менее 8 символов",
+                },
               })}
-              type="password"
-              placeholder="Повтор пароля"
-              name="confirmPassword"
-              allowClear
+              value={value}
+              onChange={(e) => setValue(e.target.value)}
+              type={showPassword ? "text" : "password"}
+              label="Повтор пароля"
+              name="password"
+              fullWidth
+              size="small"
+              slotProps={{
+                input: {
+                  endAdornment: (
+                    <>
+                      <InputAdornment position="end">
+                        <IconButton
+                          aria-label="toggle password visibility"
+                          onClick={handleClickShowPassword}
+                          onMouseDown={handleMouseDownPassword}
+                          edge="end"
+                          sx={{ color: "grey.500" }}
+                        >
+                          {showPassword ? (
+                            <Visibility fontSize="small" />
+                          ) : (
+                            <VisibilityOff fontSize="small" />
+                          )}
+                        </IconButton>
+                      </InputAdornment>
+
+                      {value && (
+                        <InputAdornment position="end">
+                          <IconButton
+                            aria-label="clear input"
+                            onClick={() => setValue("")}
+                            edge="end"
+                            sx={{ color: "grey.500" }}
+                          >
+                            <ClearIcon fontSize="small" />
+                          </IconButton>
+                        </InputAdornment>
+                      )}
+                    </>
+                  ),
+                },
+                inputLabel: {
+                  sx: {
+                    color: "grey.400", // Light grey color
+                  },
+                },
+              }}
             />
-            {errors.confirmPassword && (
+            {errors.password && (
               <p role="alert" style={{ color: "red" }}>
-                {errors.confirmPassword.message}
+                {errors.password.message}
               </p>
             )}
           </div>
-          <Button type="primary" htmlType="submit">
+
+          {/* <Button type="primary" htmlType="submit">
             Зарегистрироваться
-          </Button>
+          </Button> */}
+
+          <Stack direction="row" spacing={2}>
+            <Button
+              variant="contained"
+              fullWidth
+              sx={{
+                backgroundColor: "#1677FF",
+                fontStyle: "normal",
+                fontSize: "inherit",
+                textTransform: "none",
+              }}
+            >
+              Зарегистрироваться
+            </Button>
+          </Stack>
         </form>
-        <div className={styles.separator}> или</div>
-        <button className={styles.googleButton}>
-          <img src={google} alt="Google" className={styles.googleIcon} />
-          Google
-        </button>
-        {/* <div className={styles.forgot}>Уже есть аккаунт</div> */}
-        <Link to={"/login"}>Уже есть аккаунт</Link>
+        <GoogleButton />
+        <Link to={"/login"} className={styles.link}>
+          Уже есть аккаунт
+        </Link>
       </div>
     </div>
   );
