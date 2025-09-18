@@ -1,85 +1,206 @@
 import styles from "@components/ForgotPassword/ForgotPassword.module.css";
 import mag_glass from "@assets/images/mag-glass.svg";
-import { Button, Input } from "antd";
 import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import type { ILogin, IRegister } from "../interfaces/Inputs";
-import { useEffect } from "react";
+import {
+  Button,
+  IconButton,
+  InputAdornment,
+  Stack,
+  TextField,
+} from "@mui/material";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
+import ClearIcon from "@mui/icons-material/Clear";
+import { useState } from "react";
 
 export const RestorePassword: React.FC = () => {
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
+  const handleClickShowPassword = () => setShowPassword((show) => !show);
+  const handleClickShowConfirmPassword = () =>
+    setShowConfirmPassword((show) => !show);
+
+  const handleMouseDownPassword = (
+    event: React.MouseEvent<HTMLButtonElement>
+  ) => {
+    event.preventDefault();
+  };
+
   const {
     register,
     handleSubmit,
     watch,
+    setValue,
     formState: { errors },
   } = useForm<IRegister>({
-    defaultValues: {
-      // Add default values
-      email: "",
-      password: "",
-      confirmPassword: "",
-    },
-    mode: "onBlur", // Optional: validate on change
+    defaultValues: {},
+    mode: "onTouched",
   });
 
-  const allValues = watch();
-  const { email, password, confirmPassword } = allValues;
-  console.log(allValues); // This should now log values correctly
-
-  useEffect(() => {
-    const subscription = watch((value) => {
-      console.log("Form values changed:", value);
-    });
-    return () => subscription.unsubscribe();
-  }, []);
+  const passwordValue = watch("password");
+  const confirmPasswordValue = watch("confirmPassword");
 
   const onSubmit = (data: ILogin) => console.log(data);
   return (
     <div className={styles.container}>
       <div className={styles.containerContent}>
         <img src={mag_glass} alt="mag_glass" />
-        <div className={styles.title}>Воccтановить пароль</div>
+        <h1 className={styles.title}>Воccтановить пароль</h1>
         <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
+          {/* Password */}
+
           <div className="inputWrapper">
-            {password && <div className={styles.labelAbove}>Пароль</div>}
-            <Input.Password
+            <TextField
               {...register("password", {
-                required: "Password is required",
+                required: "Поле необходимо заполнить",
                 minLength: {
                   value: 8,
-                  message: "Password must be at least 8 characters",
+                  message: "Пароль должен содержать не менее 8 символов",
                 },
               })}
-              type="password"
-              placeholder="Пароль"
-              name="password"
-              allowClear
-              // minLength={8}
+              type={showPassword ? "text" : "password"}
+              label="Пароль"
+              fullWidth
+              size="small"
+              slotProps={{
+                input: {
+                  endAdornment: (
+                    <>
+                      <InputAdornment position="end">
+                        <IconButton
+                          aria-label="toggle password visibility"
+                          onClick={handleClickShowPassword}
+                          onMouseDown={handleMouseDownPassword}
+                          edge="end"
+                          sx={{ color: "grey.500" }}
+                        >
+                          {showPassword ? (
+                            <Visibility fontSize="small" />
+                          ) : (
+                            <VisibilityOff fontSize="small" />
+                          )}
+                        </IconButton>
+                      </InputAdornment>
+
+                      {passwordValue && (
+                        <InputAdornment position="end">
+                          <IconButton
+                            size="small"
+                            aria-label="clear input"
+                            onClick={() =>
+                              setValue("password", "", { shouldValidate: true })
+                            }
+                            edge="end"
+                            sx={{ color: "grey.500" }}
+                          >
+                            <ClearIcon fontSize="small" />
+                          </IconButton>
+                        </InputAdornment>
+                      )}
+                    </>
+                  ),
+                },
+                inputLabel: {
+                  sx: {
+                    color: "grey.400",
+                  },
+                },
+              }}
             />
+            {errors.password && (
+              <p role="alert" style={{ color: "red" }}>
+                {errors.password.message}
+              </p>
+            )}
           </div>
+
+          {/* ConfirmPassword */}
 
           <div className="inputWrapper">
-            {confirmPassword && (
-              <div className={styles.labelAbove}>Повтор пароля</div>
-            )}
-            <Input.Password
-              {...register("password", {
-                required: "Password is required",
+            <TextField
+              {...register("confirmPassword", {
+                required: "Поле необходимо заполнить",
                 validate: (value) =>
-                  value === confirmPassword || "Passwords do not match",
+                  value === passwordValue || "Пароли не совпадают",
               })}
-              type="password"
-              placeholder="Повтор пароля"
-              name="confirmPassword"
-              allowClear
+              type={showConfirmPassword ? "text" : "password"}
+              label="Повтор пароля"
+              fullWidth
+              size="small"
+              slotProps={{
+                input: {
+                  endAdornment: (
+                    <>
+                      <InputAdornment position="end">
+                        <IconButton
+                          aria-label="toggle password visibility"
+                          onClick={handleClickShowConfirmPassword}
+                          onMouseDown={handleMouseDownPassword}
+                          edge="end"
+                          sx={{ color: "grey.500" }}
+                        >
+                          {showConfirmPassword ? (
+                            <Visibility fontSize="small" />
+                          ) : (
+                            <VisibilityOff fontSize="small" />
+                          )}
+                        </IconButton>
+                      </InputAdornment>
+
+                      {confirmPasswordValue && (
+                        <InputAdornment position="end">
+                          <IconButton
+                            aria-label="clear input"
+                            onClick={() =>
+                              setValue("confirmPassword", "", {
+                                shouldValidate: true,
+                              })
+                            }
+                            edge="end"
+                            sx={{ color: "grey.500" }}
+                          >
+                            <ClearIcon fontSize="small" />
+                          </IconButton>
+                        </InputAdornment>
+                      )}
+                    </>
+                  ),
+                },
+                inputLabel: {
+                  sx: {
+                    color: "grey.400",
+                  },
+                },
+              }}
             />
+            {errors.confirmPassword && (
+              <p role="alert" style={{ color: "red" }}>
+                {errors.confirmPassword.message}
+              </p>
+            )}
           </div>
-          <Button type="primary" htmlType="submit">
-            Изменить пароль
-          </Button>
+
+          <Stack direction="row" spacing={2}>
+            <Button
+              variant="contained"
+              fullWidth
+              sx={{
+                backgroundColor: "#1677FF",
+                fontStyle: "normal",
+                fontSize: "inherit",
+                textTransform: "none",
+              }}
+            >
+              Восстановить пароль
+            </Button>
+          </Stack>
         </form>
 
-        <Link to="/login">Назад</Link>
+        <Link to="/login" className={styles.link}>
+          Назад
+        </Link>
       </div>
     </div>
   );

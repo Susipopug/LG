@@ -18,6 +18,9 @@
 .title {
   margin-top: 24px;
   margin-bottom: 24px;
+  font-size: 24px;
+  color: #000000;
+  opacity: 88%;
 }
 .form {
   width: 100%;
