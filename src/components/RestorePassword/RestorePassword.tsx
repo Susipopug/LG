@@ -11,10 +11,11 @@ export const RestorePassword: React.FC = () => {
     register,
     handleSubmit,
     watch,
+    clearErrors,
     formState: { errors },
   } = useForm<IRegister>({
     defaultValues: {},
-    mode: "onTouched",
+    mode: "onSubmit",
   });
 
   const passwordValue = watch("password");
@@ -44,6 +45,7 @@ export const RestorePassword: React.FC = () => {
             size="small"
             helperText={errors.password?.message}
             error={!!errors.password}
+            // onChange={() => clearErrors("email")}
           />
 
           {/* ConfirmPassword */}
@@ -60,6 +62,7 @@ export const RestorePassword: React.FC = () => {
               size="small"
               helperText={errors.confirmPassword?.message}
               error={!!errors.confirmPassword}
+              // onChange={() => clearErrors("email")}
             />
           </div>
 

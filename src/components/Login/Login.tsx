@@ -12,9 +12,14 @@ export const Login: React.FC = () => {
     register,
     handleSubmit,
     watch,
+    clearErrors,
     formState: { errors },
   } = useForm<ILogin>({
-    mode: "onTouched",
+    mode: "onSubmit",
+    defaultValues: {
+      email: "",
+      password: "",
+    },
   });
 
   const passwordValue = watch("password");
@@ -28,8 +33,6 @@ export const Login: React.FC = () => {
           <img src={lock} alt="lock" />
           <h1 className={styles.title}>Войти в аккаунт</h1>
           <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
-            
-            
             {/* Email */}
             <TextField
               {...register("email", {
@@ -45,6 +48,7 @@ export const Login: React.FC = () => {
               label="Адрес электронной почты"
               helperText={errors.email?.message}
               error={!!errors.email}
+              // onChange={() => clearErrors("email")}
               slotProps={{
                 inputLabel: {
                   sx: {
@@ -71,6 +75,7 @@ export const Login: React.FC = () => {
               size="small"
               helperText={errors.password?.message}
               error={!!errors.password}
+              // onChange={() => clearErrors("password")}
             />
 
             <Stack direction="row" spacing={2}>

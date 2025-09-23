@@ -9,16 +9,17 @@ import { Register } from "./components/Register/Register";
 import { ForgotPassword } from "./components/ForgotPassword/ForgotPassword";
 import { Header } from "./components/Header/Header";
 import { RestorePassword } from "./components/RestorePassword/RestorePassword";
+import { Success } from "./components/Success/Success";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <App />,
     children: [
-      {
-        index: true, // Default route for "/"
-        element: <Header />,
-      },
+      // {
+      //   index: true, // Default route for "/"
+      //   element: <Header />,
+      // },
       {
         path: "login",
         element: <Login />,
@@ -26,6 +27,10 @@ const router = createBrowserRouter([
       {
         path: "register",
         element: <Register />,
+      },
+      {
+        path: "success",
+        element: <Success />,
       },
       {
         path: "forgotPassword",

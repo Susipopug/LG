@@ -44,10 +44,6 @@ export const PasswordInput = forwardRef<
 
     onChange?.(event);
   };
-  const handleChange: ChangeEventHandler<HTMLInputElement> = (event) => {
-    onChange?.(event);
-    // setInputValue(event.target.value);
-  };
 
   return (
     <TextField

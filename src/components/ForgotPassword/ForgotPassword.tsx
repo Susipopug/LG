@@ -14,9 +14,10 @@ export const ForgotPassword: React.FC = () => {
   const {
     register,
     handleSubmit,
+    clearErrors,
     formState: { errors },
   } = useForm<IForgotPassword>({
-    mode: "onTouched",
+    mode: "onSubmit",
   });
 
   const onSubmit = (data: IForgotPassword) => {
@@ -47,6 +48,7 @@ export const ForgotPassword: React.FC = () => {
             label="Адрес электронной почты"
             helperText={errors.email?.message}
             error={!!errors.email}
+            // onChange={() => clearErrors("email")}
             slotProps={{
               inputLabel: {
                 sx: {

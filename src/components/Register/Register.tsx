@@ -19,9 +19,10 @@ export const Register: React.FC = () => {
     register,
     handleSubmit,
     watch,
+    clearErrors,
     formState: { errors },
   } = useForm<IRegister>({
-    mode: "onTouched",
+    mode: "onSubmit",
   });
 
   const passwordValue = watch("password");
@@ -61,6 +62,7 @@ export const Register: React.FC = () => {
             label="Адрес электронной почты"
             helperText={errors.email?.message}
             error={!!errors.email}
+            // onChange={() => clearErrors("email")}
             slotProps={{
               inputLabel: {
                 sx: {
@@ -79,13 +81,14 @@ export const Register: React.FC = () => {
                 message: "Пароль должен содержать не менее 8 символов",
               },
             })}
-            value={passwordValue}
+            // value={passwordValue}
             // value={watch("password") || ""}
             label="Пароль"
             fullWidth
             size="small"
             helperText={errors.password?.message}
             error={!!errors.password}
+            // onChange={() => clearErrors("password")}
           />
 
           {/* ConfirmPassword */}
@@ -96,12 +99,13 @@ export const Register: React.FC = () => {
                 validate: (value) =>
                   value === passwordValue || "Пароли не совпадают",
               })}
-              value={confirmPasswordValue}
+              // value={confirmPasswordValue}
               label="Повтор пароля"
               fullWidth
               size="small"
               helperText={errors.confirmPassword?.message}
               error={!!errors.confirmPassword}
+              // onChange={() => clearErrors("confirmPassword")}
             />
           </div>
 
