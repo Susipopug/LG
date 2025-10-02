@@ -6,10 +6,12 @@ import { ProfilePanel } from "@/modules/Schedule/ProfilePanel/ProfilePanel";
 const Main = () => {
   return (
     <>
-      <div className={styles.mainContainer}>
+      <div className={styles.main}>
         <Sidebar />
-        <Schedule />
-        <ProfilePanel />
+        <div className={styles.schedule}>
+          <Schedule />
+          <ProfilePanel />
+        </div>
       </div>
     </>
   );

@@ -72,12 +72,16 @@ export const Schedule = () => {
       <div className={styles.header}>10.09 пятница</div>
       {scheduleItems.map((item, index) => (
         <div key={index} className={styles.item}>
-          <div className={styles.time}>{item.time}</div>
+          <div className={styles.timeAndStatus}>
+            <div className={styles.time}>{item.time}</div>
+            <div>{StatusMap[item.status]}</div>
+          </div>
+
           <div className={styles.student}>
             <div className={styles.avatar}>{item.studentInitials}</div>
             <div className={styles.name}>{item.studentName}</div>
           </div>
-          <div>{StatusMap[item.status]}</div>
+
           {/* <div
             className={`${styles.status} 
           ${getStatusClass(item.status)}`}
