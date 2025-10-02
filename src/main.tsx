@@ -4,22 +4,22 @@ import "./index.css";
 import { createBrowserRouter } from "react-router-dom";
 import { RouterProvider } from "react-router-dom";
 import App from "./App";
-import { Login } from "./components/Login/Login";
-import { Register } from "./components/Register/Register";
-import { ForgotPassword } from "./components/ForgotPassword/ForgotPassword";
-import { Header } from "./components/Header/Header";
-import { RestorePassword } from "./components/RestorePassword/RestorePassword";
-import { Success } from "./components/Success/Success";
+import { Login } from "./modules/auth/Login";
+import { Register } from "./modules/auth/Register";
+import { ForgotPassword } from "./modules/auth/ForgotPassword";
+import { RestorePassword } from "./modules/auth/RestorePassword";
+import { Success } from "./modules/auth/Success";
+import Main from "./modules/pages/main/Main";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <App />,
     children: [
-      // {
-      //   index: true, // Default route for "/"
-      //   element: <Header />,
-      // },
+      {
+        index: true,
+        element: <Main />,
+      },
       {
         path: "login",
         element: <Login />,

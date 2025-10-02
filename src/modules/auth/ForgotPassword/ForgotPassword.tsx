@@ -1,4 +1,4 @@
-import styles from "@components/ForgotPassword/ForgotPassword.module.css";
+import styles from "./ForgotPassword.module.css";
 import mag_glass from "@assets/images/mag-glass.svg";
 import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
@@ -14,7 +14,6 @@ export const ForgotPassword: React.FC = () => {
   const {
     register,
     handleSubmit,
-    clearErrors,
     formState: { errors },
   } = useForm<IForgotPassword>({
     mode: "onSubmit",

@@ -5,8 +5,8 @@ import { Link } from "react-router-dom";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
-import { GoogleButton } from "../UI/GoogleButton/GoogleButton";
-import { PasswordInput } from "../UI/PasswordInput";
+import { GoogleButton } from "../../../components/UI/GoogleButton/GoogleButton";
+import { PasswordInput } from "../../../components/UI/PasswordInput";
 
 interface IRegister {
   email: string;
@@ -19,14 +19,12 @@ export const Register: React.FC = () => {
     register,
     handleSubmit,
     watch,
-    clearErrors,
     formState: { errors },
   } = useForm<IRegister>({
     mode: "onSubmit",
   });
 
   const passwordValue = watch("password");
-  const confirmPasswordValue = watch("confirmPassword");
 
   const onSubmit: SubmitHandler<IRegister> = (data) =>
     console.log("submited data", data);

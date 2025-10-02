@@ -2,17 +2,16 @@ import { useForm } from "react-hook-form";
 import styles from "./Login.module.css";
 import lock from "@assets/images/lock.svg";
 import { Link } from "react-router-dom";
-import type { ILogin } from "@components/interfaces/Inputs";
-import { GoogleButton } from "../UI/GoogleButton/GoogleButton";
+import type { ILogin } from "@/modules/auth/interfaces/Inputs";
+import { GoogleButton } from "@components/UI/GoogleButton";
 import { Button, Stack, TextField } from "@mui/material";
-import { PasswordInput } from "../UI/PasswordInput";
+import { PasswordInput } from "@components/UI/PasswordInput";
 
 export const Login: React.FC = () => {
   const {
     register,
     handleSubmit,
     watch,
-    clearErrors,
     formState: { errors },
   } = useForm<ILogin>({
     mode: "onSubmit",

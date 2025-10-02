@@ -1,17 +1,16 @@
-import styles from "@components/ForgotPassword/ForgotPassword.module.css";
+import styles from "./RestorePassword.module.css";
 import mag_glass from "@assets/images/mag-glass.svg";
 import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import type { ILogin, IRegister } from "../interfaces/Inputs";
 import { Button, Stack } from "@mui/material";
-import { PasswordInput } from "../UI/PasswordInput";
+import { PasswordInput } from "../../../components/UI/PasswordInput";
 
 export const RestorePassword: React.FC = () => {
   const {
     register,
     handleSubmit,
     watch,
-    clearErrors,
     formState: { errors },
   } = useForm<IRegister>({
     defaultValues: {},

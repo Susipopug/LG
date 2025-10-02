@@ -2,13 +2,7 @@ import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import { IconButton, InputAdornment, TextField } from "@mui/material";
 import ClearIcon from "@mui/icons-material/Clear";
-import {
-  forwardRef,
-  useState,
-  type ChangeEventHandler,
-  type ComponentProps,
-  type FC,
-} from "react";
+import { forwardRef, useState, type ComponentProps } from "react";
 
 export const PasswordInput = forwardRef<
   HTMLInputElement,

@@ -1,4 +1,4 @@
-import styles from "@components/LetterSent/LetterSent.module.css";
+import styles from "./LetterSent.module.css";
 import letter from "@assets/images/letter.svg";
 import { Link } from "react-router-dom";
 import type React from "react";
