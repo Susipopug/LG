@@ -64,15 +64,17 @@ import { useEffect, useState } from "react";
 // };
 
 interface ScheduleProps {
-  onItemClick: (name: string, time: string) => void;
+  onItemClick: (index: number, name: string, time: string) => void;
   scheduleItems: SheduleItem[];
   statusMap: Record<TSheduleStatus, string>;
+  selectedIndex: number | null;
 }
 
 export const Schedule: React.FC<ScheduleProps> = ({
   onItemClick,
   scheduleItems,
   statusMap,
+  selectedIndex,
 }) => {
   // const [schedule, setSchedule] = useState(null);
   // const [loading, setLoading] = useState(true);
@@ -128,8 +130,10 @@ export const Schedule: React.FC<ScheduleProps> = ({
       {scheduleItems.map((item, index) => (
         <div
           key={index}
-          className={styles.item}
-          onClick={() => onItemClick(item.studentName, item.time)}
+          className={`${styles.item} ${
+            selectedIndex === index ? styles.itemSelected : ""
+          }`}
+          onClick={() => onItemClick(index, item.studentName, item.time)}
         >
           <div className={styles.timeAndStatus}>
             <div className={styles.time}>

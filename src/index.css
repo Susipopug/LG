@@ -130,7 +130,9 @@ body {
 a:where([class]) {
   display: inline-flex;
 }
-
+a {
+  text-decoration: none;
+}
 /**
   Курсор-рука при наведении на элемент
  */

@@ -68,7 +68,10 @@ export const Main: React.FC = () => {
       : { name: "", time: "" }
   );
 
-  const handleItemClick = (name: string, time: string): void => {
+  const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
+
+  const handleItemClick = (index: number, name: string, time: string): void => {
+    setSelectedIndex(index);
     setSelectedStudent({ name, time });
   };
 
@@ -81,6 +84,7 @@ export const Main: React.FC = () => {
             onItemClick={handleItemClick}
             scheduleItems={scheduleItems}
             statusMap={StatusMap}
+            selectedIndex={selectedIndex}
           />
           <ProfilePanel
             studentName={selectedStudent.name}

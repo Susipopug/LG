@@ -14,7 +14,6 @@
 }
 
 .nav a {
-  text-decoration: none;
   color: #333;
   border-radius: 4px;
   transition: background 0.3s;
@@ -31,4 +30,16 @@
 
 .inlineMenuItem:not(:last-child) {
   border-bottom: 1px solid #f0f0f0;
+}
+
+.inlineMenuItemBottom {
+  display: flex;
+  background-color: #ffffff;
+  height: 78px;
+  width: 320px;
+  padding: 16px 24px;
+  align-items: center;
+  gap: 17px;
+  border-radius: 16px;
+  margin-top: auto;
 }

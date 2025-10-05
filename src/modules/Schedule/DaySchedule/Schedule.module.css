@@ -41,6 +41,9 @@
 .item:not(:last-child) {
   margin-bottom: 16px;
 }
+.itemSelected {
+  background-color: #e6f7ff;
+}
 .timeAndStatus {
   display: flex;
   justify-content: space-between;

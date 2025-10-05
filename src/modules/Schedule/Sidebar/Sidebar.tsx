@@ -3,6 +3,7 @@ import home from "@assets/icons/home.svg";
 import calendar from "@assets/icons/calendar.svg";
 import user from "@assets/icons/user.svg";
 import { Link } from "react-router";
+import support from "@assets/icons/support.svg";
 
 const Sidebar = () => {
   return (
@@ -19,6 +20,9 @@ const Sidebar = () => {
           <img src={user} alt="user" /> <a href="#">Ученики</a>
         </div>
       </nav>
+      <div className={styles.inlineMenuItemBottom}>
+        <img src={support} alt="home" /> <a href="#">Поддержка и ресурсы</a>
+      </div>
     </aside>
   );
 };
