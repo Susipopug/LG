@@ -1,8 +1,12 @@
 .panel {
+  display: flex;
+  flex-direction: column;
   background: #e6f7ff;
+  padding: 20px;
   border-radius: 8px;
-  padding: 24px;
   max-width: 304px;
+  width: 100%;
+  margin: 0 auto;
 }
 .time {
   display: flex;
@@ -60,8 +64,10 @@ h3 {
   background-color: #ffffff;
   padding: 24px 24px;
   border-radius: 24px;
+  max-width: 301px;
   width: 100%;
-  width: 256px;
+  margin: 0 auto;
+  margin-top: auto;
 }
 
 .statusSection h3 {

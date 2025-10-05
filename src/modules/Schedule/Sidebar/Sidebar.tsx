@@ -2,6 +2,7 @@ import styles from "./Sidebar.module.css";
 import home from "@assets/icons/home.svg";
 import calendar from "@assets/icons/calendar.svg";
 import user from "@assets/icons/user.svg";
+import { Link } from "react-router";
 
 const Sidebar = () => {
   return (
@@ -11,7 +12,8 @@ const Sidebar = () => {
           <img src={home} alt="home" /> <a href="#">Главная</a>
         </div>
         <div className={styles.inlineMenuItem}>
-          <img src={calendar} alt="calendar" /> <a href="#">Календарь</a>
+          <img src={calendar} alt="calendar" />
+          <Link to={"/calendar"}>Календарь </Link>
         </div>
         <div className={styles.inlineMenuItem}>
           <img src={user} alt="user" /> <a href="#">Ученики</a>

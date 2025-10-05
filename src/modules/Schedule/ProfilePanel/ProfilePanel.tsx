@@ -1,18 +1,27 @@
 import { Button, Stack } from "@mui/material";
 import styles from "./ProfilePanel.module.css";
-import time from "@/assets/icons/time.svg";
+import timeimg from "@/assets/icons/time.svg";
+import type React from "react";
 
-export const ProfilePanel = () => {
+interface ProfilePanelProps {
+  studentName: string;
+  time: string;
+}
+
+export const ProfilePanel: React.FC<ProfilePanelProps> = ({
+  studentName,
+  time,
+  
+}) => {
   return (
     <div className={styles.panel}>
       <div className={styles.time}>
-        {/* Clock SVG Icon */}
-        <img src={time} alt="time" />
-        <span className={styles.timeSpan}>8:00-9:00</span>
+        <img src={timeimg} alt="time" />
+        <span className={styles.timeSpan}>{time}</span>
       </div>
       <div className={styles.profile}>
         <div className={styles.avatarLarge}>Д</div>
-        <div className={styles.name}>Джон Траволта</div>
+        <div className={styles.name}>{studentName}</div>
       </div>
       <div className={styles.commentSection}>
         <p className={styles.comment}>Комментарий к занятию</p>

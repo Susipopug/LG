@@ -1,0 +1,262 @@
+/* .calendarContainer {
+  width: 100%;
+  padding-left: 2.5rem;
+  padding-right: 2.5rem;
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 2rem;
+}
+
+.calendarLeft {
+  width: 25%;
+}
+
+.themeButton {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  z-index: 10;
+  padding: 0.5rem;
+  border-radius: 50%;
+  background-color: #e5e7eb;
+}
+
+.themeButton.dark {
+  background-color: #374151;
+}
+
+.calendarLeftTitle {
+  padding-top: 2.5rem;
+  padding-bottom: 2.5rem;
+  font-size: 1.5rem;
+  font-weight: 800;
+  padding-left: 1.75rem;
+  padding-right: 1.75rem;
+}
+
+.calendarLeftTitle.dark {
+  color: #ffffff;
+}
+
+.calendarEvents {
+  margin-top: 1rem;
+}
+
+.calendarEventsText {
+  font-style: italic;
+  text-align: center;
+  color: #9ca3af;
+}
+.calendarEventsText.dark {
+  color: #6b7280;
+}
+.calendarEventsList {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  padding: 0.5rem 1rem;
+  border-radius: 0.375rem;
+  color: #1e40af;
+  background-color: #ffffff;
+}
+.dark .calendarEventsList {
+  background-color: #374151;
+  border-color: #4b5563;
+  color: #ffffff;
+}
+
+.calendarEventsLabel {
+  color: #0f172a;
+}
+.dark .calendarEventsLabel {
+  color: #d1d5db;
+}
+
+.calendarRight {
+  width: 65%;
+  margin-top: 2rem;
+}
+
+.modalContainer {
+  --ant-modal-mask-bg: rgba(0, 0, 0, 0.4);
+}
+
+.customModal {
+  border-radius: 12px;
+  padding: 24px;
+  background-color: #fff;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  font-family: "Helvetica Neue", Arial, sans-serif;
+}
+
+.modalTitle {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 16px;
+  text-align: center;
+}
+
+.inputField {
+  width: 95%;
+  padding: 10px 10px;
+  font-size: 1rem;
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.inputField:focus {
+  border-color: #1890ff;
+  box-shadow: 0 0 8px rgba(24, 144, 255, 0.2);
+}
+
+.ant-modal-header {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.ant-modal-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #222;
+}
+
+.ant-modal-footer {
+  display: flex;
+  justify-content: space-around;
+  padding-top: 16px;
+}
+
+.ant-btn {
+  min-width: 100px;
+  padding: 8px 16px;
+  font-weight: 600;
+  border-radius: 8px;
+  transition: background-color 0.2s, box-shadow 0.2s;
+}
+
+.ant-btn-primary {
+  background-color: #1890ff;
+  border-color: #1890ff;
+}
+
+.ant-btn-primary:hover {
+  background-color: #40a9ff;
+  border-color: #40a9ff;
+  box-shadow: 0 4px 8px rgba(24, 144, 255, 0.2);
+}
+
+.ant-btn-default {
+  background-color: #f0f0f0;
+  border-color: #d9d9d9;
+}
+
+.ant-btn-default:hover {
+  background-color: #e6e6e6;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+} */
+
+.calendarContainer {
+  display: flex;
+  height: 95vh;
+  width: 100%;
+  margin: 1.5rem 0;
+  margin-bottom: 1.5rem;
+}
+
+.calendarLeft {
+  width: 25%;
+}
+:root {
+  --fc-page-bg-color: #fff;
+}
+:root[data-theme="dark"] {
+  --fc-page-bg-color: #2d2d2d;
+}
+.calendarContainer {
+  --fc-page-bg-color: #fff;
+  --fc-border-color: #ddd;
+  --fc-text-color: #000;
+  --fc-button-bg-color: #f0f0f0;
+  --fc-button-text-color: #000;
+  --fc-event-bg-color: #3788d8;
+  --bg-color: #fff;
+  --text-color: #000;
+}
+
+.calendarContainer[data-theme="dark"] {
+  --fc-page-bg-color: #1e1e1e;
+  --fc-test: red;
+  --fc-border-color: #444;
+  --fc-text-color: #fff;
+  --fc-button-bg-color: #333;
+  --fc-button-text-color: #fff;
+  --fc-event-bg-color: #ff6b6b;
+  --bg-color: #1e1e1e;
+  --text-color: #fff;
+}
+
+.calendarContainer {
+  background-color: var(--fc-test);
+  color: var(--fc-text-color);
+}
+
+.calendarContainer :global(.fc .fc-button) {
+  background-color: var(--fc-button-bg-color);
+  color: var(--fc-button-text-color);
+  border-color: var(--fc-border-color);
+}
+
+.calendarContainer :global(.fc .fc-event) {
+  background-color: var(--fc-event-bg-color);
+  border-color: var(--fc-event-border-color);
+}
+
+.calendarLeft {
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  padding: 20px;
+  width: 250px;
+  border-right: 1px solid var(--fc-border-color);
+}
+
+.calendarRight {
+  flex-grow: 1;
+}
+
+.themeButton {
+  position: absolute;
+  bottom: 1rem;
+  right: 1rem;
+  z-index: 10;
+  padding: 0.5rem;
+  border-radius: 50%;
+  background-color: #e5e7eb;
+}
+
+.calendarEvents {
+  list-style: none;
+  padding: 0;
+}
+
+.calendarEventsList {
+  margin-top: 15px;
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+  border: 1px solid var(--fc-border-color);
+  cursor: pointer;
+}
+.calendarEventsCompleted {
+  text-decoration: line-through;
+  color: gray; /* or more specific colors if needed */
+}
+.calendarEventsHidden {
+  display: none;
+}
