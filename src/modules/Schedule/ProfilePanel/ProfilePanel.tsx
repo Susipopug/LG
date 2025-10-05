@@ -2,16 +2,18 @@ import { Button, Stack } from "@mui/material";
 import styles from "./ProfilePanel.module.css";
 import timeimg from "@/assets/icons/time.svg";
 import type React from "react";
+import type { SheduleItem } from "@/modules/pages/main/Main";
 
 interface ProfilePanelProps {
   studentName: string;
   time: string;
+  selectedItem: SheduleItem | null;
 }
 
 export const ProfilePanel: React.FC<ProfilePanelProps> = ({
   studentName,
   time,
-  
+  selectedItem,
 }) => {
   return (
     <div className={styles.panel}>
@@ -20,7 +22,12 @@ export const ProfilePanel: React.FC<ProfilePanelProps> = ({
         <span className={styles.timeSpan}>{time}</span>
       </div>
       <div className={styles.profile}>
-        <div className={styles.avatarLarge}>Д</div>
+        {selectedItem && (
+          <div className={styles.avatarLarge}>
+            {selectedItem.studentInitials}
+          </div>
+        )}
+
         <div className={styles.name}>{studentName}</div>
       </div>
       <div className={styles.commentSection}>

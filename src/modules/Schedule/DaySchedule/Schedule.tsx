@@ -65,14 +65,14 @@ import { useEffect, useState } from "react";
 
 interface ScheduleProps {
   onItemClick: (index: number, name: string, time: string) => void;
-  scheduleItems: SheduleItem[];
+  updatedScheduleItems: SheduleItem[];
   statusMap: Record<TSheduleStatus, string>;
   selectedIndex: number | null;
 }
 
 export const Schedule: React.FC<ScheduleProps> = ({
   onItemClick,
-  scheduleItems,
+  updatedScheduleItems,
   statusMap,
   selectedIndex,
 }) => {
@@ -127,29 +127,48 @@ export const Schedule: React.FC<ScheduleProps> = ({
         </div>
       </div>
 
-      {scheduleItems.map((item, index) => (
-        <div
-          key={index}
-          className={`${styles.item} ${
-            selectedIndex === index ? styles.itemSelected : ""
-          }`}
-          onClick={() => onItemClick(index, item.studentName, item.time)}
-        >
-          <div className={styles.timeAndStatus}>
-            <div className={styles.time}>
-              <img src={time} alt="time" />
-              <div>{item.time}</div>
+      {updatedScheduleItems.map((item, index) => {
+        // Determine if this is the first item
+        const isFirstItem = index === 0;
+        // Determine if this item is selected
+        const isSelected = selectedIndex === index;
+
+        // Compose className for the item
+        const itemClassName = [
+          styles.item,
+          isSelected ? styles.itemSelected : "",
+          isFirstItem && isSelected ? styles.itemSelected : "", // Apply styles for first selected item
+        ].join(" ");
+
+        // Compose className for time
+        const timeClassName = [
+          styles.time,
+          isSelected ? styles.timeSelected : "",
+          isFirstItem && isSelected ? styles.timeSelected : "", // Apply styles for first selected item
+        ].join(" ");
+
+        return (
+          <div
+            key={index}
+            className={itemClassName}
+            onClick={() => onItemClick(index, item.studentName, item.time)}
+          >
+            <div className={styles.timeAndStatus}>
+              <div className={timeClassName}>
+                <img src={time} alt="time" />
+                <div>{item.time}</div>
+              </div>
+
+              <div>{statusMap[item.status]}</div>
             </div>
 
-            <div>{statusMap[item.status]}</div>
+            <div className={styles.student}>
+              <div className={styles.avatar}>{item.studentInitials}</div>
+              <div className={styles.name}>{item.studentName}</div>
+            </div>
           </div>
-
-          <div className={styles.student}>
-            <div className={styles.avatar}>{item.studentInitials}</div>
-            <div className={styles.name}>{item.studentName}</div>
-          </div>
-        </div>
-      ))}
+        );
+      })}
     </div>
   );
 };

@@ -54,6 +54,12 @@ const scheduleItems: SheduleItem[] = [
   },
 ];
 
+const updatedScheduleItems: SheduleItem[] = scheduleItems.map((item) => ({
+  ...item,
+  studentInitials: item.studentName.charAt(0),
+}));
+
+
 const StatusMap: Record<TSheduleStatus, string> = {
   [ScheduleStatus.Cancelled]: "Отменено",
   [ScheduleStatus.Skipped]: "Пропущено",
@@ -63,13 +69,17 @@ const StatusMap: Record<TSheduleStatus, string> = {
 
 export const Main: React.FC = () => {
   const [selectedStudent, setSelectedStudent] = useState<SelectedStudent>(
-    scheduleItems.length > 0
-      ? { name: scheduleItems[0].studentName, time: scheduleItems[0].time }
+    updatedScheduleItems.length > 0
+      ? {
+          name: updatedScheduleItems[0].studentName,
+          time: updatedScheduleItems[0].time,
+        }
       : { name: "", time: "" }
   );
 
-  const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
+  const [selectedIndex, setSelectedIndex] = useState<number | null>(0);
 
+  const selectedItem = selectedIndex !== null ? updatedScheduleItems[selectedIndex] : null;
   const handleItemClick = (index: number, name: string, time: string): void => {
     setSelectedIndex(index);
     setSelectedStudent({ name, time });
@@ -82,13 +92,14 @@ export const Main: React.FC = () => {
         <div className={styles.schedule}>
           <Schedule
             onItemClick={handleItemClick}
-            scheduleItems={scheduleItems}
+            updatedScheduleItems={updatedScheduleItems}
             statusMap={StatusMap}
             selectedIndex={selectedIndex}
           />
           <ProfilePanel
             studentName={selectedStudent.name}
             time={selectedStudent.time}
+            selectedItem = {selectedItem}
           />
         </div>
       </div>

@@ -54,8 +54,13 @@
   gap: 8px;
   font-weight: bold;
   margin-bottom: 8px;
+  color: #878787;
+  opacity: 50%;
 }
-
+.timeSelected {
+  color: #000000;
+  opacity: 88%;
+}
 .student {
   display: flex;
   align-items: center;

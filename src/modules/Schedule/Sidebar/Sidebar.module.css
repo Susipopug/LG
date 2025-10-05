@@ -13,10 +13,9 @@
   border-radius: 24px;
 }
 
-.nav a {
-  color: #333;
-  border-radius: 4px;
-  transition: background 0.3s;
+a {
+  color: #000000;
+  opacity: 88%;
 }
 
 .inlineMenuItem {
