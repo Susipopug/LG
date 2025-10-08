@@ -30,6 +30,11 @@ a {
 .inlineMenuItem:not(:last-child) {
   border-bottom: 1px solid #f0f0f0;
 }
+.inlineMenuItem.active a,
+.inlineMenuItem.active a:link,
+.inlineMenuItem.active a:visited {
+  color: #1890ff;
+}
 
 .inlineMenuItemBottom {
   display: flex;

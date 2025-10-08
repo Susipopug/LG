@@ -1,23 +1,49 @@
 import styles from "./Sidebar.module.css";
-import home from "@assets/icons/home.svg";
-import calendar from "@assets/icons/calendar.svg";
 import user from "@assets/icons/user.svg";
 import { Link } from "react-router";
 import support from "@assets/icons/support.svg";
+import { HomeIcon } from "@/assets/icons/HomeIcon";
+import { useState } from "react";
+import { CalendarIcon } from "@/assets/icons/CalendarIcon";
+import { StudentsIcon } from "@/assets/icons/StudentsIcon";
 
 const Sidebar = () => {
+  const [activeItem, setActiveItem] = useState("home");
+
   return (
     <aside className={styles.sidebar}>
       <nav className={styles.nav}>
-        <div className={styles.inlineMenuItem}>
-          <img src={home} alt="home" /> <a href="#">Главная</a>
+        <div
+          onClick={() => setActiveItem("home")}
+          className={`${styles.inlineMenuItem} ${
+            activeItem === "home" ? styles.active : ""
+          }`}
+        >
+          <HomeIcon color={activeItem === "home" ? "#1890FF" : "#000000"} />
+
+          <a href="#">Главная</a>
         </div>
-        <div className={styles.inlineMenuItem}>
-          <img src={calendar} alt="calendar" />
+        <div
+          onClick={() => setActiveItem("calendar")}
+          className={`${styles.inlineMenuItem} ${
+            activeItem === "calendar" ? styles.active : ""
+          }`}
+        >
+          <CalendarIcon
+            color={activeItem === "calendar" ? "#1890FF" : "#000000"}
+          />
           <Link to={"/calendar"}>Календарь </Link>
         </div>
-        <div className={styles.inlineMenuItem}>
-          <img src={user} alt="user" /> <a href="#">Ученики</a>
+        <div
+          onClick={() => setActiveItem("students")}
+          className={`${styles.inlineMenuItem} ${
+            activeItem === "students" ? styles.active : ""
+          }`}
+        >
+          <StudentsIcon
+            color={activeItem === "students" ? "#1890FF" : "#000000"}
+          />
+          <a href="#">Ученики</a>
         </div>
       </nav>
       <div className={styles.inlineMenuItemBottom}>

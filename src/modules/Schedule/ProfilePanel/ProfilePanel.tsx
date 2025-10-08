@@ -28,7 +28,7 @@ export const ProfilePanel: React.FC<ProfilePanelProps> = ({
           </div>
         )}
 
-        <div className={styles.name}>{studentName}</div>
+        <h4 className={styles.name}>{studentName}</h4>
       </div>
       <div className={styles.commentSection}>
         <p className={styles.comment}>Комментарий к занятию</p>

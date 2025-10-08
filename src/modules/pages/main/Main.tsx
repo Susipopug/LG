@@ -3,6 +3,8 @@ import Sidebar from "@/modules/Schedule/Sidebar/Sidebar";
 import styles from "./Main.module.css";
 import { ProfilePanel } from "@/modules/Schedule/ProfilePanel/ProfilePanel";
 import { useState } from "react";
+import { Header } from "@/components/Header/Header";
+import { ScheduleHeader } from "@/modules/Schedule/ScheduleHeader/ScheduleHeader";
 
 interface SelectedStudent {
   name: string;
@@ -59,7 +61,6 @@ const updatedScheduleItems: SheduleItem[] = scheduleItems.map((item) => ({
   studentInitials: item.studentName.charAt(0),
 }));
 
-
 const StatusMap: Record<TSheduleStatus, string> = {
   [ScheduleStatus.Cancelled]: "Отменено",
   [ScheduleStatus.Skipped]: "Пропущено",
@@ -79,7 +80,8 @@ export const Main: React.FC = () => {
 
   const [selectedIndex, setSelectedIndex] = useState<number | null>(0);
 
-  const selectedItem = selectedIndex !== null ? updatedScheduleItems[selectedIndex] : null;
+  const selectedItem =
+    selectedIndex !== null ? updatedScheduleItems[selectedIndex] : null;
   const handleItemClick = (index: number, name: string, time: string): void => {
     setSelectedIndex(index);
     setSelectedStudent({ name, time });
@@ -87,20 +89,24 @@ export const Main: React.FC = () => {
 
   return (
     <>
+      <Header />
       <div className={styles.main}>
         <Sidebar />
         <div className={styles.schedule}>
-          <Schedule
-            onItemClick={handleItemClick}
-            updatedScheduleItems={updatedScheduleItems}
-            statusMap={StatusMap}
-            selectedIndex={selectedIndex}
-          />
-          <ProfilePanel
-            studentName={selectedStudent.name}
-            time={selectedStudent.time}
-            selectedItem = {selectedItem}
-          />
+          <ScheduleHeader />
+          <div className={styles.scheduleMain}>
+            <Schedule
+              onItemClick={handleItemClick}
+              updatedScheduleItems={updatedScheduleItems}
+              statusMap={StatusMap}
+              selectedIndex={selectedIndex}
+            />
+            <ProfilePanel
+              studentName={selectedStudent.name}
+              time={selectedStudent.time}
+              selectedItem={selectedItem}
+            />
+          </div>
         </div>
       </div>
     </>

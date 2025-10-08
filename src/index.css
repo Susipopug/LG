@@ -203,3 +203,10 @@ body {
   margin: 0 auto;
   text-align: center;
 }
+
+body {
+  font-family: "Roboto", sans-serif;
+  color: #000000;
+  opacity: 88%;
+  font-size: 16px;
+}

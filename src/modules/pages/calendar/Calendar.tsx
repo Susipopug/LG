@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import {
   formatDate,
   type DateSelectArg,
@@ -10,6 +10,7 @@ import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import styles from "./Calendar.module.css";
 import { Modal } from "antd";
+import { calendarApi } from "@/api/calendarApi";
 
 interface CalendarEvent {
   id: string;
@@ -57,6 +58,28 @@ export const Calendar = () => {
       }
     }
   }, []);
+
+  const fetchCalendar = useCallback(async () => {
+    const { data } = await calendarApi.getAll();
+    console.log(data);
+    setCurrentEvents(
+      data.map((item) => ({
+        id: item.id,
+        start: new Date(item.start),
+        end: new Date(item.end),
+        title: item.name,
+        allDay: false,
+        extendedProps: {
+          completed: false,
+          isHidden: false,
+        },
+      }))
+    );
+  }, []);
+
+  useEffect(() => {
+    fetchCalendar();
+  }, [fetchCalendar]);
 
   const handleOk = () => {
     setIsDialogOpen(false);

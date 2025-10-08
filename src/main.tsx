@@ -11,6 +11,7 @@ import { RestorePassword } from "./modules/auth/RestorePassword";
 import { Success } from "./modules/auth/Success";
 import { Main } from "./modules/pages/main/Main";
 import { Calendar } from "./modules/pages/calendar/Calendar";
+import "@assets/fonts/fonts.css";
 
 const router = createBrowserRouter([
   {
@@ -49,22 +50,22 @@ const router = createBrowserRouter([
   },
 ]);
 
-// async function enableMocking() {
-//   if (process.env.NODE_ENV !== "development") {
-//     return;
-//   }
+async function enableMocking() {
+  if (process.env.NODE_ENV !== "development") {
+    return;
+  }
 
-//   const { worker } = await import("./mocks/browser");
+  const { worker } = await import("./mocks/browser");
 
-//   // `worker.start()` returns a Promise that resolves
-//   // once the Service Worker is up and ready to intercept requests.
-//   return worker.start();
-// }
+  // `worker.start()` returns a Promise that resolves
+  // once the Service Worker is up and ready to intercept requests.
+  return worker.start();
+}
 
-// enableMocking().then(() =>
-createRoot(document.getElementById("root")!).render(
-  <StrictMode>
-    <RouterProvider router={router} />
-  </StrictMode>
+enableMocking().then(() =>
+  createRoot(document.getElementById("root")!).render(
+    <StrictMode>
+      <RouterProvider router={router} />
+    </StrictMode>
+  )
 );
-// );
