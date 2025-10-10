@@ -3,6 +3,7 @@ import styles from "./ProfilePanel.module.css";
 import timeimg from "@/assets/icons/time.svg";
 import type React from "react";
 import type { SheduleItem } from "@/modules/pages/main/Main";
+import { Switcher } from "@/components/UI/Switcher/Switcher";
 
 interface ProfilePanelProps {
   studentName: string;
@@ -40,7 +41,9 @@ export const ProfilePanel: React.FC<ProfilePanelProps> = ({
       <div className={styles.statusSection}>
         <h3>Статус занятия</h3>
         <div className={styles.buttons}>
-          <Button
+          <Switcher />
+          <Switcher label="Пропущено" />
+          {/* <Button
             type="submit"
             variant="contained"
             fullWidth
@@ -52,9 +55,9 @@ export const ProfilePanel: React.FC<ProfilePanelProps> = ({
             }}
           >
             Проведено
-          </Button>
+          </Button> */}
 
-          <Button
+          {/* <Button
             type="submit"
             variant="contained"
             fullWidth
@@ -66,20 +69,22 @@ export const ProfilePanel: React.FC<ProfilePanelProps> = ({
             }}
           >
             Пропущено
-          </Button>
+          </Button> */}
 
           <Button
             type="submit"
             variant="contained"
             fullWidth
             sx={{
-              backgroundColor: "#BFBFBF",
+              backgroundColor: "#FFFFFF",
+              color: "#4096FF",
               fontStyle: "normal",
+              border: "solid 1px #4096FF",
               fontSize: "inherit",
               textTransform: "none",
             }}
           >
-            Отменено
+            Перенести занятие
           </Button>
         </div>
       </div>

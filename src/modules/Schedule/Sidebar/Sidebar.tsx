@@ -1,5 +1,4 @@
 import styles from "./Sidebar.module.css";
-import user from "@assets/icons/user.svg";
 import { Link } from "react-router";
 import support from "@assets/icons/support.svg";
 import { HomeIcon } from "@/assets/icons/HomeIcon";

@@ -14,6 +14,7 @@ export const MyButton = ({ children, color = "blue" }: MyButtonProps) => {
         fullWidth
         sx={{
           //   backgroundColor: "#1677FF",
+          boxShadow: "none",
           fontStyle: "normal",
           fontSize: "inherit",
           textTransform: "none",
