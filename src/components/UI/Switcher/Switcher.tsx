@@ -36,7 +36,23 @@ const CustomSwitch = styled(Switch)(({ theme }) => ({
     }),
   },
 }));
-export const Switcher = ({ label = "Проведено" }) => {
+
+interface SwitcherProps {
+  id: string;
+  label?: string;
+  checked: boolean;
+  onChange: (id: string) => void;
+}
+
+export const Switcher: React.FC<SwitcherProps> = ({
+  id,
+  label = "Проведено",
+  checked,
+  onChange,
+}) => {
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    onChange(id);
+  };
   return (
     <FormGroup>
       <FormControlLabel
@@ -46,6 +62,8 @@ export const Switcher = ({ label = "Проведено" }) => {
         }}
         control={
           <CustomSwitch
+            checked={checked}
+            onChange={handleChange}
             sx={{
               transform: "scale(1)",
               mr: 1,

@@ -9,8 +9,11 @@ import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import styles from "./Calendar.module.css";
-import { Modal } from "antd";
 import { calendarApi } from "@/api/calendarApi";
+import { studentApi } from "@/api/studentApi";
+import type { Student } from "@/entities/student";
+import { Dialog } from "@mui/material";
+import { CalendarModal } from "@/components/UI/CalendarModal/CalendarModal";
 
 interface CalendarEvent {
   id: string;
@@ -28,11 +31,12 @@ export const Calendar = () => {
   const [currentEvents, setCurrentEvents] = useState<CalendarEvent[]>([]);
   const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
   const [selectedDate, setSelectedDate] = useState<DateSelectArg | null>(null);
-  const [newEventTitle, setNewEventTitle] = useState<string>("");
   const [eventToDelete, setEventToDelete] = useState<EventClickArg | null>(
     null
   );
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState<boolean>(false);
+  const [students, setStudents] = useState<Student[]>([]);
+  const [currentStudent, setCurrentStudent] = useState<Student["id"]>("");
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -75,19 +79,34 @@ export const Calendar = () => {
         },
       }))
     );
+
+    //  {Array.isArray(data)
+    //             ? setCurrentEvents(
+    //   data.map((item) => ({
+    //     id: item.id,
+    //     start: new Date(item.start),
+    //     end: new Date(item.end),
+    //     title: item.name,
+    //     allDay: false,
+    //     extendedProps: {
+    //       completed: false,
+    //       isHidden: false,
+    //     },
+    //   }))
+    // ) : null}
+  }, []);
+
+  const fetchStudents = useCallback(async () => {
+    const { data } = await studentApi.getAll();
+
+    console.log("students data", data);
+    setStudents(data);
   }, []);
 
   useEffect(() => {
     fetchCalendar();
+    fetchStudents();
   }, [fetchCalendar]);
-
-  const handleOk = () => {
-    setIsDialogOpen(false);
-  };
-
-  const handleCancel = () => {
-    setIsDialogOpen(false);
-  };
 
   const handleDateClick = (selected: DateSelectArg) => {
     console.log("Date selected:", selected);
@@ -97,18 +116,17 @@ export const Calendar = () => {
 
   const handleCloseDialog = () => {
     setIsDialogOpen(false);
-    setNewEventTitle("");
   };
 
   const handleAddEvent = (e: React.FormEvent) => {
     e.preventDefault();
-    if (newEventTitle && selectedDate) {
-      const calendarApi = selectedDate.view.calendar;
-      calendarApi.unselect();
+    if (currentStudent && selectedDate) {
+      const calendarLibraryApi = selectedDate.view.calendar;
+      calendarLibraryApi.unselect();
 
       const newEvent: CalendarEvent = {
-        id: `${selectedDate.start.toISOString()}-${newEventTitle}`,
-        title: newEventTitle,
+        id: `${selectedDate.start.toISOString()}-${currentStudent}`,
+        title: currentStudent,
         start: selectedDate?.start,
         end: selectedDate?.end || selectedDate.start,
         allDay: selectedDate?.allDay,
@@ -121,7 +139,7 @@ export const Calendar = () => {
       setCurrentEvents((prevEvents) => [...prevEvents, newEvent]);
 
       // Также добавляем в календарь
-      calendarApi.addEvent(newEvent);
+      calendarLibraryApi.addEvent(newEvent);
       handleCloseDialog();
     }
   };
@@ -165,32 +183,6 @@ export const Calendar = () => {
     );
   };
 
-  const [isDarkTheme, setIsDarkTheme] = useState(false); // состояние темы
-  useEffect(() => {
-    const root = document.documentElement;
-    if (isDarkTheme) {
-      root.setAttribute("data-theme", "dark");
-      document.body.style.backgroundColor = "#1e1e1e";
-      document.body.style.color = "#fff";
-    } else {
-      root.removeAttribute("data-theme");
-      document.body.style.backgroundColor = "#fff";
-      document.body.style.color = "#000";
-    }
-  }, [isDarkTheme]);
-
-  const toggleTheme = () => {
-    setIsDarkTheme(!isDarkTheme);
-  };
-
-  //   const handleOk = () => {
-  //   // Call your function to add the event
-  //   handleAddEvent();
-
-  //   // Optional: show some loading indicator
-  //   setIsDialogOpen(false);
-  // };
-
   const getEventClassNames = (arg: any) => {
     const classes = [];
     if (arg.event.extendedProps.completed) {
@@ -213,23 +205,8 @@ export const Calendar = () => {
 
   return (
     <>
-      <div
-        className={styles.calendarContainer}
-        data-theme={isDarkTheme ? "dark" : "light"}
-      >
+      <div className={styles.calendarContainer} data-theme={"light"}>
         <div className={styles.calendarLeft}>
-          <button
-            onClick={toggleTheme}
-            className={styles.themeButton}
-            aria-label="Toggle dark mode"
-          >
-            {/* {isDarkTheme ? (
-              <span className="text-xl">☀️</span>
-            ) : (
-              <span className="text-xl">🌙</span>
-            )} */}
-          </button>
-
           <div className={styles.calendarLeftTitle}>Calendar Events</div>
           <ul className={styles.calendarEvents}>
             {currentEvents.length <= 0 && (
@@ -290,28 +267,17 @@ export const Calendar = () => {
             events={currentEvents}
             eventClassNames={getEventClassNames}
             eventContent={renderEventContent}
-            // themeSystem={isDarkTheme ? "bootstrap-dark" : "standard"}
           />
         </div>
+        <CalendarModal
+          isDialogOpen={isDialogOpen}
+          onClose={handleCloseDialog}
+          onAdd={handleAddEvent}
+          currentStudent={currentStudent}
+          setCurrentStudent={setCurrentStudent}
+          students={students}
+        />
       </div>
-      <Modal
-        className={styles.newEventmodalContainer}
-        title={<div className={styles.newEventmodalTitle}>Add a student</div>}
-        closable={{ "aria-label": "Custom Close Button" }}
-        open={isDialogOpen}
-        onOk={handleAddEvent}
-        onCancel={handleCancel}
-      >
-        <form className={styles.newEventDialogForm}>
-          <input
-            type="text"
-            className={styles.inputField}
-            placeholder="Enter student name"
-            value={newEventTitle}
-            onChange={(e) => setNewEventTitle(e.target.value)}
-          />
-        </form>
-      </Modal>
     </>
   );
 };

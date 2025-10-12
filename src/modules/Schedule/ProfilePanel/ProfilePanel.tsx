@@ -4,6 +4,7 @@ import timeimg from "@/assets/icons/time.svg";
 import type React from "react";
 import type { SheduleItem } from "@/modules/pages/main/Main";
 import { Switcher } from "@/components/UI/Switcher/Switcher";
+import { useState } from "react";
 
 interface ProfilePanelProps {
   studentName: string;
@@ -16,6 +17,28 @@ export const ProfilePanel: React.FC<ProfilePanelProps> = ({
   time,
   selectedItem,
 }) => {
+  const [activeSwitch, setActiveSwitch] = useState<string | null>(null);
+  const [showAdditionalText, setShowAdditionalText] = useState<boolean>(false);
+
+  const handleSwitchChange = (id: string) => {
+    setActiveSwitch(id);
+    setShowAdditionalText(!!id);
+  };
+
+  const handleProfileCancel = () => {
+    setActiveSwitch(null);
+    setShowAdditionalText(false);
+  };
+
+  const switches = [
+    { id: "default", label: "Проведено" },
+    { id: "missed", label: "Пропущено" },
+    { id: "cancelled", label: "Отменено" },
+  ];
+
+  const switchesToDisplay = activeSwitch
+    ? switches.filter((s) => s.id === activeSwitch)
+    : switches;
   return (
     <div className={styles.panel}>
       <div className={styles.time}>
@@ -41,8 +64,55 @@ export const ProfilePanel: React.FC<ProfilePanelProps> = ({
       <div className={styles.statusSection}>
         <h3>Статус занятия</h3>
         <div className={styles.buttons}>
-          <Switcher />
-          <Switcher label="Пропущено" />
+          {switchesToDisplay.map((s) => (
+            <Switcher
+              key={s.id}
+              id={s.id}
+              label={s.label}
+              checked={activeSwitch === s.id}
+              onChange={handleSwitchChange}
+            />
+          ))}
+
+          {showAdditionalText ? (
+            <>
+              <span className={styles.statusSectionHelperText}>
+                Все занятия можно найти в Календаре
+              </span>
+              <Button
+                onClick={handleProfileCancel}
+                type="submit"
+                variant="contained"
+                fullWidth
+                sx={{
+                  backgroundColor: "#FFFFFF",
+                  color: "#4096FF",
+                  fontStyle: "normal",
+                  border: "solid 1px #4096FF",
+                  fontSize: "inherit",
+                  textTransform: "none",
+                }}
+              >
+                Отменить выбор
+              </Button>
+            </>
+          ) : (
+            <Button
+              type="submit"
+              variant="contained"
+              fullWidth
+              sx={{
+                backgroundColor: "#FFFFFF",
+                color: "#4096FF",
+                fontStyle: "normal",
+                border: "solid 1px #4096FF",
+                fontSize: "inherit",
+                textTransform: "none",
+              }}
+            >
+              Перенести занятие
+            </Button>
+          )}
           {/* <Button
             type="submit"
             variant="contained"
@@ -70,22 +140,6 @@ export const ProfilePanel: React.FC<ProfilePanelProps> = ({
           >
             Пропущено
           </Button> */}
-
-          <Button
-            type="submit"
-            variant="contained"
-            fullWidth
-            sx={{
-              backgroundColor: "#FFFFFF",
-              color: "#4096FF",
-              fontStyle: "normal",
-              border: "solid 1px #4096FF",
-              fontSize: "inherit",
-              textTransform: "none",
-            }}
-          >
-            Перенести занятие
-          </Button>
         </div>
       </div>
     </div>

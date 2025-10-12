@@ -89,7 +89,7 @@ export const Main: React.FC = () => {
 
   return (
     <>
-      <Header />
+      
       <div className={styles.main}>
         <Sidebar />
         <div className={styles.schedule}>
