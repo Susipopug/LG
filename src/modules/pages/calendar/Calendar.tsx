@@ -34,34 +34,36 @@ export const Calendar = () => {
   const [eventToDelete, setEventToDelete] = useState<EventClickArg | null>(
     null
   );
-  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState<boolean>(false);
+  // const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState<boolean>(false);
   const [students, setStudents] = useState<Student[]>([]);
   const [currentStudent, setCurrentStudent] = useState<Student["id"]>("");
 
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      localStorage.setItem("events", JSON.stringify(currentEvents));
-    }
-  }, [currentEvents]);
+  // useEffect(() => {
+  //   if (typeof window !== "undefined") {
+  //     localStorage.setItem("events", JSON.stringify(currentEvents));
+  //   }
+  // }, [currentEvents]);
 
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      const savedEvents = localStorage.getItem("events");
+  // useEffect(() => {
+  //   if (typeof window !== "undefined") {
+  //     const savedEvents = localStorage.getItem("events");
 
-      if (savedEvents) {
-        try {
-          const parsedEvents = JSON.parse(savedEvents).map((evt: any) => ({
-            ...evt,
-            start: new Date(evt.start),
-            end: new Date(evt.end),
-          }));
-          setCurrentEvents(parsedEvents);
-        } catch (error) {
-          console.error("Error parsing events from localStorage:", error);
-        }
-      }
-    }
-  }, []);
+  //     if (savedEvents) {
+  //       try {
+  //         const parsedEvents = JSON.parse(savedEvents).map((evt: any) => ({
+  //           ...evt,
+  //           start: new Date(evt.start),
+  //           end: new Date(evt.end),
+  //         }));
+  //         setCurrentEvents(parsedEvents);
+  //       } catch (error) {
+  //         console.error("Error parsing events from localStorage:", error);
+  //       }
+  //     }
+  //   }
+  // }, []);
+
+  //Получение данных всех записей
 
   const fetchCalendar = useCallback(async () => {
     const { data } = await calendarApi.getAll();
@@ -79,26 +81,10 @@ export const Calendar = () => {
         },
       }))
     );
-
-    //  {Array.isArray(data)
-    //             ? setCurrentEvents(
-    //   data.map((item) => ({
-    //     id: item.id,
-    //     start: new Date(item.start),
-    //     end: new Date(item.end),
-    //     title: item.name,
-    //     allDay: false,
-    //     extendedProps: {
-    //       completed: false,
-    //       isHidden: false,
-    //     },
-    //   }))
-    // ) : null}
   }, []);
 
   const fetchStudents = useCallback(async () => {
     const { data } = await studentApi.getAll();
-
     console.log("students data", data);
     setStudents(data);
   }, []);
@@ -112,6 +98,18 @@ export const Calendar = () => {
     console.log("Date selected:", selected);
     setSelectedDate(selected);
     setIsDialogOpen(true);
+
+    // Extract time information
+    const startTime = selected.start.toLocaleTimeString([], {
+      hour: "2-digit",
+      minute: "2-digit",
+    });
+    const endTime = selected.end.toLocaleTimeString([], {
+      hour: "2-digit",
+      minute: "2-digit",
+    });
+
+    console.log(`Selected time: ${startTime} - ${endTime}`);
   };
 
   const handleCloseDialog = () => {
@@ -144,27 +142,27 @@ export const Calendar = () => {
     }
   };
 
-  const handleEventClick = (selected: EventClickArg) => {
-    setEventToDelete(selected);
-    setIsDeleteDialogOpen(true);
-  };
+  // const handleEventClick = (selected: EventClickArg) => {
+  //   setEventToDelete(selected);
+  //   setIsDeleteDialogOpen(true);
+  // };
 
-  const handleDeleteEvent = () => {
-    if (eventToDelete) {
-      setCurrentEvents((prev) =>
-        prev.filter((evt) => evt.id !== eventToDelete.event.id)
-      );
-      eventToDelete.event.remove();
-    }
-    setIsDeleteDialogOpen(false);
-    setEventToDelete(null);
-  };
+  // const handleDeleteEvent = () => {
+  //   if (eventToDelete) {
+  //     setCurrentEvents((prev) =>
+  //       prev.filter((evt) => evt.id !== eventToDelete.event.id)
+  //     );
+  //     eventToDelete.event.remove();
+  //   }
+  //   setIsDeleteDialogOpen(false);
+  //   setEventToDelete(null);
+  // };
 
-  const handleCancelEvent = () => {
-    // Just close the delete confirmation modal without taking action
-    setIsDeleteDialogOpen(false);
-    setEventToDelete(null);
-  };
+  // const handleCancelEvent = () => {
+  //   // Just close the delete confirmation modal without taking action
+  //   setIsDeleteDialogOpen(false);
+  //   setEventToDelete(null);
+  // };
 
   const toggleComplete = (eventId: string) => {
     setCurrentEvents((prevEvents) =>
@@ -183,25 +181,25 @@ export const Calendar = () => {
     );
   };
 
-  const getEventClassNames = (arg: any) => {
-    const classes = [];
-    if (arg.event.extendedProps.completed) {
-      classes.push("fc-event-completed");
-    }
-    return classes;
-  };
+  // const getEventClassNames = (arg: any) => {
+  //   const classes = [];
+  //   if (arg.event.extendedProps.completed) {
+  //     classes.push("fc-event-completed");
+  //   }
+  //   return classes;
+  // };
 
-  const renderEventContent = (eventInfo: any) => {
-    return (
-      <div
-        className={
-          eventInfo.event.extendedProps.completed ? "fc-event-completed" : ""
-        }
-      >
-        <i>{eventInfo.event.title}</i>
-      </div>
-    );
-  };
+  // const renderEventContent = (eventInfo: any) => {
+  //   return (
+  //     <div
+  //       className={
+  //         eventInfo.event.extendedProps.completed ? "fc-event-completed" : ""
+  //       }
+  //     >
+  //       <i>{eventInfo.event.title}</i>
+  //     </div>
+  //   );
+  // };
 
   return (
     <>
@@ -234,11 +232,24 @@ export const Calendar = () => {
 
                 <br />
                 <label className={styles.calendarEventsLabel}>
-                  {formatDate(event.start, {
+                  {selectedDate && (
+                    <p>
+                      {selectedDate.start.toLocaleTimeString("ru-RU", {
+                        hour: "2-digit",
+                        minute: "2-digit",
+                      })}
+                      -
+                      {selectedDate.end.toLocaleTimeString("ru-RU", {
+                        hour: "2-digit",
+                        minute: "2-digit",
+                      })}
+                    </p>
+                  )}
+                  {/* {formatDate(event.start, {
                     year: "2-digit",
                     month: "short",
                     day: "numeric",
-                  })}
+                  })} */}
                 </label>
                 <button>+</button>
               </li>
@@ -263,10 +274,10 @@ export const Calendar = () => {
             selectMirror={true}
             dayMaxEvents={true}
             select={handleDateClick}
-            eventClick={handleEventClick}
             events={currentEvents}
-            eventClassNames={getEventClassNames}
-            eventContent={renderEventContent}
+            // eventClick={handleEventClick}
+            // eventClassNames={getEventClassNames}
+            // eventContent={renderEventContent}
           />
         </div>
         <CalendarModal

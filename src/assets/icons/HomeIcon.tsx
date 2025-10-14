@@ -19,7 +19,7 @@ export const HomeIcon: React.FC<HomeIconProps> = ({ color = "#000000" }) => (
         fill: color,
         transition: "fill 0.3s ease",
       }}
-      fill-opacity="0.88"
+      fillOpacity="0.88"
     />
   </svg>
 );

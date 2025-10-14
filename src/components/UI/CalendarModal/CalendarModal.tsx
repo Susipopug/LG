@@ -47,7 +47,7 @@ export const CalendarModal = ({
             >
               {Array.isArray(students)
                 ? students?.map((student) => (
-                    <MenuItem key={student.id} value={student.id}>
+                    <MenuItem key={student.id} value={student.firstName}>
                       {student.firstName}
                     </MenuItem>
                   ))

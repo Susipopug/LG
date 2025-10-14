@@ -22,7 +22,7 @@ export const CalendarIcon: React.FC<CalendarIconProps> = ({
           fill: color,
           transition: "fill 0.3s ease",
         }}
-        fill-opacity="0.88"
+        fillOpacity="0.88"
       />
     </svg>
   );

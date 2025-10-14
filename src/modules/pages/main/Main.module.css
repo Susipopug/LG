@@ -1,6 +1,6 @@
 .main {
   display: flex;
-  
+  max-height: (100vh - 100px);
 }
 .schedule {
   background-color: #ffffff;

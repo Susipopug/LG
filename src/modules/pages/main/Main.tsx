@@ -5,6 +5,7 @@ import { ProfilePanel } from "@/modules/Schedule/ProfilePanel/ProfilePanel";
 import { useState } from "react";
 import { Header } from "@/components/Header/Header";
 import { ScheduleHeader } from "@/modules/Schedule/ScheduleHeader/ScheduleHeader";
+import { SheduleEmpty } from "@/modules/Schedule/SheduleEmpty/SheduleEmpty";
 
 interface SelectedStudent {
   name: string;
@@ -82,6 +83,7 @@ export const Main: React.FC = () => {
 
   const selectedItem =
     selectedIndex !== null ? updatedScheduleItems[selectedIndex] : null;
+
   const handleItemClick = (index: number, name: string, time: string): void => {
     setSelectedIndex(index);
     setSelectedStudent({ name, time });
@@ -89,24 +91,28 @@ export const Main: React.FC = () => {
 
   return (
     <>
-      
       <div className={styles.main}>
         <Sidebar />
         <div className={styles.schedule}>
           <ScheduleHeader />
-          <div className={styles.scheduleMain}>
-            <Schedule
-              onItemClick={handleItemClick}
-              updatedScheduleItems={updatedScheduleItems}
-              statusMap={StatusMap}
-              selectedIndex={selectedIndex}
-            />
-            <ProfilePanel
-              studentName={selectedStudent.name}
-              time={selectedStudent.time}
-              selectedItem={selectedItem}
-            />
-          </div>
+
+          {updatedScheduleItems.length > 0 ? (
+            <div className={styles.scheduleMain}>
+              <Schedule
+                onItemClick={handleItemClick}
+                updatedScheduleItems={updatedScheduleItems}
+                statusMap={StatusMap}
+                selectedIndex={selectedIndex}
+              />
+              <ProfilePanel
+                studentName={selectedStudent.name}
+                time={selectedStudent.time}
+                selectedItem={selectedItem}
+              />
+            </div>
+          ) : (
+            <SheduleEmpty />
+          )}
         </div>
       </div>
     </>
