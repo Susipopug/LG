@@ -39,6 +39,7 @@ export const ProfilePanel: React.FC<ProfilePanelProps> = ({
   const switchesToDisplay = activeSwitch
     ? switches.filter((s) => s.id === activeSwitch)
     : switches;
+    
   return (
     <div className={styles.panel}>
       <div className={styles.time}>

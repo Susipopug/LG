@@ -5,9 +5,6 @@ import { ProfilePanel } from "@/modules/Schedule/ProfilePanel/ProfilePanel";
 import { useState } from "react";
 import { ScheduleHeader } from "@/modules/Schedule/ScheduleHeader/ScheduleHeader";
 import { SheduleEmpty } from "@/modules/Schedule/SheduleEmpty/SheduleEmpty";
-import { SheduleAndPanel } from "@/modules/Schedule/SheduleAndPanel/SheduleAndPanel";
-import { Calendar } from "@/modules/Schedule/Calendar/Calendar";
-import { Outlet } from "react-router";
 
 interface SelectedStudent {
   name: string;
@@ -71,7 +68,7 @@ const StatusMap: Record<TSheduleStatus, string> = {
   [ScheduleStatus.Awaiting]: "Ожидается",
 };
 
-export const Main: React.FC = () => {
+export const SheduleAndPanel: React.FC = () => {
   const [selectedStudent, setSelectedStudent] = useState<SelectedStudent>(
     updatedScheduleItems.length > 0
       ? {
@@ -93,17 +90,23 @@ export const Main: React.FC = () => {
 
   return (
     <>
-      <div className={styles.main}>
-        <Sidebar />
-        <div className={styles.schedule}>
-          <ScheduleHeader />
-          <div className={styles.scheduleMain}>
-            <Outlet/>
-            {/* <SheduleAndPanel />
-            <Calendar/> */}
-          </div>
-        </div>
-      </div>
+      {updatedScheduleItems.length > 0 ? (
+        <>
+          <Schedule
+            onItemClick={handleItemClick}
+            updatedScheduleItems={updatedScheduleItems}
+            statusMap={StatusMap}
+            selectedIndex={selectedIndex}
+          />
+          <ProfilePanel
+            studentName={selectedStudent.name}
+            time={selectedStudent.time}
+            selectedItem={selectedItem}
+          />
+        </>
+      ) : (
+        <SheduleEmpty />
+      )}
     </>
   );
 };

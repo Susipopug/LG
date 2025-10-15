@@ -12,7 +12,8 @@ const Sidebar = () => {
   return (
     <aside className={styles.sidebar}>
       <nav className={styles.nav}>
-        <div
+        <Link
+          to={"/main"}
           onClick={() => setActiveItem("home")}
           className={`${styles.inlineMenuItem} ${
             activeItem === "home" ? styles.active : ""
@@ -20,9 +21,17 @@ const Sidebar = () => {
         >
           <HomeIcon color={activeItem === "home" ? "#1890FF" : "#000000"} />
 
-          <a href="#">Главная</a>
-        </div>
-        <div
+          <p
+            className={`${styles.inlineMenuItemText} ${
+              activeItem === "home" ? styles.activeText : ""
+            }`}
+          >
+            Главная
+          </p>
+        </Link>
+
+        <Link
+          to={"/calendar"}
           onClick={() => setActiveItem("calendar")}
           className={`${styles.inlineMenuItem} ${
             activeItem === "calendar" ? styles.active : ""
@@ -31,8 +40,15 @@ const Sidebar = () => {
           <CalendarIcon
             color={activeItem === "calendar" ? "#1890FF" : "#000000"}
           />
-          <Link to={"/calendar"}>Календарь </Link>
-        </div>
+          <p
+            className={`${styles.inlineMenuItemText} ${
+              activeItem === "calendar" ? styles.activeText : ""
+            }`}
+          >
+            Календарь{" "}
+          </p>
+        </Link>
+
         <div
           onClick={() => setActiveItem("students")}
           className={`${styles.inlineMenuItem} ${

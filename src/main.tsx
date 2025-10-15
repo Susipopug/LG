@@ -10,8 +10,10 @@ import { ForgotPassword } from "./modules/auth/ForgotPassword";
 import { RestorePassword } from "./modules/auth/RestorePassword";
 import { Success } from "./modules/auth/Success";
 import { Main } from "./modules/pages/main/Main";
-import { Calendar } from "./modules/pages/calendar/Calendar";
 import "@assets/fonts/fonts.css";
+import { CalendarProvider } from "./components/context/CalendarContext";
+import { SheduleAndPanel } from "./modules/Schedule/SheduleAndPanel/SheduleAndPanel";
+import { Calendar } from "./modules/Schedule/Calendar/Calendar";
 
 const router = createBrowserRouter([
   {
@@ -20,7 +22,13 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <Main />,
+        path: "/",
+        element: <SheduleAndPanel />,
+      },
+
+      {
+        path: "main",
+        element: <SheduleAndPanel />,
       },
       {
         path: "login",
@@ -65,7 +73,9 @@ async function enableMocking() {
 enableMocking().then(() =>
   createRoot(document.getElementById("root")!).render(
     <StrictMode>
-      <RouterProvider router={router} />
+      <CalendarProvider>
+        <RouterProvider router={router} />
+      </CalendarProvider>
     </StrictMode>
   )
 );

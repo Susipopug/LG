@@ -204,7 +204,7 @@ export const Calendar = () => {
   return (
     <>
       <div className={styles.calendarContainer} data-theme={"light"}>
-        <div className={styles.calendarLeft}>
+        {/* <div className={styles.calendarLeft}>
           <div className={styles.calendarLeftTitle}>Calendar Events</div>
           <ul className={styles.calendarEvents}>
             {currentEvents.length <= 0 && (
@@ -245,17 +245,13 @@ export const Calendar = () => {
                       })}
                     </p>
                   )}
-                  {/* {formatDate(event.start, {
-                    year: "2-digit",
-                    month: "short",
-                    day: "numeric",
-                  })} */}
+                 
                 </label>
                 <button>+</button>
               </li>
             ))}
           </ul>
-        </div>
+        </div> */}
         <div
           className={styles.calendarRight}
           // data-theme={isDarkTheme ? "dark" : "light"}
