@@ -13,12 +13,7 @@ function App() {
       <div className={styles.main}>
         <Sidebar />
         <div className={styles.schedule}>
-          <ScheduleHeader />
-          <div className={styles.scheduleMain}>
-            <Outlet />
-            {/* <SheduleAndPanel />
-            <Calendar/> */}
-          </div>
+          <Outlet />
         </div>
       </div>
     </>

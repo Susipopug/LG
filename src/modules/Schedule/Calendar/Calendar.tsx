@@ -14,6 +14,7 @@ import { studentApi } from "@/api/studentApi";
 import type { Student } from "@/entities/student";
 import { Dialog } from "@mui/material";
 import { CalendarModal } from "@/components/UI/CalendarModal/CalendarModal";
+import ruLocale from "@fullcalendar/core/locales/ru";
 
 export interface CalendarEvent {
   id: string;
@@ -260,11 +261,12 @@ export const Calendar = () => {
             height={"100vh"}
             plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
             headerToolbar={{
-              left: "prev next today",
+              left: "prev next",
               center: "title",
-              right: "dayGridMonth timeGridWeek timeGridDay",
+              right: "",
             }}
             initialView="timeGridWeek"
+            locale={ruLocale}
             editable={true}
             selectable={true}
             selectMirror={true}

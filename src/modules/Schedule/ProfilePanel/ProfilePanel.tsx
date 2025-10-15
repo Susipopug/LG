@@ -5,6 +5,7 @@ import type React from "react";
 import type { SheduleItem } from "@/modules/pages/main/Main";
 import { Switcher } from "@/components/UI/Switcher/Switcher";
 import { useState } from "react";
+import { MyButton } from "@/components/UI/Button";
 
 interface ProfilePanelProps {
   studentName: string;
@@ -39,7 +40,7 @@ export const ProfilePanel: React.FC<ProfilePanelProps> = ({
   const switchesToDisplay = activeSwitch
     ? switches.filter((s) => s.id === activeSwitch)
     : switches;
-    
+
   return (
     <div className={styles.panel}>
       <div className={styles.time}>
@@ -80,7 +81,15 @@ export const ProfilePanel: React.FC<ProfilePanelProps> = ({
               <span className={styles.statusSectionHelperText}>
                 Все занятия можно найти в Календаре
               </span>
-              <Button
+              <MyButton
+                onClick={handleProfileCancel}
+                border="solid 1px #4096FF"
+                color="#4096FF"
+                backgroundColor="#FFFFFF"
+              >
+                Отменить выбор
+              </MyButton>
+              {/* <Button
                 onClick={handleProfileCancel}
                 type="submit"
                 variant="contained"
@@ -95,52 +104,17 @@ export const ProfilePanel: React.FC<ProfilePanelProps> = ({
                 }}
               >
                 Отменить выбор
-              </Button>
+              </Button> */}
             </>
           ) : (
-            <Button
-              type="submit"
-              variant="contained"
-              fullWidth
-              sx={{
-                backgroundColor: "#FFFFFF",
-                color: "#4096FF",
-                fontStyle: "normal",
-                border: "solid 1px #4096FF",
-                fontSize: "inherit",
-                textTransform: "none",
-              }}
+            <MyButton
+              border="solid 1px #4096FF"
+              color="#4096FF"
+              backgroundColor="#FFFFFF"
             >
               Перенести занятие
-            </Button>
+            </MyButton>
           )}
-          {/* <Button
-            type="submit"
-            variant="contained"
-            fullWidth
-            sx={{
-              backgroundColor: "#1677FF",
-              fontStyle: "normal",
-              fontSize: "inherit",
-              textTransform: "none",
-            }}
-          >
-            Проведено
-          </Button> */}
-
-          {/* <Button
-            type="submit"
-            variant="contained"
-            fullWidth
-            sx={{
-              backgroundColor: "#BFBFBF",
-              fontStyle: "normal",
-              fontSize: "inherit",
-              textTransform: "none",
-            }}
-          >
-            Пропущено
-          </Button> */}
         </div>
       </div>
     </div>

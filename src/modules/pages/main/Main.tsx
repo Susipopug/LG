@@ -96,9 +96,8 @@ export const Main: React.FC = () => {
       <div className={styles.main}>
         <Sidebar />
         <div className={styles.schedule}>
-          <ScheduleHeader />
           <div className={styles.scheduleMain}>
-            <Outlet/>
+            <Outlet />
             {/* <SheduleAndPanel />
             <Calendar/> */}
           </div>

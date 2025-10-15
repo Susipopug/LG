@@ -1,6 +1,6 @@
 import { Schedule } from "@/modules/Schedule/DaySchedule/Schedule";
 import Sidebar from "@/modules/Schedule/Sidebar/Sidebar";
-import styles from "./Main.module.css";
+import styles from "./SheduleAndPanel.module.css";
 import { ProfilePanel } from "@/modules/Schedule/ProfilePanel/ProfilePanel";
 import { useState } from "react";
 import { ScheduleHeader } from "@/modules/Schedule/ScheduleHeader/ScheduleHeader";
@@ -90,23 +90,26 @@ export const SheduleAndPanel: React.FC = () => {
 
   return (
     <>
-      {updatedScheduleItems.length > 0 ? (
-        <>
-          <Schedule
-            onItemClick={handleItemClick}
-            updatedScheduleItems={updatedScheduleItems}
-            statusMap={StatusMap}
-            selectedIndex={selectedIndex}
-          />
-          <ProfilePanel
-            studentName={selectedStudent.name}
-            time={selectedStudent.time}
-            selectedItem={selectedItem}
-          />
-        </>
-      ) : (
-        <SheduleEmpty />
-      )}
+      <ScheduleHeader />
+      <div className={styles.scheduleMain}>
+        {updatedScheduleItems.length > 0 ? (
+          <>
+            <Schedule
+              onItemClick={handleItemClick}
+              updatedScheduleItems={updatedScheduleItems}
+              statusMap={StatusMap}
+              selectedIndex={selectedIndex}
+            />
+            <ProfilePanel
+              studentName={selectedStudent.name}
+              time={selectedStudent.time}
+              selectedItem={selectedItem}
+            />
+          </>
+        ) : (
+          <SheduleEmpty />
+        )}
+      </div>
     </>
   );
 };
