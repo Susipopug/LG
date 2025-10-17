@@ -280,14 +280,14 @@ export const Calendar = () => {
             // eventContent={renderEventContent}
           />
         </div>
-        <CalendarModal
+        {/* <CalendarModal
           isDialogOpen={isDialogOpen}
           onClose={handleCloseDialog}
           onAdd={handleAddEvent}
           currentStudent={currentStudent}
           setCurrentStudent={setCurrentStudent}
           students={students}
-        />
+        /> */}
       </div>
     </>
   );

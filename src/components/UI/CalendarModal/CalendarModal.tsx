@@ -16,15 +16,17 @@ interface CalendarModalProp {
   currentStudent: string;
   setCurrentStudent: (id: string) => void;
   students: Student[];
+  isLoading: boolean;
 }
 
 export const CalendarModal = ({
   isDialogOpen,
+  currentStudent,
+  students,
+  isLoading,
   onClose,
   onAdd,
-  currentStudent,
   setCurrentStudent,
-  students,
 }: CalendarModalProp) => {
   // const [open, setOpen] = React.useState(false);
 
@@ -57,7 +59,12 @@ export const CalendarModal = ({
         </DialogContent>
         <DialogActions>
           <Button onClick={onClose}>Отмена</Button>
-          <Button onClick={onAdd} variant="contained" color="primary">
+          <Button
+            loading={isLoading}
+            variant="contained"
+            color="primary"
+            onClick={onAdd}
+          >
             Добавить
           </Button>
         </DialogActions>

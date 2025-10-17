@@ -15,6 +15,7 @@ import type { Student } from "@/entities/student";
 import { Dialog } from "@mui/material";
 import { CalendarModal } from "@/components/UI/CalendarModal/CalendarModal";
 import ruLocale from "@fullcalendar/core/locales/ru";
+import { log } from "node:console";
 
 export interface CalendarEvent {
   id: string;
@@ -38,33 +39,7 @@ export const Calendar = () => {
   // const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState<boolean>(false);
   const [students, setStudents] = useState<Student[]>([]);
   const [currentStudent, setCurrentStudent] = useState<Student["id"]>("");
-
-  // useEffect(() => {
-  //   if (typeof window !== "undefined") {
-  //     localStorage.setItem("events", JSON.stringify(currentEvents));
-  //   }
-  // }, [currentEvents]);
-
-  // useEffect(() => {
-  //   if (typeof window !== "undefined") {
-  //     const savedEvents = localStorage.getItem("events");
-
-  //     if (savedEvents) {
-  //       try {
-  //         const parsedEvents = JSON.parse(savedEvents).map((evt: any) => ({
-  //           ...evt,
-  //           start: new Date(evt.start),
-  //           end: new Date(evt.end),
-  //         }));
-  //         setCurrentEvents(parsedEvents);
-  //       } catch (error) {
-  //         console.error("Error parsing events from localStorage:", error);
-  //       }
-  //     }
-  //   }
-  // }, []);
-
-  //Получение данных всех записей
+  const [isCreateLessonLoading, setIsCreateLessonLoading] = useState(false);
 
   const fetchCalendar = useCallback(async () => {
     const { data } = await calendarApi.getAll();
@@ -117,7 +92,7 @@ export const Calendar = () => {
     setIsDialogOpen(false);
   };
 
-  const handleAddEvent = (e: React.FormEvent) => {
+  const handleAddEvent = async (e: React.FormEvent) => {
     e.preventDefault();
     if (currentStudent && selectedDate) {
       const calendarLibraryApi = selectedDate.view.calendar;
@@ -133,6 +108,19 @@ export const Calendar = () => {
           completed: false,
         },
       };
+
+      setIsCreateLessonLoading(true);
+      try {
+        await calendarApi.createLesson({
+          name: newEvent.title,
+          start: newEvent.start.toISOString(),
+          end: newEvent.end.toISOString(),
+        });
+      } catch (error) {
+        console.log('error',error);
+      }
+
+      setIsCreateLessonLoading(false);
 
       // Добавляем событие в состояние
       setCurrentEvents((prevEvents) => [...prevEvents, newEvent]);
@@ -282,6 +270,7 @@ export const Calendar = () => {
           isDialogOpen={isDialogOpen}
           onClose={handleCloseDialog}
           onAdd={handleAddEvent}
+          isLoading={isCreateLessonLoading}
           currentStudent={currentStudent}
           setCurrentStudent={setCurrentStudent}
           students={students}

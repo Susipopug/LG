@@ -1,3 +1,4 @@
+import type { ScheduleDayRequest } from "@/api/calendarApi";
 import type { ScheduleDay } from "@/entities";
 import type { Student } from "@/entities/student";
 import { http, HttpResponse } from "msw";
@@ -13,6 +14,15 @@ export const handlers = [
       },
     ])
   ),
+
+  http.post<never, ScheduleDayRequest>("/calendar", async ({ request }) => {
+    const data = await request.json();
+
+    return HttpResponse.json<ScheduleDay>({
+      id: Date.now().toString(),
+      ...data,
+    });
+  }),
 
   http.get("/student", () =>
     HttpResponse.json<Student[]>([
