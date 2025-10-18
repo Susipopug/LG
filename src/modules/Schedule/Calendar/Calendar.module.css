@@ -95,6 +95,7 @@
   --fc-border-color: #ddd;
   --fc-text-color: #000;
   --fc-button-bg-color: #f0f0f0;
+  --fc-button-active-bg-color: #f0f0f0;
   --fc-button-text-color: #000;
   --fc-event-bg-color: #3788d8;
   --bg-color: #fff;
@@ -105,4 +106,16 @@
   background-color: var(--fc-page-bg-color);
   border-color: var(--fc-event-border-color);
   color: var(--fc-event-border-color);
+}
+.calendarContainer :global(.fc .fc-col-header-cell-cushion) {
+  color: #000000;
+  opacity: 65%;
+}
+
+.calendarContainer :global(.fc-day-today .fc-col-header-cell-cushion) {
+  color: #1890ff;
+}
+
+.calendarContainer :global(.fc-day-today) {
+  background-color: #e0f0ff !important; /* light blue */
 }

@@ -1,9 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
-import {
-  formatDate,
-  type DateSelectArg,
-  type EventClickArg,
-} from "@fullcalendar/core";
+import { type DateSelectArg, type EventClickArg } from "@fullcalendar/core";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
@@ -12,10 +8,8 @@ import styles from "./Calendar.module.css";
 import { calendarApi } from "@/api/calendarApi";
 import { studentApi } from "@/api/studentApi";
 import type { Student } from "@/entities/student";
-import { Dialog } from "@mui/material";
 import { CalendarModal } from "@/components/UI/CalendarModal/CalendarModal";
 import ruLocale from "@fullcalendar/core/locales/ru";
-import { log } from "node:console";
 
 export interface CalendarEvent {
   id: string;
@@ -117,7 +111,7 @@ export const Calendar = () => {
           end: newEvent.end.toISOString(),
         });
       } catch (error) {
-        console.log('error',error);
+        console.log("error", error);
       }
 
       setIsCreateLessonLoading(false);
@@ -251,9 +245,16 @@ export const Calendar = () => {
             headerToolbar={{
               left: "prev next",
               center: "title",
+
               right: "",
             }}
+            titleFormat={{ month: "long", year: "numeric" }}
             initialView="timeGridWeek"
+            // dayHeaderFormat={{
+            //   day: "numeric",
+            //   month: "numeric",
+            //   weekday: "long",
+            // }}
             locale={ruLocale}
             editable={true}
             selectable={true}
