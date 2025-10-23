@@ -6,7 +6,7 @@ import { useState } from "react";
 import { ScheduleHeader } from "@/modules/Schedule/ScheduleHeader/ScheduleHeader";
 import { SheduleEmpty } from "@/modules/Schedule/SheduleEmpty/SheduleEmpty";
 import { SheduleAndPanel } from "@/modules/Schedule/SheduleAndPanel/SheduleAndPanel";
-import { Calendar } from "@/modules/Schedule/Calendar/Calendar";
+import { Calendar } from "@/modules/pages/calendarPage/Calendar/Calendar";
 import { Outlet } from "react-router";
 
 interface SelectedStudent {

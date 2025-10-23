@@ -6,18 +6,23 @@ import React, {
   useCallback,
   type ReactNode,
 } from "react";
-import type { ScheduleDay } from "@/entities/calendar";
-import type { CalendarEvent } from "@/modules/pages/calendar/Calendar";
+import type { CalendarEvent } from "@/modules/pages/calendarPage/CalendarOld/Calendar";
 import { studentApi } from "@/api/studentApi";
 import { calendarApi } from "@/api/calendarApi";
 import type { Student } from "@/entities/student";
 
 interface CalendarContextType {
+  students: Student[];
+  isLoading: boolean;
+  addLesson: boolean;
   currentEvents: CalendarEvent[];
+  currentStudent: string;
+  setCurrentStudent: React.Dispatch<React.SetStateAction<string>>;
   setCurrentEvents: React.Dispatch<React.SetStateAction<CalendarEvent[]>>;
   fetchCalendar: () => Promise<void>;
   fetchStudents: () => Promise<void>;
-  isLoading: boolean;
+  onAddLesson: () => void;
+  onCloseModal: () => void;
 }
 
 const CalendarContext = createContext<CalendarContextType | undefined>(
@@ -35,6 +40,7 @@ export const CalendarProvider: React.FC<CalendarProviderProps> = ({
   const [isLoading, setIsLoading] = useState(false);
   const [students, setStudents] = useState<Student[]>([]);
   const [currentStudent, setCurrentStudent] = useState<Student["id"]>("");
+  const [addLesson, setAddLesson] = useState(false);
 
   const fetchStudents = useCallback(async () => {
     setIsLoading(true);
@@ -72,12 +78,25 @@ export const CalendarProvider: React.FC<CalendarProviderProps> = ({
     fetchStudents();
   }, [fetchCalendar]);
 
+  const onAddLesson = () => {
+    setAddLesson(true);
+  };
+  const onCloseModal = () => {
+    setAddLesson(false);
+  };
+
   const value = {
     currentEvents,
+    isLoading,
+    addLesson,
+    currentStudent,
+    students,
+    setCurrentStudent,
+    onAddLesson,
     setCurrentEvents,
     fetchCalendar,
     fetchStudents,
-    isLoading,
+    onCloseModal,
   };
 
   return (

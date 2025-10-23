@@ -119,7 +119,7 @@ body {
     Пригодится в большинстве ситуаций
     (когда, например, нужно будет "прижать" футер к низу сайта)
    */
-  min-height: 100%;
+  height: 100%;
   margin: 0;
   padding: 0;
   /**
@@ -203,7 +203,9 @@ svg * {
 #root {
   max-width: 1280px;
   margin: 0 auto;
-  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 40px;
 }
 
 body {

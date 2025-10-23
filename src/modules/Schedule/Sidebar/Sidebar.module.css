@@ -19,7 +19,7 @@ a {
   opacity: 88%;
 }
 
-.inlineMenuItem {
+.sidebarMenuItem {
   display: flex;
   background-color: #ffffff;
   max-height: 186px;
@@ -29,23 +29,20 @@ a {
   cursor: pointer;
 }
 
-.inlineMenuItem:not(:last-child) {
+.sidebarMenuItem:not(:last-child) {
   border-bottom: 1px solid #f0f0f0;
 }
-.inlineMenuItem.active a,
-.inlineMenuItem.active a:link,
-.inlineMenuItem.active a:visited {
+.sidebarMenuItem.active a,
+.sidebarMenuItem.active a:link,
+.sidebarMenuItem.active a:visited {
   color: #1890ff;
   cursor: pointer;
-}
-.inlineMenuItemText {
-  font-size: 16px; /* or your default style */
 }
 
 .activeText {
   color: #1890ff;
 }
-.inlineMenuItemBottom {
+.sidebarBottom {
   display: flex;
   background-color: #ffffff;
   height: 78px;

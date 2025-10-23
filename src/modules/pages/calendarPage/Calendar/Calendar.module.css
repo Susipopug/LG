@@ -1,6 +1,5 @@
 .calendarContainer {
   display: flex;
-  height: 95vh;
   width: 100%;
   margin: 1.5rem 0;
   margin-bottom: 1.5rem;
@@ -118,4 +117,13 @@
 
 .calendarContainer :global(.fc-day-today) {
   background-color: #e0f0ff !important; /* light blue */
+}
+
+.calendarContainer :global(.fc-toolbar-title) {
+  color: var(--text-color);
+  opacity: 88%;
+}
+
+.calendarContainer :global(.fc-timegrid-slot:hover .add-event-btn) {
+  display: inline-block !important;
 }

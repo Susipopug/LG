@@ -13,7 +13,7 @@ import { Main } from "./modules/pages/main/Main";
 import "@assets/fonts/fonts.css";
 import { CalendarProvider } from "./components/context/CalendarContext";
 import { SheduleAndPanel } from "./modules/Schedule/SheduleAndPanel/SheduleAndPanel";
-import { Calendar } from "./modules/Schedule/Calendar/Calendar";
+import { Calendar } from "./modules/pages/calendarPage/Calendar/Calendar";
 
 const router = createBrowserRouter([
   {

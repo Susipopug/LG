@@ -10,6 +10,9 @@ import { studentApi } from "@/api/studentApi";
 import type { Student } from "@/entities/student";
 import { CalendarModal } from "@/components/UI/CalendarModal/CalendarModal";
 import ruLocale from "@fullcalendar/core/locales/ru";
+import { MyButton } from "@/components/UI/Button";
+import { useCalendar } from "@/components/context/CalendarContext";
+import { AddLesson } from "../AddLesson/AddLessonModal";
 
 export interface CalendarEvent {
   id: string;
@@ -34,6 +37,8 @@ export const Calendar = () => {
   const [students, setStudents] = useState<Student[]>([]);
   const [currentStudent, setCurrentStudent] = useState<Student["id"]>("");
   const [isCreateLessonLoading, setIsCreateLessonLoading] = useState(false);
+
+  const { onAddLesson } = useCalendar();
 
   const fetchCalendar = useCallback(async () => {
     const { data } = await calendarApi.getAll();
@@ -240,15 +245,30 @@ export const Calendar = () => {
           // data-theme={isDarkTheme ? "dark" : "light"}
         >
           <FullCalendar
-            height={"100vh"}
+            height={"80vh"}
             plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
             headerToolbar={{
               left: "prev next",
               center: "title",
 
-              right: "",
+              right: "createLessonButton",
             }}
             titleFormat={{ month: "long", year: "numeric" }}
+            slotLabelFormat={{
+              hour: "2-digit",
+              minute: "2-digit",
+              hour12: false,
+              meridiem: false,
+            }}
+            customButtons={{
+              createLessonButton: {
+                text: "Создать занятие",
+                click: () => {
+                  // Your function logic here
+                  onAddLesson();
+                },
+              },
+            }}
             initialView="timeGridWeek"
             // dayHeaderFormat={{
             //   day: "numeric",
@@ -262,6 +282,12 @@ export const Calendar = () => {
             dayMaxEvents={true}
             select={handleDateClick}
             events={currentEvents}
+            allDaySlot={false}
+            selectConstraint={{
+              startTime: "00:00",
+              endTime: "24:00",
+            }}
+
             // eventClick={handleEventClick}
             // eventClassNames={getEventClassNames}
             // eventContent={renderEventContent}
@@ -276,6 +302,8 @@ export const Calendar = () => {
           setCurrentStudent={setCurrentStudent}
           students={students}
         />
+
+        <AddLesson />
       </div>
     </>
   );
