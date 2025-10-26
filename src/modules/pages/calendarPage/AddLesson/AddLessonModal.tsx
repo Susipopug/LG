@@ -1,17 +1,22 @@
 import { useCalendar } from "@/components/context/CalendarContext";
 import { MyButton } from "@/components/UI/Button";
+import type { Lesson } from "@/entities";
 import {
   Button,
   Dialog,
   DialogActions,
   DialogContent,
   FormControl,
+  FormControlLabel,
   InputLabel,
   MenuItem,
   Select,
+  Switch,
   TextField,
 } from "@mui/material";
-import { useState } from "react";
+import { DatePicker, TimePicker } from "@mui/x-date-pickers";
+import { useState, type ChangeEvent } from "react";
+import { useForm } from "react-hook-form";
 
 export const AddLesson = () => {
   const {
@@ -22,19 +27,40 @@ export const AddLesson = () => {
     students,
   } = useCalendar();
 
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm<Omit<Lesson, "id">>({
+    mode: "onSubmit",
+  });
+
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
 
+  const handleChange = (
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const value = e.target.value;
+    if (value.length <= 256) {
+      setTitle(value);
+    } else {
+      setTitle(value.slice(0, 256));
+    }
+  };
+
   return (
-    <div>
+    <div className="dialog">
       <Dialog open={addLesson} onClose={onCloseModal}>
         <DialogContent>
-          <FormControl fullWidth>
-            <InputLabel>Ученик</InputLabel>
+          <form className="dialogForm">
+            <InputLabel className="inputLabel">Ученик</InputLabel>
             <Select
-              value={currentStudent}
-              label="Студент"
-              onChange={(e) => setCurrentStudent(e.target.value)}
+              className="formSelect"
+              sx={{ marginBottom: 2 }}
+              fullWidth
+              {...register("userId")}
             >
               {Array.isArray(students)
                 ? students?.map((student) => (
@@ -44,16 +70,39 @@ export const AddLesson = () => {
                   ))
                 : null}
             </Select>
+            {/* <DatePicker {...register("")} label="Дата" /> */}
+            <div
+              className="formDate"
+              style={{
+                display: "flex",
+                gap: "10px",
+                justifyContent: "space-between",
+                marginBottom: "16px",
+              }}
+            >
+              <DatePicker sx={{ maxWidth: 140 }} />
+              <TimePicker sx={{ maxWidth: 140 }} label="Начало" />
+              <TimePicker sx={{ maxWidth: 140 }} label="Окончание" />
+            </div>
+            <FormControlLabel
+              label="Сделать занятие регулярным"
+              control={<Switch />}
+            />
+            <InputLabel>Регулярность занятий</InputLabel>
+            <Select fullWidth>
+              <MenuItem></MenuItem>
+            </Select>
+
             <TextField
               autoFocus
               margin="dense"
               multiline
-              label="Коментарии к занятию"
+              label="Коментарий к занятию"
               fullWidth
               value={title}
-              onChange={(e) => setTitle(e.target.value)}
+              onChange={handleChange}
             />
-          </FormControl>
+          </form>
         </DialogContent>
         <DialogActions>
           <MyButton
@@ -72,12 +121,6 @@ export const AddLesson = () => {
           >
             Отмена
           </MyButton>
-          {/* <Button onClick={onCloseModal} color="primary">
-            Отмена
-          </Button>
-          <Button onClick={onCloseModal} color="primary" variant="contained">
-            ОК
-          </Button> */}
         </DialogActions>
       </Dialog>
     </div>
