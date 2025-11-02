@@ -97,18 +97,43 @@
   --fc-button-active-bg-color: #f0f0f0;
   --fc-button-text-color: #000;
   --fc-event-bg-color: #3788d8;
-  --bg-color: #fff;
+  --fc-event-bg-color-blue: #1677ff;
   --text-color: #000;
 }
 
+/* calendar button styles */
 .calendarContainer :global(.fc .fc-button-primary) {
-  background-color: var(--fc-page-bg-color);
-  border-color: var(--fc-event-border-color);
-  color: var(--fc-event-border-color);
+  max-height: 40px;
+  border-radius: 8px;
 }
+
+.calendarContainer :global(.fc .fc-prev-button) {
+  background-color: #fff;
+  border-color: #1890ff;
+  color: #1890ff;
+}
+
+.calendarContainer :global(.fc .fc-next-button) {
+  background-color: #fff;
+  border-color: #1890ff;
+  color: #1890ff;
+  max-height: 40px; /*не работает max-height*/
+}
+.calendarContainer :global(.fc-createLessonButton-button) {
+  background-color: #1677ff;
+  color: #ffffff;
+  border: none;
+  white-space: nowrap;
+}
+.calendarContainer :global(.fc-createLessonButton-button):hover {
+  background-color: var(--fc-event-bg-color-blue);
+  color: #ffffff;
+}
+
 .calendarContainer :global(.fc .fc-col-header-cell-cushion) {
   color: #000000;
-  opacity: 65%;
+  opacity: 85%;
+  white-space: wrap;
 }
 
 .calendarContainer :global(.fc-day-today .fc-col-header-cell-cushion) {
@@ -126,4 +151,26 @@
 
 .calendarContainer :global(.fc-timegrid-slot:hover .add-event-btn) {
   display: inline-block !important;
+}
+
+.calendarContainer :global(.fc .fc-timegrid-slot-minor) {
+  border-top-style: none;
+  height: 30px;
+}
+
+.calendarContainer :global(.fc-theme-standard .fc-scrollgrid) {
+  border: none;
+}
+
+/*table styles*/
+
+.calendarContainer :global(th) {
+  font-weight: normal;
+}
+.calendarContainer :global(.fc-theme-standard td) {
+  /* border: 1px solid #f0f0f0; */ /*boder doesn't apply*/
+}
+
+.calendarContainer :global(.fc-toolbar-title) {
+  font-weight: 500;
 }

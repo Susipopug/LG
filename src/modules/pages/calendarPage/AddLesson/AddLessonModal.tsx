@@ -15,9 +15,17 @@ import {
   TextField,
 } from "@mui/material";
 import { DatePicker, TimePicker } from "@mui/x-date-pickers";
+import type { PickerValue } from "@mui/x-date-pickers/internals";
 import { useState, type ChangeEvent } from "react";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
+import styles from "./AddLessonModal.module.css";
 
+interface LessonForm
+  extends Pick<Lesson, "userId" | "isRegular" | "desription"> {
+  date: string;
+  startTime: string;
+  endTime: string;
+}
 export const AddLesson = () => {
   const {
     addLesson,
@@ -31,14 +39,22 @@ export const AddLesson = () => {
     register,
     handleSubmit,
     watch,
+    control,
     formState: { errors },
-  } = useForm<Omit<Lesson, "id">>({
+  } = useForm<LessonForm>({
     mode: "onSubmit",
   });
 
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
+  const [date, setDate] = useState<PickerValue | undefined>(undefined);
+  const [startTime, setStartTime] = useState<PickerValue | undefined>(
+    undefined
+  );
+  const [endTime, setEndTime] = useState<PickerValue | undefined>(undefined);
+  const [isRegular, setIsRegular] = useState(false);
 
+  // Added character limit to the textarea
   const handleChange = (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
@@ -49,6 +65,35 @@ export const AddLesson = () => {
       setTitle(value.slice(0, 256));
     }
   };
+
+  // const onSubmit = () => {
+  //   if (!date || !currentStudent || !startTime || !endTime || !isRegular) {
+
+  //     return;
+  //   }
+
+  //   const newEvent: Lesson = {
+  //     id: `${date.toISOString()}-${currentStudent}`,
+  //     title: currentStudent,
+  //     start: startTime,
+  //     end: endTime,
+  //     allDay: false,
+  //     extendedProps: {
+  //       desription: description,
+  //       userId: currentStudent,
+  //       isRegular,
+  //     },
+  //   };
+
+  //   const calendarApi = selectedDate?.view?.calendar;
+  //   if (calendarApi) {
+  //     calendarApi.addEvent(newEvent);
+  //   }
+
+  //   addEventToState(newEvent);
+
+  //   onCloseModal();
+  // };
 
   return (
     <div className="dialog">
@@ -71,18 +116,19 @@ export const AddLesson = () => {
                 : null}
             </Select>
             {/* <DatePicker {...register("")} label="Дата" /> */}
-            <div
-              className="formDate"
-              style={{
-                display: "flex",
-                gap: "10px",
-                justifyContent: "space-between",
-                marginBottom: "16px",
-              }}
-            >
-              <DatePicker sx={{ maxWidth: 140 }} />
-              <TimePicker sx={{ maxWidth: 140 }} label="Начало" />
-              <TimePicker sx={{ maxWidth: 140 }} label="Окончание" />
+            <div className={styles.formDate}>
+              {/* <Controller name="date" control={control} render={({field:{value, onChange}})=> <DatePicker value={value} sx={{ maxWidth: 140 }} onChange={()=>} />}/>
+             
+              <TimePicker
+                {...register("startTime")}
+                sx={{ maxWidth: 140 }}
+                label="Начало"
+              />
+              <TimePicker
+                {...register("endTime")}
+                sx={{ maxWidth: 140 }}
+                label="Окончание"
+              /> */}
             </div>
             <FormControlLabel
               label="Сделать занятие регулярным"

@@ -31,25 +31,25 @@ export interface SheduleItem {
 
 const scheduleItems: SheduleItem[] = [
   {
-    time: "8:00-9:00",
+    time: "8:00 - 9:00",
     studentInitials: "Д",
     studentName: "Джон Траволта",
     status: ScheduleStatus.Awaiting,
   },
   {
-    time: "9:00-10:00",
+    time: "9:00 - 10:00",
     studentInitials: "Б",
     studentName: "Брюс Уиллис",
     status: ScheduleStatus.Awaiting,
   },
   {
-    time: "14:00-15:00",
+    time: "14:00 - 15:00",
     studentInitials: "М",
     studentName: "Майк Тайсон",
     status: ScheduleStatus.Awaiting,
   },
   {
-    time: "14:00-15:00",
+    time: "14:00 - 15:00",
     studentInitials: "П",
     studentName: "Перис Хилтон",
     status: ScheduleStatus.Awaiting,

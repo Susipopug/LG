@@ -4,6 +4,10 @@
 }
 
 .formDate {
+  display: flex;
+  gap: 10px;
+  justify-content: space-between;
+  margin-bottom: 16px;
 }
 .inputLabel {
   margin-bottom: 8px;

@@ -1,10 +1,10 @@
-import type { ScheduleDay } from "@/entities";
+import type { Lesson } from "@/entities";
 import { instance } from "./instance";
 
-export interface ScheduleDayRequest extends Omit<ScheduleDay, "id"> {}
+export interface LessonRequest extends Omit<Lesson, "id"> {}
 
 export const calendarApi = {
-  getAll: () => instance.get<ScheduleDay[]>("/calendar"),
-  createLesson: (data: ScheduleDayRequest) =>
-    instance.post<ScheduleDay>("/calendar", data),
+  getAll: () => instance.get<Lesson[]>("/calendar"),
+  createLesson: (data: LessonRequest) =>
+    instance.post<Lesson>("/calendar", data),
 };

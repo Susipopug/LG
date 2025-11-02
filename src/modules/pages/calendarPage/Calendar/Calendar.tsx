@@ -1,5 +1,9 @@
 import { useCallback, useEffect, useState } from "react";
-import { type DateSelectArg, type EventClickArg } from "@fullcalendar/core";
+import {
+  type DateSelectArg,
+  type EventClickArg,
+  type EventInput,
+} from "@fullcalendar/core";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
@@ -10,24 +14,11 @@ import { studentApi } from "@/api/studentApi";
 import type { Student } from "@/entities/student";
 import { CalendarModal } from "@/components/UI/CalendarModal/CalendarModal";
 import ruLocale from "@fullcalendar/core/locales/ru";
-import { MyButton } from "@/components/UI/Button";
 import { useCalendar } from "@/components/context/CalendarContext";
 import { AddLesson } from "../AddLesson/AddLessonModal";
 
-export interface CalendarEvent {
-  id: string;
-  title: string;
-  start: Date;
-  end: Date;
-  allDay: boolean;
-  extendedProps: {
-    completed?: boolean;
-    isHidden?: boolean;
-  };
-}
-
 export const Calendar = () => {
-  const [currentEvents, setCurrentEvents] = useState<CalendarEvent[]>([]);
+  const [currentEvents, setCurrentEvents] = useState<EventInput[]>([]);
   const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
   const [selectedDate, setSelectedDate] = useState<DateSelectArg | null>(null);
   const [eventToDelete, setEventToDelete] = useState<EventClickArg | null>(
@@ -45,10 +36,10 @@ export const Calendar = () => {
     console.log(data);
     setCurrentEvents(
       data.map((item) => ({
-        id: item.id,
-        start: new Date(item.start),
-        end: new Date(item.end),
-        title: item.name,
+        id: item.id.toString(),
+        start: item.dateStart,
+        end: item.dateEnd,
+        title: item.desription,
         allDay: false,
         extendedProps: {
           completed: false,
@@ -97,7 +88,7 @@ export const Calendar = () => {
       const calendarLibraryApi = selectedDate.view.calendar;
       calendarLibraryApi.unselect();
 
-      const newEvent: CalendarEvent = {
+      const newEvent: EventInput = {
         id: `${selectedDate.start.toISOString()}-${currentStudent}`,
         title: currentStudent,
         start: selectedDate?.start,
@@ -108,18 +99,16 @@ export const Calendar = () => {
         },
       };
 
-      setIsCreateLessonLoading(true);
-      try {
-        await calendarApi.createLesson({
-          name: newEvent.title,
-          start: newEvent.start.toISOString(),
-          end: newEvent.end.toISOString(),
-        });
-      } catch (error) {
-        console.log("error", error);
-      }
+      // setIsCreateLessonLoading(true);
+      // try {
+      //   await calendarApi.createLesson({
 
-      setIsCreateLessonLoading(false);
+      //   });
+      // } catch (error) {
+      //   console.log("error", error);
+      // }
+
+      // setIsCreateLessonLoading(false);
 
       // Добавляем событие в состояние
       setCurrentEvents((prevEvents) => [...prevEvents, newEvent]);
@@ -152,22 +141,22 @@ export const Calendar = () => {
   //   setEventToDelete(null);
   // };
 
-  const toggleComplete = (eventId: string) => {
-    setCurrentEvents((prevEvents) =>
-      prevEvents.map((evt) =>
-        evt.id === eventId
-          ? {
-              ...evt,
-              extendedProps: {
-                ...evt.extendedProps,
-                completed: !evt.extendedProps.completed,
-                isHidden: true,
-              },
-            }
-          : evt
-      )
-    );
-  };
+  // const toggleComplete = (eventId: string) => {
+  //   setCurrentEvents((prevEvents) =>
+  //     prevEvents.map((evt) =>
+  //       evt.id === eventId
+  //         ? {
+  //             ...evt,
+  //             extendedProps: {
+  //               ...evt.extendedProps,
+  //               completed: !evt.extendedProps.completed,
+  //               isHidden: true,
+  //             },
+  //           }
+  //         : evt
+  //     )
+  //   );
+  // };
 
   // const getEventClassNames = (arg: any) => {
   //   const classes = [];
@@ -250,7 +239,6 @@ export const Calendar = () => {
             headerToolbar={{
               left: "prev next",
               center: "title",
-
               right: "createLessonButton",
             }}
             titleFormat={{ month: "long", year: "numeric" }}
@@ -259,6 +247,11 @@ export const Calendar = () => {
               minute: "2-digit",
               hour12: false,
               meridiem: false,
+            }}
+            dayHeaderFormat={{
+              weekday: "long",
+              day: "numeric",
+              month: "numeric",
             }}
             customButtons={{
               createLessonButton: {
@@ -270,11 +263,6 @@ export const Calendar = () => {
               },
             }}
             initialView="timeGridWeek"
-            // dayHeaderFormat={{
-            //   day: "numeric",
-            //   month: "numeric",
-            //   weekday: "long",
-            // }}
             locale={ruLocale}
             editable={true}
             selectable={true}
