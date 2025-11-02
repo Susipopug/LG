@@ -249,15 +249,15 @@ export const Calendar = () => {
               meridiem: false,
             }}
             dayHeaderFormat={{
-              weekday: "long",
               day: "numeric",
               month: "numeric",
+              weekday: "long",
             }}
+            // порядок дня недели и даты не меняется
             customButtons={{
               createLessonButton: {
                 text: "Создать занятие",
                 click: () => {
-                  // Your function logic here
                   onAddLesson();
                 },
               },
