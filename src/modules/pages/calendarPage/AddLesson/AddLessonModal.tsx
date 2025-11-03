@@ -102,6 +102,10 @@ export const AddLesson = () => {
           <form className="dialogForm">
             <InputLabel className="inputLabel">Ученик</InputLabel>
             <Select
+              displayEmpty
+              renderValue={(value: unknown) =>
+                value ? value.toString() : "Выберите ученика"
+              }
               className="formSelect"
               sx={{ marginBottom: 2 }}
               fullWidth
@@ -134,16 +138,18 @@ export const AddLesson = () => {
               label="Сделать занятие регулярным"
               control={<Switch />}
             />
-            <InputLabel>Регулярность занятий</InputLabel>
+            <InputLabel className="inputLabel">Регулярность занятий</InputLabel>
             <Select fullWidth>
               <MenuItem></MenuItem>
             </Select>
-
+            <InputLabel className="inputLabel">
+              Комментарий к занятию
+            </InputLabel>
             <TextField
               autoFocus
               margin="dense"
               multiline
-              label="Коментарий к занятию"
+              label="Текст комментария"
               fullWidth
               value={title}
               onChange={handleChange}

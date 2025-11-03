@@ -14,6 +14,8 @@ import "@assets/fonts/fonts.css";
 import { CalendarProvider } from "./components/context/CalendarContext";
 import { SheduleAndPanel } from "./modules/Schedule/SheduleAndPanel/SheduleAndPanel";
 import { Calendar } from "./modules/pages/calendarPage/Calendar/Calendar";
+import { ThemeProvider } from "@mui/material/styles";
+import { theme } from "./themes/ModalTheme";
 
 const router = createBrowserRouter([
   {
@@ -73,9 +75,11 @@ async function enableMocking() {
 enableMocking().then(() =>
   createRoot(document.getElementById("root")!).render(
     <StrictMode>
-      <CalendarProvider>
-        <RouterProvider router={router} />
-      </CalendarProvider>
+      <ThemeProvider theme={theme}>
+        <CalendarProvider>
+          <RouterProvider router={router} />
+        </CalendarProvider>
+      </ThemeProvider>
     </StrictMode>
   )
 );

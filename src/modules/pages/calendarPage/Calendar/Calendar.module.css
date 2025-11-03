@@ -124,6 +124,7 @@
   color: #ffffff;
   border: none;
   white-space: nowrap;
+  padding: 8px 15px;
 }
 .calendarContainer :global(.fc-createLessonButton-button):hover {
   background-color: var(--fc-event-bg-color-blue);
@@ -169,6 +170,10 @@
 }
 .calendarContainer :global(.fc-theme-standard td) {
   /* border: 1px solid #f0f0f0; */ /*boder doesn't apply*/
+}
+
+.calendarContainer :global(.fc-scrollgrid-sync-inner) {
+  border-left: none; /*boder doesn't apply*/
 }
 
 .calendarContainer :global(.fc-toolbar-title) {

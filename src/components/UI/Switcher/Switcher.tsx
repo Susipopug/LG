@@ -3,54 +3,6 @@ import { styled } from "@mui/material/styles";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Switch from "@mui/material/Switch";
 
-const CustomSwitch = styled(Switch)(({ theme }) => ({
-  width: 46,
-  height: 23,
-  padding: 0,
-  borderRadius: 23,
-  "& .MuiSwitch-switchBase": {
-    padding: 2,
-    margin: 1,
-    transitionDuration: "300ms",
-    "&.Mui-checked": {
-      transform: "translateX(22px)",
-      color: "#fff",
-      "& + .MuiSwitch-track": {
-        backgroundColor: theme.palette.mode === "dark" ? "#4096FF" : "#4096FF",
-        opacity: 1,
-        border: 0,
-      },
-    },
-  },
-  "& .MuiSwitch-thumb": {
-    boxSizing: "border-box",
-    width: 18,
-    height: 18,
-  },
-  "& .MuiSwitch-track": {
-    borderRadius: 20 / 2,
-    backgroundColor: theme.palette.mode === "dark" ? "#39393D" : "#bebebe",
-    opacity: 1,
-    transition: theme.transitions.create(["background-color"], {
-      duration: 500,
-    }),
-  },
-}));
-
-// const Android12Switch = styled(Switch)(({ theme }) => ({
-//   padding: 8,
-//   "& .MuiSwitch-track": {
-//     borderRadius: 22 / 2,
-
-//   },
-//   "& .MuiSwitch-thumb": {
-//     boxShadow: "none",
-//     width: 16,
-//     height: 16,
-//     margin: 2,
-//   },
-// }));
-
 const AntSwitch = styled(Switch)(({}) => ({
   width: 28,
   height: 16,
@@ -111,18 +63,14 @@ export const Switcher: React.FC<SwitcherProps> = ({
       <FormControlLabel
         sx={{
           marginLeft: 0,
-
-          // Increase size by 1.5x
         }}
         control={
-          <AntSwitch
+          <Switch
             checked={checked}
             onChange={handleChange}
             sx={{
               transform: "scale(1.4)",
               mr: 2,
-
-              // Increase size by 1.5x
             }}
           />
         }
