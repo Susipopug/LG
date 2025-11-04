@@ -67,7 +67,7 @@ export const theme = createTheme({
         root: {
           "& .MuiInputBase-root": {
             borderRadius: "8px",
-            minHeight: "82px",
+            // minHeight: "82px",  if I change this my auth inputs change the height as well
           },
           "& .MuiInputBase-input": {},
           "& .MuiInputBase-inputMultiline": {},

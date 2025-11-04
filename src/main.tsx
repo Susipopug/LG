@@ -1,7 +1,7 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import "./index.css";
-import { createBrowserRouter } from "react-router-dom";
+import { createBrowserRouter, Navigate } from "react-router-dom";
 import { RouterProvider } from "react-router-dom";
 import App from "./App";
 import { Login } from "./modules/auth/Login";
@@ -17,45 +17,59 @@ import { Calendar } from "./modules/pages/calendarPage/Calendar/Calendar";
 import { ThemeProvider } from "@mui/material/styles";
 import { theme } from "./themes/ModalTheme";
 
+const isLoggedIn = true;
+
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <App />,
+    element: <App isLoggedIn={isLoggedIn} />,
     children: [
       {
         index: true,
-        path: "/",
-        element: <SheduleAndPanel />,
+        element: isLoggedIn ? (
+          <Navigate to={"/main"} />
+        ) : (
+          <Navigate to={"/login"} />
+        ),
       },
 
-      {
-        path: "main",
-        element: <SheduleAndPanel />,
-      },
-      {
-        path: "login",
-        element: <Login />,
-      },
-      {
-        path: "register",
-        element: <Register />,
-      },
-      {
-        path: "success",
-        element: <Success />,
-      },
-      {
-        path: "forgotPassword",
-        element: <ForgotPassword />,
-      },
-      {
-        path: "restorePassword",
-        element: <RestorePassword />,
-      },
-      {
-        path: "calendar",
-        element: <Calendar />,
-      },
+      ...(isLoggedIn
+        ? [
+            {
+              path: "main",
+              element: <SheduleAndPanel />,
+            },
+            {
+              path: "calendar",
+              element: <Calendar />,
+            },
+          ]
+        : []),
+
+      ...(!isLoggedIn
+        ? [
+            {
+              path: "login",
+              element: <Login />,
+            },
+            {
+              path: "register",
+              element: <Register />,
+            },
+            {
+              path: "success",
+              element: <Success />,
+            },
+            {
+              path: "forgotPassword",
+              element: <ForgotPassword />,
+            },
+            {
+              path: "restorePassword",
+              element: <RestorePassword />,
+            },
+          ]
+        : []),
     ],
   },
 ]);

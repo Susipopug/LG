@@ -7,8 +7,13 @@ import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import "dayjs/locale/ru";
 import { ruRU } from "@mui/x-date-pickers/locales";
+import { Login } from "./modules/auth/Login";
 
-function App() {
+interface AppProps {
+  isLoggedIn: boolean;
+}
+
+function App({ isLoggedIn }:AppProps) {
   return (
     <>
       <LocalizationProvider
@@ -18,15 +23,28 @@ function App() {
           ruRU.components.MuiLocalizationProvider.defaultProps.localeText
         }
       >
-        <div>
-          <Header teacherAvatar={true} />
-        </div>
-        <div className={styles.main}>
-          <Sidebar />
-          <div className={styles.schedule}>
-            <Outlet />
-          </div>
-        </div>
+        {isLoggedIn ? (
+          <>
+            <div>
+              <Header teacherAvatar={true} />
+            </div>
+            <div className={styles.main}>
+              <Sidebar />
+              <div className={styles.schedule}>
+                <Outlet />
+              </div>
+            </div>
+          </>
+        ) : (
+          <>
+            <div>
+              <Header teacherAvatar={false} />
+            </div>
+            <div>
+              <Outlet />
+            </div>
+          </>
+        )}
       </LocalizationProvider>
     </>
   );

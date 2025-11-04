@@ -136,12 +136,24 @@ export const AddLesson = () => {
             </div>
             <FormControlLabel
               label="Сделать занятие регулярным"
-              control={<Switch />}
+              control={
+                <Switch
+                  checked={isRegular}
+                  onChange={(e) => setIsRegular(e.target.checked)}
+                />
+              }
             />
-            <InputLabel className="inputLabel">Регулярность занятий</InputLabel>
-            <Select fullWidth>
-              <MenuItem></MenuItem>
-            </Select>
+            {isRegular && (
+              <>
+                <InputLabel className="inputLabel">
+                  Регулярность занятий
+                </InputLabel>
+                <Select fullWidth>
+                  <MenuItem></MenuItem>
+                </Select>
+              </>
+            )}
+
             <InputLabel className="inputLabel">
               Комментарий к занятию
             </InputLabel>
