@@ -1,4 +1,3 @@
-import { Button, Stack } from "@mui/material";
 import styles from "./ProfilePanel.module.css";
 import timeimg from "@/assets/icons/time.svg";
 import type React from "react";
@@ -89,22 +88,6 @@ export const ProfilePanel: React.FC<ProfilePanelProps> = ({
               >
                 Отменить выбор
               </MyButton>
-              {/* <Button
-                onClick={handleProfileCancel}
-                type="submit"
-                variant="contained"
-                fullWidth
-                sx={{
-                  backgroundColor: "#FFFFFF",
-                  color: "#4096FF",
-                  fontStyle: "normal",
-                  border: "solid 1px #4096FF",
-                  fontSize: "inherit",
-                  textTransform: "none",
-                }}
-              >
-                Отменить выбор
-              </Button> */}
             </>
           ) : (
             <MyButton

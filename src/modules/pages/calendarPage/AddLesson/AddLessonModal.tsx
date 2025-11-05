@@ -2,11 +2,9 @@ import { useCalendar } from "@/components/context/CalendarContext";
 import { MyButton } from "@/components/UI/Button";
 import type { Lesson } from "@/entities";
 import {
-  Button,
   Dialog,
   DialogActions,
   DialogContent,
-  FormControl,
   FormControlLabel,
   InputLabel,
   MenuItem,
@@ -14,10 +12,9 @@ import {
   Switch,
   TextField,
 } from "@mui/material";
-import { DatePicker, TimePicker } from "@mui/x-date-pickers";
 import type { PickerValue } from "@mui/x-date-pickers/internals";
 import { useState, type ChangeEvent } from "react";
-import { Controller, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import styles from "./AddLessonModal.module.css";
 
 interface LessonForm
@@ -27,21 +24,9 @@ interface LessonForm
   endTime: string;
 }
 export const AddLesson = () => {
-  const {
-    addLesson,
-    onCloseModal,
-    currentStudent,
-    setCurrentStudent,
-    students,
-  } = useCalendar();
+  const { addLesson, onCloseModal, students } = useCalendar();
 
-  const {
-    register,
-    handleSubmit,
-    watch,
-    control,
-    formState: { errors },
-  } = useForm<LessonForm>({
+  const { register } = useForm<LessonForm>({
     mode: "onSubmit",
   });
 
@@ -65,35 +50,6 @@ export const AddLesson = () => {
       setTitle(value.slice(0, 256));
     }
   };
-
-  // const onSubmit = () => {
-  //   if (!date || !currentStudent || !startTime || !endTime || !isRegular) {
-
-  //     return;
-  //   }
-
-  //   const newEvent: Lesson = {
-  //     id: `${date.toISOString()}-${currentStudent}`,
-  //     title: currentStudent,
-  //     start: startTime,
-  //     end: endTime,
-  //     allDay: false,
-  //     extendedProps: {
-  //       desription: description,
-  //       userId: currentStudent,
-  //       isRegular,
-  //     },
-  //   };
-
-  //   const calendarApi = selectedDate?.view?.calendar;
-  //   if (calendarApi) {
-  //     calendarApi.addEvent(newEvent);
-  //   }
-
-  //   addEventToState(newEvent);
-
-  //   onCloseModal();
-  // };
 
   return (
     <div className="dialog">
@@ -190,41 +146,3 @@ export const AddLesson = () => {
     </div>
   );
 };
-
-// <Dialog
-//   open={isDialogOpen}
-//   onClose={onClose}
-//   className={styles.newEventmodalContainer}
-//   // onCancel={handleCancel}
-// >
-//   <DialogTitle>Выберите студента</DialogTitle>
-//   <DialogContent>
-//     <FormControl fullWidth>
-//       <InputLabel>Студент</InputLabel>
-//       <Select
-//         value={currentStudent}
-//         label="Студент"
-//         onChange={(e) => setCurrentStudent(e.target.value)}
-//       >
-//         {Array.isArray(students)
-//           ? students?.map((student) => (
-//               <MenuItem key={student.id} value={student.firstName}>
-//                 {student.firstName}
-//               </MenuItem>
-//             ))
-//           : null}
-//       </Select>
-//     </FormControl>
-//   </DialogContent>
-//   <DialogActions>
-//     <Button onClick={onClose}>Отмена</Button>
-//     <Button
-//       loading={isLoading}
-//       variant="contained"
-//       color="primary"
-//       onClick={onAdd}
-//     >
-//       Добавить
-//     </Button>
-//   </DialogActions>
-// </Dialog>;

@@ -44,7 +44,6 @@ export const RestorePassword: React.FC = () => {
             size="small"
             helperText={errors.password?.message}
             error={!!errors.password}
-            // onChange={() => clearErrors("email")}
           />
 
           {/* ConfirmPassword */}
@@ -61,7 +60,6 @@ export const RestorePassword: React.FC = () => {
               size="small"
               helperText={errors.confirmPassword?.message}
               error={!!errors.confirmPassword}
-              // onChange={() => clearErrors("email")}
             />
           </div>
 

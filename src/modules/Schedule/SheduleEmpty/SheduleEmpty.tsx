@@ -1,4 +1,3 @@
-import React from "react";
 import success from "@assets/images/Success.svg";
 import styles from "./SheduleEmpty.module.css";
 

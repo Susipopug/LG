@@ -6,7 +6,6 @@ import React, {
   useCallback,
   type ReactNode,
 } from "react";
-import type { CalendarEvent } from "@/modules/pages/calendarPage/CalendarOld/Calendar";
 import { studentApi } from "@/api/studentApi";
 import { calendarApi } from "@/api/calendarApi";
 import type { Student } from "@/entities/student";

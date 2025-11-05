@@ -2,7 +2,6 @@ import styles from "./Sidebar.module.css";
 import { Link, useLocation } from "react-router";
 import support from "@assets/icons/support.svg";
 import { HomeIcon } from "@/assets/icons/HomeIcon";
-import { useState } from "react";
 import { CalendarIcon } from "@/assets/icons/CalendarIcon";
 import { StudentsIcon } from "@/assets/icons/StudentsIcon";
 

@@ -47,7 +47,6 @@ export const Login: React.FC = () => {
               label="Адрес электронной почты"
               helperText={errors.email?.message}
               error={!!errors.email}
-              // onChange={() => clearErrors("email")}
               slotProps={{
                 inputLabel: {
                   sx: {
@@ -68,13 +67,11 @@ export const Login: React.FC = () => {
                 },
               })}
               value={passwordValue}
-              // value={watch("password") || ""}
               label="Пароль"
               fullWidth
               size="small"
               helperText={errors.password?.message}
               error={!!errors.password}
-              // onChange={() => clearErrors("password")}
             />
 
             <Stack direction="row" spacing={2}>

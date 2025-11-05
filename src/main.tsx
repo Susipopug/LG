@@ -9,7 +9,6 @@ import { Register } from "./modules/auth/Register";
 import { ForgotPassword } from "./modules/auth/ForgotPassword";
 import { RestorePassword } from "./modules/auth/RestorePassword";
 import { Success } from "./modules/auth/Success";
-import { Main } from "./modules/pages/main/Main";
 import "@assets/fonts/fonts.css";
 import { CalendarProvider } from "./components/context/CalendarContext";
 import { SheduleAndPanel } from "./modules/Schedule/SheduleAndPanel/SheduleAndPanel";
@@ -70,6 +69,11 @@ const router = createBrowserRouter([
             },
           ]
         : []),
+
+      {
+        path: "*",
+        element: <Navigate to={isLoggedIn ? "/main" : "/login"} replace />,
+      },
     ],
   },
 ]);
@@ -81,8 +85,6 @@ async function enableMocking() {
 
   const { worker } = await import("./mocks/browser");
 
-  // `worker.start()` returns a Promise that resolves
-  // once the Service Worker is up and ready to intercept requests.
   return worker.start();
 }
 

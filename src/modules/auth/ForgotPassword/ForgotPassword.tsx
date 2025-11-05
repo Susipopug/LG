@@ -47,7 +47,6 @@ export const ForgotPassword: React.FC = () => {
             label="Адрес электронной почты"
             helperText={errors.email?.message}
             error={!!errors.email}
-            // onChange={() => clearErrors("email")}
             slotProps={{
               inputLabel: {
                 sx: {

@@ -1,12 +1,6 @@
-import { Schedule } from "@/modules/Schedule/DaySchedule/Schedule";
 import Sidebar from "@/modules/Schedule/Sidebar/Sidebar";
 import styles from "./Main.module.css";
-import { ProfilePanel } from "@/modules/Schedule/ProfilePanel/ProfilePanel";
 import { useState } from "react";
-import { ScheduleHeader } from "@/modules/Schedule/ScheduleHeader/ScheduleHeader";
-import { SheduleEmpty } from "@/modules/Schedule/SheduleEmpty/SheduleEmpty";
-import { SheduleAndPanel } from "@/modules/Schedule/SheduleAndPanel/SheduleAndPanel";
-import { Calendar } from "@/modules/pages/calendarPage/Calendar/Calendar";
 import { Outlet } from "react-router";
 
 interface SelectedStudent {
@@ -23,7 +17,6 @@ const ScheduleStatus = {
 
 export type TSheduleStatus =
   (typeof ScheduleStatus)[keyof typeof ScheduleStatus];
-// type TSheduleStatus = keyof typeof ScheduleStatus;
 
 export interface SheduleItem {
   time: string;
@@ -98,8 +91,6 @@ export const Main: React.FC = () => {
         <div className={styles.schedule}>
           <div className={styles.scheduleMain}>
             <Outlet />
-            {/* <SheduleAndPanel />
-            <Calendar/> */}
           </div>
         </div>
       </div>
