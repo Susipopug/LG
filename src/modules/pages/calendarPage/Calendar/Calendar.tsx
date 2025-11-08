@@ -17,7 +17,6 @@ export const Calendar = () => {
   const [currentEvents, setCurrentEvents] = useState<EventInput[]>([]);
   const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
   const [selectedDate, setSelectedDate] = useState<DateSelectArg | null>(null);
-
   const [students, setStudents] = useState<Student[]>([]);
   const [currentStudent, setCurrentStudent] = useState<Student["id"]>("");
   const [isCreateLessonLoading, setIsCreateLessonLoading] = useState(false);
@@ -105,7 +104,7 @@ export const Calendar = () => {
       <div className={styles.calendarContainer} data-theme={"light"}>
         <div className={styles.calendarRight}>
           <FullCalendar
-            height={"80vh"}
+            height={"70vh"}
             plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
             headerToolbar={{
               left: "prev next",

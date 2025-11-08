@@ -1,7 +1,7 @@
 import styles from "./ProfilePanel.module.css";
 import timeimg from "@/assets/icons/time.svg";
 import type React from "react";
-import type { SheduleItem } from "@/modules/pages/main/Main";
+import type { SheduleItem } from "@/modules/Schedule/SheduleAndPanel/SheduleAndPanel";
 import { Switcher } from "@/components/UI/Switcher/Switcher";
 import { useState } from "react";
 import { MyButton } from "@/components/UI/Button";

@@ -8,6 +8,7 @@ import {
 } from "@mui/material";
 import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 import type { Student } from "@/entities/student";
+import { MyButton } from "../Button";
 
 interface CalendarModalProp {
   isDialogOpen: boolean;
@@ -58,7 +59,6 @@ export const CalendarModal = ({
           </FormControl>
         </DialogContent>
         <DialogActions>
-          <Button onClick={onClose}>Отмена</Button>
           <Button
             loading={isLoading}
             variant="contained"
@@ -67,6 +67,13 @@ export const CalendarModal = ({
           >
             Добавить
           </Button>
+          <MyButton
+            border="1px solid #1677FF"
+            backgroundColor="#FFFFFF"
+            color="#1677FF"
+          >
+            Отмена
+          </MyButton>
         </DialogActions>
       </Dialog>
     </>

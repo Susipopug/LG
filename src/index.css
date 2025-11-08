@@ -201,11 +201,11 @@ svg * {
 }
 
 #root {
-  max-width: 1280px;
+  max-width: 1400px;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
-  padding-bottom: 40px;
+  height: calc(100vh - 100px);
 }
 
 body {

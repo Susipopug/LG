@@ -3,7 +3,7 @@
   display: flex;
   flex-direction: column;
   margin-right: 40px;
-  height: 100vh;
+  justify-content: space-between;
 }
 
 .nav {
@@ -51,5 +51,5 @@ a {
   align-items: center;
   gap: 17px;
   border-radius: 16px;
-  margin-top: auto;
+  /* margin-top: auto; */
 }

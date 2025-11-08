@@ -1,20 +1,13 @@
 .panel {
-  /* display: inline-flex;
+  display: flex;
   flex-direction: column;
   background: #e6f7ff;
   padding: 20px;
-  border-radius: 8px;
-  max-width: 304px;
-  width: 100%;
-  margin: 0 auto; */
-  display: inline-block; /* shrink to fit content */
-  /* or use display: inline-flex; if needed */
-  background: #e6f7ff;
-  padding: 20px;
   border-radius: 24px;
-  /* Remove max-width or set it appropriately if needed */
   max-width: 304px;
-  width: auto; /* ensure it doesn't stretch to full width */
+  width: auto;
+  margin-bottom: 12px;
+  flex-shrink: 1;
 }
 .time {
   display: flex;
@@ -64,13 +57,14 @@ h3 {
 }
 
 .statusSection {
+  display: flex;
+  flex-direction: column;
   background-color: #ffffff;
   padding: 24px 24px;
   border-radius: 24px;
   max-width: 301px;
   width: 100%;
   margin: 0 auto;
-  margin-top: auto;
 }
 
 .statusSection h3 {

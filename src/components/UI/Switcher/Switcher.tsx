@@ -65,12 +65,13 @@ export const Switcher: React.FC<SwitcherProps> = ({
           marginLeft: 0,
         }}
         control={
-          <Switch
+          <AntSwitch
             checked={checked}
             onChange={handleChange}
             sx={{
               transform: "scale(1.4)",
               mr: 2,
+              display: "inline-flex",
             }}
           />
         }
