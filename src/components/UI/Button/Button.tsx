@@ -6,19 +6,21 @@ interface MyButtonProps {
   backgroundColor: string;
   border: string;
   onClick?: () => void;
+  type: string;
 }
 
 export const MyButton = ({
   onClick,
   children,
   color,
+  type = "submit",
   border,
   backgroundColor = "#1677FF",
 }: MyButtonProps) => {
   return (
     <Stack direction="row" spacing={2}>
       <Button
-        type="submit"
+        type={type}
         variant="contained"
         fullWidth
         onClick={onClick}
@@ -31,6 +33,7 @@ export const MyButton = ({
           fontSize: "inherit",
           textTransform: "none",
           borderRadius: "8px",
+          height: "40px",
         }}
       >
         {children}

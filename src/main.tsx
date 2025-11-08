@@ -11,10 +11,11 @@ import { RestorePassword } from "./modules/auth/RestorePassword";
 import { Success } from "./modules/auth/Success";
 import "@assets/fonts/fonts.css";
 import { CalendarProvider } from "./components/context/CalendarContext";
-import { SheduleAndPanel } from "./modules/Schedule/SheduleAndPanel/SheduleAndPanel";
-import { Calendar } from "./modules/pages/calendarPage/Calendar/Calendar";
+import { Calendar } from "./modules/pages/CalendarPage/Calendar/Calendar";
 import { ThemeProvider } from "@mui/material/styles";
 import { theme } from "./themes/ModalTheme";
+import { SheduleAndPanel } from "./modules/pages/Shedule/SheduleAndPanel/SheduleAndPanel";
+import { Students } from "./modules/pages/Students/StudentsEmpty/Students";
 
 const isLoggedIn = true;
 
@@ -41,6 +42,10 @@ const router = createBrowserRouter([
             {
               path: "calendar",
               element: <Calendar />,
+            },
+            {
+              path: "students",
+              element: <Students />,
             },
           ]
         : []),

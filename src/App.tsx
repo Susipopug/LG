@@ -1,18 +1,17 @@
 import { Header } from "./components/Header/Header";
 import { Outlet } from "react-router-dom";
-import Sidebar from "./modules/Schedule/Sidebar/Sidebar";
 import styles from "./App.module.css";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import "dayjs/locale/ru";
 import { ruRU } from "@mui/x-date-pickers/locales";
-import { Login } from "./modules/auth/Login";
+import Sidebar from "./modules/pages/Shedule/Sidebar/Sidebar";
 
 interface AppProps {
   isLoggedIn: boolean;
 }
 
-function App({ isLoggedIn }:AppProps) {
+function App({ isLoggedIn }: AppProps) {
   return (
     <>
       <LocalizationProvider

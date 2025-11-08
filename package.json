@@ -21,6 +21,7 @@
     "@mui/icons-material": "7.3.2",
     "@mui/material": "7.3.2",
     "@mui/x-date-pickers": "^8.15.0",
+    "antd": "^5.28.0",
     "axios": "^1.12.2",
     "dayjs": "^1.11.18",
     "react": "18.3.1",
