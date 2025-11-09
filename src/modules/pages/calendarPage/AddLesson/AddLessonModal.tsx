@@ -24,7 +24,7 @@ interface LessonForm
   endTime: string;
 }
 export const AddLesson = () => {
-  const { addLesson, onCloseModal, students } = useCalendar();
+  const { addLesson, onCloseCaledarModal, students } = useCalendar();
 
   const { register } = useForm<LessonForm>({
     mode: "onSubmit",
@@ -53,7 +53,7 @@ export const AddLesson = () => {
 
   return (
     <div className="dialog">
-      <Dialog open={addLesson} onClose={onCloseModal}>
+      <Dialog open={addLesson} onClose={onCloseCaledarModal}>
         <DialogContent>
           <form className="dialogForm">
             <InputLabel className="inputLabel">Ученик</InputLabel>
@@ -126,18 +126,20 @@ export const AddLesson = () => {
         </DialogContent>
         <DialogActions>
           <MyButton
+            type="submit"
             color="#FFFFFF"
             backgroundColor="#1677FF"
             border="none"
-            onClick={onCloseModal}
+            onClick={onCloseCaledarModal}
           >
             Сохранить изменения
           </MyButton>
           <MyButton
+            type="button"
             color="#1677FF"
             backgroundColor="#FFFFFF"
             border="solid 1px #4096FF"
-            onClick={onCloseModal}
+            onClick={onCloseCaledarModal}
           >
             Отмена
           </MyButton>

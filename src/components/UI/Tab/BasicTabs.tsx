@@ -42,15 +42,23 @@ export default function BasicTabs() {
 
   return (
     // <div className={styles.tab}>
-    <Box sx={{ width: "50%", padding: 0 }}>
+    <Box sx={{ width: "50%", padding: 0, textTransform: "none" }}>
       <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
         <Tabs
           value={value}
           onChange={handleChange}
           aria-label="basic tabs example"
         >
-          <Tab label="Активные" {...a11yProps(0)} />
-          <Tab label="Неактивные" {...a11yProps(1)} />
+          <Tab
+            sx={{ textTransform: "none", width: "230px" }}
+            label="Активные"
+            {...a11yProps(0)}
+          />
+          <Tab
+            sx={{ textTransform: "none", width: "230px" }}
+            label="Неактивные"
+            {...a11yProps(1)}
+          />
         </Tabs>
       </Box>
       {/* <CustomTabPanel value={value} index={0}></CustomTabPanel>

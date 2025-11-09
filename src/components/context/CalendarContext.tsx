@@ -10,18 +10,39 @@ import { studentApi } from "@/api/studentApi";
 import { calendarApi } from "@/api/calendarApi";
 import type { Student } from "@/entities/student";
 
+const ScheduleStatus = {
+  Cancelled: "CANCELLED",
+  Skipped: "SKIPPED",
+  Conducted: "CONDUCTED",
+  Awaiting: "AWAITING",
+} as const;
+
+export type TSheduleStatus =
+  (typeof ScheduleStatus)[keyof typeof ScheduleStatus];
+
+export interface SheduleItem {
+  time: string;
+  studentInitials: string;
+  studentName: string;
+  status: TSheduleStatus;
+}
 interface CalendarContextType {
   students: Student[];
   isLoading: boolean;
   addLesson: boolean;
   currentEvents: CalendarEvent[];
   currentStudent: string;
+  addStudent: boolean;
+  updatedScheduleItems: SheduleItem[];
+  StatusMap: Record<TSheduleStatus, string>;
   setCurrentStudent: React.Dispatch<React.SetStateAction<string>>;
   setCurrentEvents: React.Dispatch<React.SetStateAction<CalendarEvent[]>>;
   fetchCalendar: () => Promise<void>;
   fetchStudents: () => Promise<void>;
   onAddLesson: () => void;
-  onCloseModal: () => void;
+  onCloseCaledarModal: () => void;
+  onCloseStudentModal: () => void;
+  onAddStudent: () => void;
 }
 
 const CalendarContext = createContext<CalendarContextType | undefined>(
@@ -40,6 +61,7 @@ export const CalendarProvider: React.FC<CalendarProviderProps> = ({
   const [students, setStudents] = useState<Student[]>([]);
   const [currentStudent, setCurrentStudent] = useState<Student["id"]>("");
   const [addLesson, setAddLesson] = useState(false);
+  const [addStudent, setAddStudent] = useState(false);
 
   const fetchStudents = useCallback(async () => {
     setIsLoading(true);
@@ -80,8 +102,53 @@ export const CalendarProvider: React.FC<CalendarProviderProps> = ({
   const onAddLesson = () => {
     setAddLesson(true);
   };
-  const onCloseModal = () => {
+  const onAddStudent = () => {
+    setAddStudent(true);
+  };
+  const onCloseCaledarModal = () => {
     setAddLesson(false);
+  };
+  const onCloseStudentModal = () => {
+    setAddStudent(false);
+  };
+
+  const scheduleItems: SheduleItem[] = [
+    {
+      time: "8:00 - 9:00",
+      studentInitials: "Д",
+      studentName: "Джон Траволта",
+      status: ScheduleStatus.Awaiting,
+    },
+    {
+      time: "9:00 - 10:00",
+      studentInitials: "Б",
+      studentName: "Брюс Уиллис",
+      status: ScheduleStatus.Awaiting,
+    },
+    {
+      time: "14:00 - 15:00",
+      studentInitials: "М",
+      studentName: "Майк Тайсон",
+      status: ScheduleStatus.Awaiting,
+    },
+    {
+      time: "14:00 - 15:00",
+      studentInitials: "П",
+      studentName: "Перис Хилтон",
+      status: ScheduleStatus.Awaiting,
+    },
+  ];
+
+  const updatedScheduleItems: SheduleItem[] = scheduleItems.map((item) => ({
+    ...item,
+    studentInitials: item.studentName.charAt(0),
+  }));
+
+  const StatusMap: Record<TSheduleStatus, string> = {
+    [ScheduleStatus.Cancelled]: "Отменено",
+    [ScheduleStatus.Skipped]: "Пропущено",
+    [ScheduleStatus.Conducted]: "Проведено",
+    [ScheduleStatus.Awaiting]: "Ожидается",
   };
 
   const value = {
@@ -90,12 +157,18 @@ export const CalendarProvider: React.FC<CalendarProviderProps> = ({
     addLesson,
     currentStudent,
     students,
+    addStudent,
+    updatedScheduleItems,
+    StatusMap,
+    scheduleItems,
     setCurrentStudent,
     onAddLesson,
     setCurrentEvents,
     fetchCalendar,
     fetchStudents,
-    onCloseModal,
+    onCloseCaledarModal,
+    onCloseStudentModal,
+    onAddStudent,
   };
 
   return (

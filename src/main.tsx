@@ -15,7 +15,7 @@ import { Calendar } from "./modules/pages/CalendarPage/Calendar/Calendar";
 import { ThemeProvider } from "@mui/material/styles";
 import { theme } from "./themes/ModalTheme";
 import { SheduleAndPanel } from "./modules/pages/Shedule/SheduleAndPanel/SheduleAndPanel";
-import { Students } from "./modules/pages/Students/StudentsEmpty/Students";
+import { Students } from "./modules/pages/Students/Students/Students";
 
 const isLoggedIn = true;
 
