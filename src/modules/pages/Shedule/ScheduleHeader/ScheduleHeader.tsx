@@ -21,7 +21,7 @@ export const ScheduleHeader = () => {
 
   const dayString = `${days[now.getDay()]}`;
   return (
-    <div className={styles.container}>
+    <header className={styles.container}>
       <div className={styles.timeTable}>
         <span className={styles.timeTableToday}>Сегодня</span>
         <div className={styles.timeTableDate}>
@@ -29,6 +29,6 @@ export const ScheduleHeader = () => {
           <span className={styles.timeTableDay}>{dayString}</span>
         </div>
       </div>
-    </div>
+    </header>
   );
 };

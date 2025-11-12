@@ -7,7 +7,6 @@ import { useState } from "react";
 
 interface HeaderProps {
   teacherAvatar?: boolean;
-  isAccountOpen: boolean;
 }
 
 export const Header: React.FC<HeaderProps> = ({ teacherAvatar }) => {
@@ -20,15 +19,18 @@ export const Header: React.FC<HeaderProps> = ({ teacherAvatar }) => {
   return (
     <div className={styles.header}>
       <Link to={"/"} className={styles.logo}>
-        <img src={logo} alt="logo" />
+        <img height={40} width={31} src={logo} alt="logo" />
       </Link>
       {teacherAvatar && (
         <div onClick={openUserAccount} className={styles.teacherAvatar}>
-          <img src={teacherAv} alt="teacherAvatar" />
+          <img height={32} width={32} src={teacherAv} alt="teacherAvatar" />
           <h3>Мэри Поппинс</h3>
         </div>
       )}
-      <HeaderModuleSmall isAccountOpen={isAccountOpen} />
+      <HeaderModuleSmall
+        isAccountOpen={isAccountOpen}
+        setIsAccountOpen={setIsAccountOpen}
+      />
     </div>
   );
 };

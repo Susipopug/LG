@@ -10,7 +10,7 @@ export const LetterSent: React.FC<LocationState> = ({ email }) => {
   return (
     <div className={styles.container}>
       <div className={styles.containerContent}>
-        <img src={letter} alt="letter" />
+        <img height={180} width={200} src={letter} alt="letter" />
         <h1 className={styles.title}>Письмо отправлено</h1>
         <p>
           Если учётная запись <strong>{email}</strong> существует, вам отправят

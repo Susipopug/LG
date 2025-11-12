@@ -29,7 +29,7 @@ export const Login: React.FC = () => {
     <>
       <div className={styles.container}>
         <div className={styles.containerContent}>
-          <img src={lock} alt="lock" />
+          <img height={180} width={200} src={lock} alt="lock" />
           <h1 className={styles.title}>Войти в аккаунт</h1>
           <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
             {/* Email */}

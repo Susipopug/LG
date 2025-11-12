@@ -37,7 +37,7 @@ export const Register: React.FC = () => {
   return (
     <div className={styles.container}>
       <div className={styles.containerContent}>
-        <img src={hands} alt="hands" />
+        <img height={180} width={200} src={hands} alt="hands" />
 
         <h1 className={styles.title}>Создать аккаунт</h1>
 

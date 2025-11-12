@@ -101,7 +101,8 @@ export const Calendar = () => {
 
   return (
     <>
-      <div className={styles.calendarContainer} data-theme={"light"}>
+      <section className={styles.calendarContainer} data-theme={"light"}>
+        <h2 className={styles.visuallyHidden}>Календарь</h2>
         <div className={styles.calendarRight}>
           <FullCalendar
             height={"70vh"}
@@ -158,7 +159,7 @@ export const Calendar = () => {
         />
 
         <AddLesson />
-      </div>
+      </section>
     </>
   );
 };

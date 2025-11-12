@@ -1,7 +1,10 @@
 import styles from "./Schedule.module.css";
 import time from "@/assets/icons/time.svg";
-import type {  } from "@/modules/pages/main/Main";
-import type { SheduleItem, TSheduleStatus } from "@/components/context/CalendarContext";
+import type {} from "@/modules/pages/main/Main";
+import type {
+  SheduleItem,
+  TSheduleStatus,
+} from "@/components/context/CalendarContext";
 
 interface ScheduleProps {
   onItemClick: (index: number, name: string, time: string) => void;
@@ -16,7 +19,6 @@ export const Schedule: React.FC<ScheduleProps> = ({
   statusMap,
   selectedIndex,
 }) => {
-
   return (
     <div className={styles.schedule}>
       {updatedScheduleItems.map((item, index) => {
@@ -30,7 +32,7 @@ export const Schedule: React.FC<ScheduleProps> = ({
         ].join(" ");
 
         return (
-          <div
+          <section
             key={index}
             className={itemClassName}
             onClick={() => onItemClick(index, item.studentName, item.time)}
@@ -48,7 +50,7 @@ export const Schedule: React.FC<ScheduleProps> = ({
               <div className={styles.avatar}>{item.studentInitials}</div>
               <div className={styles.name}>{item.studentName}</div>
             </div>
-          </div>
+          </section>
         );
       })}
     </div>

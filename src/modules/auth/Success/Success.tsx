@@ -6,7 +6,7 @@ export const Success = () => {
   return (
     <div className={styles.container}>
       <div className={styles.containerContent}>
-        <img src={success} alt="success" />
+        <img height={180} width={200} src={success} alt="success" />
 
         <h1 className={styles.title}>Создать аккаунт</h1>
         <p>Ваш акканут подтвержден</p>

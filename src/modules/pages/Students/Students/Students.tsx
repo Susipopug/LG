@@ -22,37 +22,42 @@ export const Students = () => {
   }));
   return (
     <>
-      <div className={styles.studentsHeader}>
-        <SearchInput />
-        <BasicTabs />
-        <MyButton
-          onClick={onAddStudent}
-          type="button"
-          color="#FFFFFF"
-          backgroundColor="#1677FF"
-          border="none"
-        >
-          Добавить ученика
-        </MyButton>
-      </div>
-      {simplifiedSchedule.length > 0 ? (
-        <div className={styles.studentsMain}>
-          {simplifiedSchedule.map((item) => (
-            <div className={styles.studentsList}>
-              <p className={styles.studentsItem}>{item.name}</p>
-              <p className={styles.studentsItem}>{item.lessonsCount}</p>
+      <section>
+        <header className={styles.studentsHeader}>
+          <SearchInput />
+          <BasicTabs />
+          <MyButton
+            onClick={onAddStudent}
+            type="button"
+            color="#FFFFFF"
+            backgroundColor="#1677FF"
+            border="none"
+          >
+            Добавить ученика
+          </MyButton>
+        </header>
+        <main>
+          <h2 className={styles.visuallyHidden}>Ученики</h2>
+          {simplifiedSchedule.length > 0 ? (
+            <div className={styles.studentsMain}>
+              {simplifiedSchedule.map((item) => (
+                <div className={styles.studentsList}>
+                  <p className={styles.studentsItem}>{item.name}</p>
+                  <p className={styles.studentsItem}>{item.lessonsCount}</p>
+                </div>
+              ))}
             </div>
-          ))}
-        </div>
-      ) : (
-        <div className={styles.students}>
-          <img src={empty} alt="empty" />
-          <h3>Нет учеников</h3>
-          <p>Добавьте ученика и назначьте ему занятия</p>
-        </div>
-      )}
+          ) : (
+            <div className={styles.students}>
+              <img height={180} width={200} src={empty} alt="empty" />
+              <h3>Нет учеников</h3>
+              <p>Добавьте ученика и назначьте ему занятия</p>
+            </div>
+          )}
 
-      <StudentModal />
+          <StudentModal />
+        </main>
+      </section>
     </>
   );
 };

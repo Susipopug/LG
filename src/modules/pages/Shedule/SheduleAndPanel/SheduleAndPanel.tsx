@@ -93,7 +93,8 @@ export const SheduleAndPanel: React.FC = () => {
   return (
     <>
       <ScheduleHeader />
-      <div className={styles.scheduleMain}>
+      <main className={styles.scheduleMain}>
+        <h2 className={styles.visuallyHidden}>Главная страница</h2>
         {updatedScheduleItems.length > 0 ? (
           <>
             <Schedule
@@ -111,7 +112,7 @@ export const SheduleAndPanel: React.FC = () => {
         ) : (
           <SheduleEmpty />
         )}
-      </div>
+      </main>
     </>
   );
 };

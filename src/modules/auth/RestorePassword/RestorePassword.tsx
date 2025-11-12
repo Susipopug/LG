@@ -26,7 +26,7 @@ export const RestorePassword: React.FC = () => {
   return (
     <div className={styles.container}>
       <div className={styles.containerContent}>
-        <img src={mag_glass} alt="mag_glass" />
+        <img height={180} width={200} src={mag_glass} alt="mag_glass" />
         <h1 className={styles.title}>Воccтановить пароль</h1>
         <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
           {/* Password */}
