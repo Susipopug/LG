@@ -1,17 +1,18 @@
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import styles from "./Login.module.css";
 import lock from "@assets/images/lock.svg";
 import { Link } from "react-router-dom";
 import type { ILogin } from "@/modules/auth/interfaces/Inputs";
 import { GoogleButton } from "@components/UI/GoogleButton";
-import { Button, Stack, TextField } from "@mui/material";
-import { PasswordInput } from "@components/UI/PasswordInput";
+import { Button, Stack,  } from "@mui/material";
+import { Input } from "antd";
 
 export const Login: React.FC = () => {
   const {
     register,
     handleSubmit,
     watch,
+    control,
     formState: { errors },
   } = useForm<ILogin>({
     mode: "onSubmit",
@@ -24,6 +25,15 @@ export const Login: React.FC = () => {
   const passwordValue = watch("password");
 
   const onSubmit = (data: ILogin) => console.log(data);
+  console.log(
+    register("email", {
+      required: "Поле необходимо заполнить",
+      pattern: {
+        value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+        message: "Неверный адрес электронной почты",
+      },
+    })
+  );
 
   return (
     <>
@@ -33,7 +43,7 @@ export const Login: React.FC = () => {
           <h1 className={styles.title}>Войти в аккаунт</h1>
           <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
             {/* Email */}
-            <TextField
+            <Controller
               {...register("email", {
                 required: "Поле необходимо заполнить",
                 pattern: {
@@ -41,24 +51,33 @@ export const Login: React.FC = () => {
                   message: "Неверный адрес электронной почты",
                 },
               })}
-              type="email"
-              fullWidth
-              size="small"
-              label="Адрес электронной почты"
-              helperText={errors.email?.message}
-              error={!!errors.email}
-              slotProps={{
-                inputLabel: {
-                  sx: {
-                    color: "grey.400",
-                  },
-                },
-              }}
+              control={control}
+              render={({ field }) => (
+                <Input {...field} status={!!errors.email ? "error" : ""} />
+              )}
             />
 
             {/* Password*/}
 
-            <PasswordInput
+            <Controller
+              {...register("password", {
+                required: "Поле необходимо заполнить",
+                minLength: {
+                  value: 8,
+                  message: "Пароль должен содержать не менее 8 символов",
+                },
+              })}
+              control={control}
+              render={({ field }) => (
+                <Input.Password
+                  placeholder="input password support suffix"
+                  {...field}
+                  status={!!errors.email ? "error" : ""}
+                />
+              )}
+            />
+
+            {/* <PasswordInput
               {...register("password", {
                 required: "Поле необходимо заполнить",
                 minLength: {
@@ -72,7 +91,7 @@ export const Login: React.FC = () => {
               size="small"
               helperText={errors.password?.message}
               error={!!errors.password}
-            />
+            /> */}
 
             <Stack direction="row" spacing={2}>
               <Button

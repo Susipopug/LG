@@ -26,13 +26,7 @@ export const Students = () => {
         <header className={styles.studentsHeader}>
           <SearchInput />
           <BasicTabs />
-          <MyButton
-            onClick={onAddStudent}
-            type="button"
-            color="#FFFFFF"
-            backgroundColor="#1677FF"
-            border="none"
-          >
+          <MyButton onClick={onAddStudent} buttonType="primary">
             Добавить ученика
           </MyButton>
         </header>

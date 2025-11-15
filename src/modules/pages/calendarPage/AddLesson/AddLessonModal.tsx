@@ -1,150 +1,153 @@
 import { useCalendar } from "@/components/context/CalendarContext";
 import { MyButton } from "@/components/UI/Button";
 import type { Lesson } from "@/entities";
-import {
-  Dialog,
-  DialogActions,
-  DialogContent,
-  FormControlLabel,
-  InputLabel,
-  MenuItem,
-  Select,
-  Switch,
-  TextField,
-} from "@mui/material";
-import type { PickerValue } from "@mui/x-date-pickers/internals";
-import { useState, type ChangeEvent } from "react";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import styles from "./AddLessonModal.module.css";
+import { DatePicker, Input, Modal, Select, Switch, TimePicker } from "antd";
+import type { Dayjs } from "dayjs";
 
 interface LessonForm
-  extends Pick<Lesson, "userId" | "isRegular" | "desription"> {
-  date: string;
-  startTime: string;
-  endTime: string;
+
+  // to change to omit
+  extends Pick<
+    Lesson,
+    "userId" | "isRegular" | "description" | "frequency" | "every"
+  > {
+  date: Dayjs;
+  startTime: Dayjs;
+  endTime: Dayjs;
 }
 export const AddLesson = () => {
   const { addLesson, onCloseCaledarModal, students } = useCalendar();
 
-  const { register } = useForm<LessonForm>({
+  const { register, control, watch } = useForm<LessonForm>({
     mode: "onSubmit",
   });
-
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
-  const [date, setDate] = useState<PickerValue | undefined>(undefined);
-  const [startTime, setStartTime] = useState<PickerValue | undefined>(
-    undefined
-  );
-  const [endTime, setEndTime] = useState<PickerValue | undefined>(undefined);
-  const [isRegular, setIsRegular] = useState(false);
-
-  // Added character limit to the textarea
-  const handleChange = (
-    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    const value = e.target.value;
-    if (value.length <= 256) {
-      setTitle(value);
-    } else {
-      setTitle(value.slice(0, 256));
-    }
-  };
+  const isRegular = watch("isRegular");
 
   return (
-    <div className="dialog">
-      <Dialog open={addLesson} onClose={onCloseCaledarModal}>
-        <DialogContent>
-          <form className="dialogForm">
-            <InputLabel className="inputLabel">Ученик</InputLabel>
-            <Select
-              displayEmpty
-              renderValue={(value: unknown) =>
-                value ? value.toString() : "Выберите ученика"
-              }
-              className="formSelect"
-              sx={{ marginBottom: 2 }}
-              fullWidth
-              {...register("userId")}
-            >
-              {Array.isArray(students)
-                ? students?.map((student) => (
-                    <MenuItem key={student.id} value={student.firstName}>
-                      {student.firstName}
-                    </MenuItem>
-                  ))
-                : null}
-            </Select>
-            {/* <DatePicker {...register("")} label="Дата" /> */}
-            <div className={styles.formDate}>
-              {/* <Controller name="date" control={control} render={({field:{value, onChange}})=> <DatePicker value={value} sx={{ maxWidth: 140 }} onChange={()=>} />}/>
-             
-              <TimePicker
-                {...register("startTime")}
-                sx={{ maxWidth: 140 }}
-                label="Начало"
-              />
-              <TimePicker
-                {...register("endTime")}
-                sx={{ maxWidth: 140 }}
-                label="Окончание"
-              /> */}
-            </div>
-            <FormControlLabel
-              label="Сделать занятие регулярным"
-              control={
-                <Switch
-                  checked={isRegular}
-                  onChange={(e) => setIsRegular(e.target.checked)}
+    <div className={styles.dialog}>
+      <div>
+        <Modal
+          open={addLesson}
+          onOk={onCloseCaledarModal}
+          onCancel={onCloseCaledarModal}
+          footer={null}
+        >
+          <form className={styles.dialogForm}>
+            <label className={styles.inputLabel}>Ученик</label>
+            <Controller
+              control={control}
+              name="userId"
+              render={({ field: { value, onChange } }) => (
+                <Select
+                  style={{ width: "100%" }}
+                  onChange={onChange}
+                  value={value}
+                  options={students.map((student) => ({
+                    value: student.id,
+                    label: `${student.firstName} ${student.lastName}`,
+                  }))}
                 />
-              }
+              )}
             />
+
+            <div className={styles.formDate}>
+              <Controller
+                name="date"
+                control={control}
+                render={({ field: { value, onChange } }) => (
+                  <DatePicker value={value} onChange={onChange} />
+                )}
+              />
+              <Controller
+                name="startTime"
+                control={control}
+                render={({ field: { value, onChange } }) => (
+                  <TimePicker
+                    value={value}
+                    onChange={onChange}
+                    showSecond={false}
+                  />
+                )}
+              />
+
+              <Controller
+                name="endTime"
+                control={control}
+                render={({ field: { value, onChange } }) => (
+                  <TimePicker
+                    value={value}
+                    onChange={onChange}
+                    showSecond={false}
+                  />
+                )}
+              />
+            </div>
+
+            {/* changed to the antdesign */}
+
+            <Controller
+              name="isRegular"
+              control={control}
+              render={({ field: { value, onChange } }) => (
+                <label className={styles.switchLabel} htmlFor="switch">
+                  <Switch size="small" value={value} onChange={onChange} />
+                  Сделать занятие регулярным
+                </label>
+              )}
+            />
+
             {isRegular && (
               <>
-                <InputLabel className="inputLabel">
-                  Регулярность занятий
-                </InputLabel>
-                <Select fullWidth>
-                  <MenuItem></MenuItem>
-                </Select>
+                <label>
+                  Регулярность
+                  <Select
+                    style={{ width: "100%" }}
+                    {...register("frequency")}
+                    options={[
+                      { value: "daily", label: "Ежедневно" },
+                      { value: "weekly", label: "Еженедельно" },
+                      { value: "monthly", label: "Ежемесячно" },
+                    ]}
+                  />
+                </label>
+
+                {/* <label>
+                Недели
+                <Select
+                  style={{ width: "100%" }}
+                  {...register("every")}
+                  options={students.map((student) => ({
+                    value: student.id,
+                    label: `${student.firstName} ${student.lastName}`,
+                  }))}
+                />
+              </label> */}
               </>
             )}
-
-            <InputLabel className="inputLabel">
+            <label>
               Комментарий к занятию
-            </InputLabel>
-            <TextField
-              autoFocus
-              margin="dense"
-              multiline
-              label="Текст комментария"
-              fullWidth
-              value={title}
-              onChange={handleChange}
-            />
+              <Input.TextArea
+                rows={4}
+                placeholder="Текст комментария"
+                maxLength={256}
+              />
+            </label>
+
+            <MyButton htmlType="submit" onClick={onCloseCaledarModal}>
+              Сохранить изменения
+            </MyButton>
+            <MyButton
+              htmlType="button"
+              buttonType="default"
+              onClick={onCloseCaledarModal}
+            >
+              Отмена
+            </MyButton>
           </form>
-        </DialogContent>
-        <DialogActions>
-          <MyButton
-            type="submit"
-            color="#FFFFFF"
-            backgroundColor="#1677FF"
-            border="none"
-            onClick={onCloseCaledarModal}
-          >
-            Сохранить изменения
-          </MyButton>
-          <MyButton
-            type="button"
-            color="#1677FF"
-            backgroundColor="#FFFFFF"
-            border="solid 1px #4096FF"
-            onClick={onCloseCaledarModal}
-          >
-            Отмена
-          </MyButton>
-        </DialogActions>
-      </Dialog>
+        </Modal>
+      </div>
     </div>
   );
 };

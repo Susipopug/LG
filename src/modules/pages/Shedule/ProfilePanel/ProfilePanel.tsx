@@ -1,10 +1,10 @@
 import styles from "./ProfilePanel.module.css";
 import timeimg from "@/assets/icons/time.svg";
 import type React from "react";
-import { Switcher } from "@/components/UI/Switcher/Switcher";
+import { Switch } from "antd";
 import { useState } from "react";
 import { MyButton } from "@/components/UI/Button";
-import type { SheduleItem } from "../SheduleAndPanel/SheduleAndPanel";
+import type { SheduleItem } from "@/components/context/CalendarContext";
 
 interface ProfilePanelProps {
   studentName: string;
@@ -20,10 +20,16 @@ export const ProfilePanel: React.FC<ProfilePanelProps> = ({
   const [activeSwitch, setActiveSwitch] = useState<string | null>(null);
   const [showAdditionalText, setShowAdditionalText] = useState<boolean>(false);
 
-  const handleSwitchChange = (id: string) => {
-    setActiveSwitch(id);
-    setShowAdditionalText(!!id);
+  const handleSwitchChange = (checked: boolean, id: string) => {
+    if (checked) {
+      setActiveSwitch(id);
+      setShowAdditionalText(!!id);
+    }
   };
+
+  // const handleSwitchChange = (checked: boolean) => {
+  //   console.log(`switch to ${checked}`);
+  // };
 
   const handleProfileCancel = () => {
     setActiveSwitch(null);
@@ -64,15 +70,19 @@ export const ProfilePanel: React.FC<ProfilePanelProps> = ({
       </div>
       <div className={styles.statusSection}>
         <h3>Статус занятия</h3>
-        <div className={styles.buttons}>
+        <div className={styles.switches}>
           {switchesToDisplay.map((s) => (
-            <Switcher
-              key={s.id}
-              id={s.id}
-              label={s.label}
-              checked={activeSwitch === s.id}
-              onChange={handleSwitchChange}
-            />
+            <div className={styles.panelSwitches}>
+              <Switch
+                size="small"
+                defaultChecked
+                key={s.id}
+                id={s.id}
+                checked={activeSwitch === s.id}
+                onChange={(checked) => handleSwitchChange(checked, s.id)}
+              />
+              <span>{s.label}</span>
+            </div>
           ))}
 
           {showAdditionalText ? (
