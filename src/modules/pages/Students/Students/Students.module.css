@@ -12,7 +12,9 @@
   align-items: center;
   justify-content: center;
 }
-
+.studentsButton {
+  width: 200px;
+}
 .studentsMain {
   display: flex;
   flex-direction: column;

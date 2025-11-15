@@ -1,12 +1,21 @@
 import styles from "./Students.module.css";
 import { SearchInput } from "@/components/UI/SearchInput/SearchInput";
-import BasicTabs from "@/components/UI/Tab/BasicTabs";
+import { BasicTabs } from "@/components/UI/Tab/BasicTabs";
 import { MyButton } from "@/components/UI/Button";
 import empty from "@assets/images/empty.svg";
 import { useCalendar } from "@/components/context/CalendarContext";
 import { StudentModal } from "../StudentModal/StudentModal";
+import { useState } from "react";
+import type { IStudent } from "../interfaces/StudentInterface";
 
 export const Students = () => {
+  const { onOpenStudentModal } = useCalendar();
+  const [student, setStudent] = useState<IStudent[]>([]);
+
+  const addNewStudent = (student: IStudent) => {
+    setStudent((prev) => [...prev, student]);
+  };
+
   const lessonsCountMap: Record<string, string> = {
     "Джон Траволта": "5 занятий",
     "Брюс Уиллис": "3 занятия",
@@ -14,27 +23,32 @@ export const Students = () => {
     "Перис Хилтон": "2 занятия",
   };
 
-  const { onAddStudent, updatedScheduleItems } = useCalendar();
-
-  const simplifiedSchedule = updatedScheduleItems.map((item) => ({
-    name: item.studentName,
-    lessonsCount: lessonsCountMap[item.studentName] || 0,
+  const simplifiedStudentData = student?.map((item) => ({
+    name: item.name,
+    lessonsCount: lessonsCountMap[item.phoneNumber] || 0,
   }));
+
   return (
     <>
       <section>
         <header className={styles.studentsHeader}>
           <SearchInput />
           <BasicTabs />
-          <MyButton onClick={onAddStudent} buttonType="primary">
-            Добавить ученика
-          </MyButton>
+          <div className={styles.studentsButton}>
+            <MyButton
+              onClick={onOpenStudentModal}
+              buttonType="primary"
+              size="large"
+            >
+              Добавить ученика
+            </MyButton>
+          </div>
         </header>
         <main>
           <h2 className={styles.visuallyHidden}>Ученики</h2>
-          {simplifiedSchedule.length > 0 ? (
+          {simplifiedStudentData.length > 0 ? (
             <div className={styles.studentsMain}>
-              {simplifiedSchedule.map((item) => (
+              {simplifiedStudentData.map((item) => (
                 <div className={styles.studentsList}>
                   <p className={styles.studentsItem}>{item.name}</p>
                   <p className={styles.studentsItem}>{item.lessonsCount}</p>
@@ -49,7 +63,7 @@ export const Students = () => {
             </div>
           )}
 
-          <StudentModal />
+          <StudentModal onAddNewStudent={addNewStudent} />
         </main>
       </section>
     </>

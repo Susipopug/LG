@@ -4,7 +4,7 @@ import lock from "@assets/images/lock.svg";
 import { Link } from "react-router-dom";
 import type { ILogin } from "@/modules/auth/interfaces/Inputs";
 import { GoogleButton } from "@components/UI/GoogleButton";
-import { Button, Stack,  } from "@mui/material";
+import { Button, Stack } from "@mui/material";
 import { Input } from "antd";
 
 export const Login: React.FC = () => {
@@ -22,18 +22,7 @@ export const Login: React.FC = () => {
     },
   });
 
-  const passwordValue = watch("password");
-
   const onSubmit = (data: ILogin) => console.log(data);
-  console.log(
-    register("email", {
-      required: "Поле необходимо заполнить",
-      pattern: {
-        value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-        message: "Неверный адрес электронной почты",
-      },
-    })
-  );
 
   return (
     <>

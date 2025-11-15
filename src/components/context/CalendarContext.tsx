@@ -42,7 +42,7 @@ interface CalendarContextType {
   onAddLesson: () => void;
   onCloseCaledarModal: () => void;
   onCloseStudentModal: () => void;
-  onAddStudent: () => void;
+  onOpenStudentModal: () => void;
 }
 
 const CalendarContext = createContext<CalendarContextType | undefined>(
@@ -102,7 +102,7 @@ export const CalendarProvider: React.FC<CalendarProviderProps> = ({
   const onAddLesson = () => {
     setAddLesson(true);
   };
-  const onAddStudent = () => {
+  const onOpenStudentModal = () => {
     setAddStudent(true);
   };
   const onCloseCaledarModal = () => {
@@ -168,7 +168,7 @@ export const CalendarProvider: React.FC<CalendarProviderProps> = ({
     fetchStudents,
     onCloseCaledarModal,
     onCloseStudentModal,
-    onAddStudent,
+    onOpenStudentModal,
   };
 
   return (

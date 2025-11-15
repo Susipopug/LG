@@ -8,6 +8,7 @@ interface MyButtonProps {
   onClick?: () => void;
   buttonType?: "link" | "text" | "default" | "primary" | "dashed";
   htmlType?: "submit" | "button" | "reset";
+  size?: "small" | "large";
 }
 
 export const MyButton = ({
@@ -15,9 +16,11 @@ export const MyButton = ({
   children,
   buttonType = "primary",
   htmlType = "button",
+  size = "large",
 }: MyButtonProps) => {
   return (
     <Button
+      size={size}
       type={buttonType}
       htmlType={htmlType}
       onClick={onClick}
