@@ -1,12 +1,15 @@
-import { useForm, type FieldErrors, type SubmitHandler } from "react-hook-form";
+import {
+  Controller,
+  useForm,
+  type FieldErrors,
+  type SubmitHandler,
+} from "react-hook-form";
 import styles from "./Register.module.css";
 import hands from "@assets/images/hands.svg";
 import { Link } from "react-router-dom";
-import TextField from "@mui/material/TextField";
-import Button from "@mui/material/Button";
-import Stack from "@mui/material/Stack";
 import { GoogleButton } from "../../../components/UI/GoogleButton/GoogleButton";
-import { PasswordInput } from "../../../components/UI/PasswordInput";
+import { Input } from "antd";
+import { MyButton } from "@/components/UI/Button";
 
 interface IRegister {
   email: string;
@@ -19,6 +22,7 @@ export const Register: React.FC = () => {
     register,
     handleSubmit,
     watch,
+    control,
     formState: { errors },
   } = useForm<IRegister>({
     mode: "onSubmit",
@@ -46,7 +50,8 @@ export const Register: React.FC = () => {
           className={styles.form}
         >
           {/* Email */}
-          <TextField
+
+          <Controller
             {...register("email", {
               required: "Поле необходимо заполнить",
               pattern: {
@@ -54,23 +59,19 @@ export const Register: React.FC = () => {
                 message: "Неверный адрес электронной почты",
               },
             })}
-            type="email"
-            fullWidth
-            size="small"
-            label="Адрес электронной почты"
-            helperText={errors.email?.message}
-            error={!!errors.email}
-            slotProps={{
-              inputLabel: {
-                sx: {
-                  color: "grey.400",
-                },
-              },
-            }}
+            control={control}
+            render={({ field }) => (
+              <Input
+                placeholder="Адрес электронной почты"
+                {...field}
+                status={!!errors.email ? "error" : ""}
+              />
+            )}
           />
 
-          {/* Password */}
-          <PasswordInput
+          {/* Password*/}
+
+          <Controller
             {...register("password", {
               required: "Поле необходимо заполнить",
               minLength: {
@@ -78,44 +79,33 @@ export const Register: React.FC = () => {
                 message: "Пароль должен содержать не менее 8 символов",
               },
             })}
-            label="Пароль"
-            fullWidth
-            size="small"
-            helperText={errors.password?.message}
-            error={!!errors.password}
+            control={control}
+            render={({ field }) => (
+              <Input.Password
+                placeholder="Пароль"
+                {...field}
+                status={!!errors.password ? "error" : ""}
+              />
+            )}
           />
 
           {/* ConfirmPassword */}
-          <div className="inputWrapper">
-            <PasswordInput
-              {...register("confirmPassword", {
-                required: "Поле необходимо заполнить",
-                validate: (value) =>
-                  value === passwordValue || "Пароли не совпадают",
-              })}
-              label="Повтор пароля"
-              fullWidth
-              size="small"
-              helperText={errors.confirmPassword?.message}
-              error={!!errors.confirmPassword}
-            />
-          </div>
-
-          <Stack direction="row" spacing={2}>
-            <Button
-              type="submit"
-              variant="contained"
-              fullWidth
-              sx={{
-                backgroundColor: "#1677FF",
-                fontStyle: "normal",
-                fontSize: "inherit",
-                textTransform: "none",
-              }}
-            >
-              Зарегистрироваться
-            </Button>
-          </Stack>
+          <Controller
+            {...register("confirmPassword", {
+              required: "Поле необходимо заполнить",
+              validate: (value) =>
+                value === passwordValue || "Пароли не совпадают",
+            })}
+            control={control}
+            render={({ field }) => (
+              <Input.Password
+                placeholder="Повтор пароля"
+                {...field}
+                status={!!errors.confirmPassword ? "error" : ""}
+              />
+            )}
+          />
+          <MyButton htmlType="submit">Зарегистрироваться</MyButton>
         </form>
 
         <GoogleButton />

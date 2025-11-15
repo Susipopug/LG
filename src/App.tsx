@@ -1,4 +1,3 @@
-import { Header } from "./components/Header/Header";
 import { Outlet } from "react-router-dom";
 import styles from "./App.module.css";
 import { LocalizationProvider } from "@mui/x-date-pickers";
@@ -6,6 +5,7 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import "dayjs/locale/ru";
 import { ruRU } from "@mui/x-date-pickers/locales";
 import Sidebar from "./modules/pages/Shedule/Sidebar/Sidebar";
+import { Header } from "./components/Header";
 
 interface AppProps {
   isLoggedIn: boolean;

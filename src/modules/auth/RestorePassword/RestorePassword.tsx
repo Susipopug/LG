@@ -1,16 +1,17 @@
 import styles from "./RestorePassword.module.css";
 import mag_glass from "@assets/images/mag-glass.svg";
 import { Link } from "react-router-dom";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import type { ILogin, IRegister } from "../interfaces/Inputs";
-import { Button, Stack } from "@mui/material";
-import { PasswordInput } from "../../../components/UI/PasswordInput";
+import { MyButton } from "@/components/UI/Button";
+import { Input } from "antd";
 
 export const RestorePassword: React.FC = () => {
   const {
     register,
     handleSubmit,
     watch,
+    control,
     formState: { errors },
   } = useForm<IRegister>({
     defaultValues: {},
@@ -18,7 +19,6 @@ export const RestorePassword: React.FC = () => {
   });
 
   const passwordValue = watch("password");
-  const confirmPasswordValue = watch("confirmPassword");
 
   const onSubmit = (data: ILogin) => {
     console.log(data);
@@ -29,8 +29,9 @@ export const RestorePassword: React.FC = () => {
         <img height={180} width={200} src={mag_glass} alt="mag_glass" />
         <h1 className={styles.title}>Воccтановить пароль</h1>
         <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
-          {/* Password */}
-          <PasswordInput
+          {/* Password*/}
+
+          <Controller
             {...register("password", {
               required: "Поле необходимо заполнить",
               minLength: {
@@ -38,46 +39,34 @@ export const RestorePassword: React.FC = () => {
                 message: "Пароль должен содержать не менее 8 символов",
               },
             })}
-            value={passwordValue}
-            label="Пароль"
-            fullWidth
-            size="small"
-            helperText={errors.password?.message}
-            error={!!errors.password}
+            control={control}
+            render={({ field }) => (
+              <Input.Password
+                placeholder="Пароль"
+                {...field}
+                status={!!errors.password ? "error" : ""}
+              />
+            )}
           />
 
           {/* ConfirmPassword */}
-          <div className="inputWrapper">
-            <PasswordInput
-              {...register("confirmPassword", {
-                required: "Поле необходимо заполнить",
-                validate: (value) =>
-                  value === passwordValue || "Пароли не совпадают",
-              })}
-              value={confirmPasswordValue}
-              label="Повтор пароля"
-              fullWidth
-              size="small"
-              helperText={errors.confirmPassword?.message}
-              error={!!errors.confirmPassword}
-            />
-          </div>
+          <Controller
+            {...register("confirmPassword", {
+              required: "Поле необходимо заполнить",
+              validate: (value) =>
+                value === passwordValue || "Пароли не совпадают",
+            })}
+            control={control}
+            render={({ field }) => (
+              <Input.Password
+                placeholder="Повтор пароля"
+                {...field}
+                status={!!errors.confirmPassword ? "error" : ""}
+              />
+            )}
+          />
 
-          <Stack direction="row" spacing={2}>
-            <Button
-              type="submit"
-              variant="contained"
-              fullWidth
-              sx={{
-                backgroundColor: "#1677FF",
-                fontStyle: "normal",
-                fontSize: "inherit",
-                textTransform: "none",
-              }}
-            >
-              Восстановить пароль
-            </Button>
-          </Stack>
+          <MyButton htmlType="submit">Восстановить пароль</MyButton>
         </form>
 
         <Link to="/login" className={styles.link}>

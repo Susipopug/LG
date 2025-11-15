@@ -8,10 +8,10 @@ import styles from "./Calendar.module.css";
 import { calendarApi } from "@/api/calendarApi";
 import { studentApi } from "@/api/studentApi";
 import type { Student } from "@/entities/student";
-import { CalendarModal } from "@/components/UI/CalendarModal/CalendarModal";
 import ruLocale from "@fullcalendar/core/locales/ru";
 import { useCalendar } from "@/components/context/CalendarContext";
 import { AddLesson } from "../AddLesson/AddLessonModal";
+import { CalendarModal } from "@/components/UI/CalendarModal";
 
 export const Calendar = () => {
   const [currentEvents, setCurrentEvents] = useState<EventInput[]>([]);
@@ -31,7 +31,7 @@ export const Calendar = () => {
         id: item.id.toString(),
         start: item.dateStart,
         end: item.dateEnd,
-        title: item.desription,
+        title: item.description,
         allDay: false,
         extendedProps: {
           completed: false,

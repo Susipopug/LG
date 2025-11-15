@@ -90,23 +90,12 @@ export const ProfilePanel: React.FC<ProfilePanelProps> = ({
               <span className={styles.statusSectionHelperText}>
                 Все занятия можно найти в Календаре
               </span>
-              <MyButton
-                type="button"
-                onClick={handleProfileCancel}
-                border="solid 1px #4096FF"
-                color="#4096FF"
-                backgroundColor="#FFFFFF"
-              >
+              <MyButton htmlType="button" onClick={handleProfileCancel}>
                 Отменить выбор
               </MyButton>
             </>
           ) : (
-            <MyButton
-              type="button"
-              border="solid 1px #4096FF"
-              color="#4096FF"
-              backgroundColor="#FFFFFF"
-            >
+            <MyButton buttonType="default" htmlType="button">
               Перенести занятие
             </MyButton>
           )}

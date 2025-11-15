@@ -11,13 +11,13 @@ import { RestorePassword } from "./modules/auth/RestorePassword";
 import { Success } from "./modules/auth/Success";
 import "@assets/fonts/fonts.css";
 import { CalendarProvider } from "./components/context/CalendarContext";
-import { Calendar } from "./modules/pages/CalendarPage/Calendar/Calendar";
 import { ThemeProvider } from "@mui/material/styles";
 import { theme } from "./themes/ModalTheme";
-import { SheduleAndPanel } from "./modules/pages/Shedule/SheduleAndPanel/SheduleAndPanel";
-import { Students } from "./modules/pages/Students/Students/Students";
+import { Calendar } from "./modules/pages/CalendarPage/Calendar";
+import { Students } from "./modules/pages/Students/Students";
+import { SheduleAndPanel } from "./modules/pages/Shedule/SheduleAndPanel";
 
-const isLoggedIn = true;
+const isLoggedIn = false;
 
 const router = createBrowserRouter([
   {

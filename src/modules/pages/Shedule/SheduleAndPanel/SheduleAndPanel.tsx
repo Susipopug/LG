@@ -1,10 +1,10 @@
 import styles from "./SheduleAndPanel.module.css";
 import { useState } from "react";
 import { SheduleEmpty } from "../SheduleEmpty/SheduleEmpty";
-import { ScheduleHeader } from "../ScheduleHeader/ScheduleHeader";
-import { ProfilePanel } from "../ProfilePanel/ProfilePanel";
 import { Schedule } from "../DaySchedule/Schedule";
 import { useCalendar } from "@/components/context/CalendarContext";
+import { ScheduleHeader } from "../ScheduleHeader";
+import { ProfilePanel } from "../ProfilePanel";
 
 interface SelectedStudent {
   name: string;

@@ -1,10 +1,11 @@
 import styles from "./ForgotPassword.module.css";
 import mag_glass from "@assets/images/mag-glass.svg";
 import { Link } from "react-router-dom";
-import { useForm } from "react-hook-form";
-import { Button, Stack, TextField } from "@mui/material";
+import { Controller, useForm } from "react-hook-form";
 import { useState } from "react";
 import { LetterSent } from "../LetterSent/LetterSent";
+import { Input } from "antd";
+import { MyButton } from "@/components/UI/Button";
 
 interface IForgotPassword {
   email: string;
@@ -14,6 +15,7 @@ export const ForgotPassword: React.FC = () => {
   const {
     register,
     handleSubmit,
+    control,
     formState: { errors },
   } = useForm<IForgotPassword>({
     mode: "onSubmit",
@@ -33,7 +35,9 @@ export const ForgotPassword: React.FC = () => {
         <img height={180} width={200} src={mag_glass} alt="mag_glass" />
         <h1 className={styles.title}>Воccтановить пароль</h1>
         <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
-          <TextField
+          {/* Email */}
+
+          <Controller
             {...register("email", {
               required: "Поле необходимо заполнить",
               pattern: {
@@ -41,36 +45,17 @@ export const ForgotPassword: React.FC = () => {
                 message: "Неверный адрес электронной почты",
               },
             })}
-            type="email"
-            fullWidth
-            size="small"
-            label="Адрес электронной почты"
-            helperText={errors.email?.message}
-            error={!!errors.email}
-            slotProps={{
-              inputLabel: {
-                sx: {
-                  color: "grey.400",
-                },
-              },
-            }}
+            control={control}
+            render={({ field }) => (
+              <Input
+                placeholder="Адрес электронной почты"
+                {...field}
+                status={!!errors.email ? "error" : ""}
+              />
+            )}
           />
 
-          <Stack direction="row" spacing={2}>
-            <Button
-              type="submit"
-              variant="contained"
-              fullWidth
-              sx={{
-                backgroundColor: "#1677FF",
-                fontStyle: "normal",
-                fontSize: "inherit",
-                textTransform: "none",
-              }}
-            >
-              Отправить запрос
-            </Button>
-          </Stack>
+          <MyButton htmlType="submit">Отправить запрос</MyButton>
         </form>
 
         <Link to="/login" className={styles.link}>

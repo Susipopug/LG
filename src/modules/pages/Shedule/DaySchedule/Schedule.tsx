@@ -1,6 +1,5 @@
 import styles from "./Schedule.module.css";
 import time from "@/assets/icons/time.svg";
-import type {} from "@/modules/pages/main/Main";
 import type {
   SheduleItem,
   TSheduleStatus,

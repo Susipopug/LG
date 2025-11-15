@@ -17,7 +17,6 @@ export const LetterSent: React.FC<LocationState> = ({ email }) => {
           письмо с инструкциями по восстановлению пароля. Если письмо не пришло,
           проверьте папку со спамом.
         </p>
-        <p>Если письмо не пришло, проверьте папку со спамом.</p>
 
         <Link to="/login" className={styles.link}>
           Назад

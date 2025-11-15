@@ -4,8 +4,8 @@ import lock from "@assets/images/lock.svg";
 import { Link } from "react-router-dom";
 import type { ILogin } from "@/modules/auth/interfaces/Inputs";
 import { GoogleButton } from "@components/UI/GoogleButton";
-import { Button, Stack } from "@mui/material";
 import { Input } from "antd";
+import { MyButton } from "@/components/UI/Button";
 
 export const Login: React.FC = () => {
   const {
@@ -42,7 +42,11 @@ export const Login: React.FC = () => {
               })}
               control={control}
               render={({ field }) => (
-                <Input {...field} status={!!errors.email ? "error" : ""} />
+                <Input
+                  placeholder="Адрес электронной почты"
+                  {...field}
+                  status={!!errors.email ? "error" : ""}
+                />
               )}
             />
 
@@ -59,44 +63,14 @@ export const Login: React.FC = () => {
               control={control}
               render={({ field }) => (
                 <Input.Password
-                  placeholder="input password support suffix"
+                  placeholder="Пароль"
                   {...field}
                   status={!!errors.email ? "error" : ""}
                 />
               )}
             />
 
-            {/* <PasswordInput
-              {...register("password", {
-                required: "Поле необходимо заполнить",
-                minLength: {
-                  value: 8,
-                  message: "Пароль должен содержать не менее 8 символов",
-                },
-              })}
-              value={passwordValue}
-              label="Пароль"
-              fullWidth
-              size="small"
-              helperText={errors.password?.message}
-              error={!!errors.password}
-            /> */}
-
-            <Stack direction="row" spacing={2}>
-              <Button
-                type="submit"
-                variant="contained"
-                fullWidth
-                sx={{
-                  backgroundColor: "#1677FF",
-                  fontStyle: "normal",
-                  fontSize: "inherit",
-                  textTransform: "none",
-                }}
-              >
-                Войти
-              </Button>
-            </Stack>
+            <MyButton htmlType="submit">Войти</MyButton>
           </form>
 
           <GoogleButton />

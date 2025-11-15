@@ -1,12 +1,12 @@
 import styles from "./Students.module.css";
-import { SearchInput } from "@/components/UI/SearchInput/SearchInput";
 import { BasicTabs } from "@/components/UI/Tab/BasicTabs";
 import { MyButton } from "@/components/UI/Button";
 import empty from "@assets/images/empty.svg";
 import { useCalendar } from "@/components/context/CalendarContext";
-import { StudentModal } from "../StudentModal/StudentModal";
 import { useState } from "react";
 import type { IStudent } from "../interfaces/StudentInterface";
+import { StudentModal } from "../StudentModal";
+import { SearchInput } from "@/components/UI/SearchInput";
 
 export const Students = () => {
   const { onOpenStudentModal } = useCalendar();
