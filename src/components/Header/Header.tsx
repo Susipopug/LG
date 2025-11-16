@@ -2,8 +2,8 @@ import styles from "./Header.module.css";
 import teacherAv from "@assets/icons/TeacherAvatar.svg";
 import logo from "@assets/images/logoimage.svg";
 import { Link } from "react-router-dom";
-import { HeaderModuleSmall } from "./HeaderModule/HeaderModuleSmall";
 import { useState } from "react";
+import { HeaderModalSmall } from "./HeaderModalSmall";
 
 interface HeaderProps {
   teacherAvatar?: boolean;
@@ -27,7 +27,7 @@ export const Header: React.FC<HeaderProps> = ({ teacherAvatar }) => {
           <h3>Мэри Поппинс</h3>
         </div>
       )}
-      <HeaderModuleSmall
+      <HeaderModalSmall
         isAccountOpen={isAccountOpen}
         setIsAccountOpen={setIsAccountOpen}
       />

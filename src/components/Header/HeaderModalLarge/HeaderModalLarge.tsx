@@ -1,0 +1,109 @@
+import { MyButton } from "@/components/UI/MyButton";
+import { DynamicTabs } from "@/components/UI/Tab/BasicTabs";
+import { Input, Modal } from "antd";
+import { Controller, useForm } from "react-hook-form";
+import styles from "./HeaderModalLarge.module.css";
+import { useCalendar } from "@/components/context/CalendarContext";
+import type { IUser } from "../interfaces/IUser";
+
+interface ModarLargeProps {
+  isModalLargeOpen: boolean;
+  onModalLargeClose: () => void;
+}
+
+export const HeaderModalLarge = ({
+  isModalLargeOpen,
+  onModalLargeClose,
+}: ModarLargeProps) => {
+  const { onCloseStudentModal, addStudent } = useCalendar();
+  const { handleSubmit, control, reset } = useForm<IUser>({
+    mode: "onSubmit",
+  });
+
+  const onSubmit = (data: IUser) => {
+    console.log(data);
+    onModalLargeClose();
+    reset();
+  };
+
+  return (
+    <>
+      {/* {isModalLargeOpen && ( */}
+      <div className={styles.dialog}>
+        <Modal
+          open={isModalLargeOpen}
+          onOk={onModalLargeClose}
+          onCancel={onModalLargeClose}
+          footer={null}
+        >
+          <div className={styles.tabs}>
+            <DynamicTabs configKey="userInfo" />
+          </div>
+
+          <form className={styles.dialogForm} onSubmit={handleSubmit(onSubmit)}>
+            <Controller
+              name="name"
+              rules={{ required: "Имя обязательно" }}
+              control={control}
+              render={({ field, fieldState }) => (
+                <>
+                  <label className={styles.formLabel}>
+                    Имя
+                    <Input {...field} />
+                  </label>
+                  {fieldState.error && (
+                    <p style={{ color: "red" }}>{fieldState.error.message}</p>
+                  )}
+                </>
+              )}
+            />
+
+            <Controller
+              name="phoneNumber"
+              control={control}
+              render={({ field }) => (
+                <label className={styles.formLabel}>
+                  Номер телефона
+                  <Input {...field} />
+                </label>
+              )}
+            />
+            <Controller
+              name="email"
+              control={control}
+              render={({ field }) => (
+                <label className={styles.formLabel}>
+                  Адрес электронной почты
+                  <Input {...field} />
+                </label>
+              )}
+            />
+
+            <Controller
+              name="password"
+              control={control}
+              render={({ field }) => (
+                <label className={styles.formLabel}>
+                  Пароль
+                  <Input {...field} />
+                </label>
+              )}
+            />
+
+            <MyButton buttonType="primary" htmlType="submit">
+              Сохранить изменения
+            </MyButton>
+            <MyButton
+              buttonType="default"
+              htmlType="button"
+              onClick={onCloseStudentModal}
+            >
+              Удалить ученика
+            </MyButton>
+          </form>
+        </Modal>
+      </div>
+      {/* )} */}
+    </>
+  );
+};

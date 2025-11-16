@@ -1,5 +1,5 @@
 import styles from "./Students.module.css";
-import { BasicTabs } from "@/components/UI/Tab/BasicTabs";
+import {  DynamicTabs } from "@/components/UI/Tab/BasicTabs";
 import { MyButton } from "@/components/UI/MyButton";
 import empty from "@assets/images/empty.svg";
 import { useCalendar } from "@/components/context/CalendarContext";
@@ -33,7 +33,7 @@ export const Students = () => {
       <section>
         <header className={styles.studentsHeader}>
           <SearchInput />
-          <BasicTabs />
+          <DynamicTabs configKey="students" />
           <div className={styles.studentsButton}>
             <MyButton
               onClick={onOpenStudentModal}

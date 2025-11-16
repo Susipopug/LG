@@ -4,6 +4,7 @@ import { useCalendar } from "@/components/context/CalendarContext";
 import { Input, Modal } from "antd";
 import type { IStudent } from "../interfaces/StudentInterface";
 import { Controller, useForm } from "react-hook-form";
+import { DynamicTabs } from "@/components/UI/Tab/BasicTabs";
 
 interface studentModalProps {
   onAddNewStudent: (student: IStudent) => void;
@@ -31,6 +32,10 @@ export const StudentModal = ({ onAddNewStudent }: studentModalProps) => {
         onCancel={onCloseStudentModal}
         footer={null}
       >
+        <div className={styles.tabs}>
+          <DynamicTabs configKey="studentInfo" />
+        </div>
+
         <form className={styles.dialogForm} onSubmit={handleSubmit(onSubmit)}>
           <Controller
             name="name"
