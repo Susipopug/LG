@@ -5,7 +5,7 @@ import { Controller, useForm } from "react-hook-form";
 import { useState } from "react";
 import { LetterSent } from "../LetterSent/LetterSent";
 import { Input } from "antd";
-import { MyButton } from "@/components/UI/Button";
+import { MyButton } from "@/components/UI/MyButton";
 
 interface IForgotPassword {
   email: string;

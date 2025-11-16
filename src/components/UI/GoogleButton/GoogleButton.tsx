@@ -1,4 +1,3 @@
-import React from "react";
 import styles from "@components/UI/GoogleButton/GoogleButton.module.css";
 import google from "@assets/images/google.svg";
 

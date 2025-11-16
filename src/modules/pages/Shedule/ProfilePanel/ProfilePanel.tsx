@@ -3,7 +3,7 @@ import timeimg from "@/assets/icons/time.svg";
 import type React from "react";
 import { Switch } from "antd";
 import { useState } from "react";
-import { MyButton } from "@/components/UI/Button";
+import { MyButton } from "@/components/UI/MyButton";
 import type { SheduleItem } from "@/components/context/CalendarContext";
 
 interface ProfilePanelProps {
@@ -90,7 +90,11 @@ export const ProfilePanel: React.FC<ProfilePanelProps> = ({
               <span className={styles.statusSectionHelperText}>
                 Все занятия можно найти в Календаре
               </span>
-              <MyButton htmlType="button" onClick={handleProfileCancel}>
+              <MyButton
+                buttonType="default"
+                htmlType="button"
+                onClick={handleProfileCancel}
+              >
                 Отменить выбор
               </MyButton>
             </>

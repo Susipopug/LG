@@ -11,7 +11,7 @@ import type { Student } from "@/entities/student";
 import ruLocale from "@fullcalendar/core/locales/ru";
 import { useCalendar } from "@/components/context/CalendarContext";
 import { AddLesson } from "../AddLesson/AddLessonModal";
-import { CalendarModal } from "@/components/UI/CalendarModal";
+import { CalendarModal } from "@/modules/pages/CalendarPage/CalendarModal";
 
 export const Calendar = () => {
   const [currentEvents, setCurrentEvents] = useState<EventInput[]>([]);
@@ -148,7 +148,7 @@ export const Calendar = () => {
             }}
           />
         </div>
-        <CalendarModal
+        {/* <CalendarModal
           isDialogOpen={isDialogOpen}
           onClose={handleCloseDialog}
           onAdd={handleAddEvent}
@@ -156,7 +156,7 @@ export const Calendar = () => {
           currentStudent={currentStudent}
           setCurrentStudent={setCurrentStudent}
           students={students}
-        />
+        /> */}
 
         <AddLesson />
       </section>

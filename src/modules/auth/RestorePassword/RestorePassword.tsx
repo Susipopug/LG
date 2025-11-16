@@ -3,7 +3,7 @@ import mag_glass from "@assets/images/mag-glass.svg";
 import { Link } from "react-router-dom";
 import { Controller, useForm } from "react-hook-form";
 import type { ILogin, IRegister } from "../interfaces/Inputs";
-import { MyButton } from "@/components/UI/Button";
+import { MyButton } from "@/components/UI/MyButton";
 import { Input } from "antd";
 
 export const RestorePassword: React.FC = () => {

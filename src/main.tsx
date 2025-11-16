@@ -11,13 +11,11 @@ import { RestorePassword } from "./modules/auth/RestorePassword";
 import { Success } from "./modules/auth/Success";
 import "@assets/fonts/fonts.css";
 import { CalendarProvider } from "./components/context/CalendarContext";
-import { ThemeProvider } from "@mui/material/styles";
-import { theme } from "./themes/ModalTheme";
 import { Calendar } from "./modules/pages/CalendarPage/Calendar";
 import { Students } from "./modules/pages/Students/Students";
 import { SheduleAndPanel } from "./modules/pages/Shedule/SheduleAndPanel";
 
-const isLoggedIn = false;
+const isLoggedIn = true;
 
 const router = createBrowserRouter([
   {
@@ -96,11 +94,9 @@ async function enableMocking() {
 enableMocking().then(() =>
   createRoot(document.getElementById("root")!).render(
     <StrictMode>
-      <ThemeProvider theme={theme}>
-        <CalendarProvider>
-          <RouterProvider router={router} />
-        </CalendarProvider>
-      </ThemeProvider>
+      <CalendarProvider>
+        <RouterProvider router={router} />
+      </CalendarProvider>
     </StrictMode>
   )
 );

@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import type { ILogin } from "@/modules/auth/interfaces/Inputs";
 import { GoogleButton } from "@components/UI/GoogleButton";
 import { Input } from "antd";
-import { MyButton } from "@/components/UI/Button";
+import { MyButton } from "@/components/UI/MyButton";
 
 export const Login: React.FC = () => {
   const {

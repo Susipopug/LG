@@ -9,7 +9,7 @@ import hands from "@assets/images/hands.svg";
 import { Link } from "react-router-dom";
 import { GoogleButton } from "../../../components/UI/GoogleButton/GoogleButton";
 import { Input } from "antd";
-import { MyButton } from "@/components/UI/Button";
+import { MyButton } from "@/components/UI/MyButton";
 
 interface IRegister {
   email: string;

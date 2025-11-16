@@ -1,6 +1,6 @@
 import styles from "./Students.module.css";
 import { BasicTabs } from "@/components/UI/Tab/BasicTabs";
-import { MyButton } from "@/components/UI/Button";
+import { MyButton } from "@/components/UI/MyButton";
 import empty from "@assets/images/empty.svg";
 import { useCalendar } from "@/components/context/CalendarContext";
 import { useState } from "react";

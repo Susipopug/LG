@@ -1,5 +1,5 @@
 import { useCalendar } from "@/components/context/CalendarContext";
-import { MyButton } from "@/components/UI/Button";
+import { MyButton } from "@/components/UI/MyButton";
 import type { Lesson } from "@/entities";
 import { Controller, useForm } from "react-hook-form";
 import styles from "./AddLessonModal.module.css";

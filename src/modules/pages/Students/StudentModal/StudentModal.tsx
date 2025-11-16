@@ -1,5 +1,5 @@
 import styles from "./StudentModal.module.css";
-import { MyButton } from "@/components/UI/Button";
+import { MyButton } from "@/components/UI/MyButton";
 import { useCalendar } from "@/components/context/CalendarContext";
 import { Input, Modal } from "antd";
 import type { IStudent } from "../interfaces/StudentInterface";
