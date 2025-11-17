@@ -1,10 +1,11 @@
 import { MyButton } from "@/components/UI/MyButton";
 import { DynamicTabs } from "@/components/UI/Tab/BasicTabs";
-import { Input, Modal, Switch } from "antd";
+import { Input, Modal, Switch, Tabs } from "antd";
 import { Controller, useForm } from "react-hook-form";
 import styles from "./HeaderModalLarge.module.css";
 import { useCalendar } from "@/components/context/CalendarContext";
 import type { IUser } from "../interfaces/IUser";
+import { USER_INFO_TABS_ITEMS } from "./constants";
 
 interface ModarLargeProps {
   isModalLargeOpen: boolean;
@@ -36,7 +37,7 @@ export const HeaderModalLarge = ({
           footer={null}
         >
           <div className={styles.tabs}>
-            <DynamicTabs configKey="userInfo" />
+         <Tabs items={USER_INFO_TABS_ITEMS}/>
           </div>
 
           <form className={styles.dialogForm} onSubmit={handleSubmit(onSubmit)}>

@@ -24,6 +24,8 @@ export const StudentModal = ({ onAddNewStudent }: studentModalProps) => {
     console.log(data);
   };
 
+  console.log("StudentModal");
+
   return (
     <div className={styles.dialog}>
       <Modal

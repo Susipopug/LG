@@ -3,12 +3,12 @@ import { DynamicTabs } from "@/components/UI/Tab/BasicTabs";
 import { MyButton } from "@/components/UI/MyButton";
 import empty from "@assets/images/empty.svg";
 import { useCalendar } from "@/components/context/CalendarContext";
-import { useState } from "react";
+import { memo, useState } from "react";
 import type { IStudent } from "../interfaces/StudentInterface";
 import { StudentModal } from "../StudentModal";
 import { SearchInput } from "@/components/UI/SearchInput";
 
-export const Students = () => {
+export const Students = memo(() => {
   const { onOpenStudentModal } = useCalendar();
   const [student, setStudent] = useState<IStudent[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
@@ -32,6 +32,8 @@ export const Students = () => {
   const filteredStudents = simplifiedStudentData.filter((item) =>
     item.name.toLowerCase().includes(searchQuery.toLowerCase())
   );
+  console.log("Students");
+
   return (
     <>
       <section>
@@ -75,4 +77,4 @@ export const Students = () => {
       </section>
     </>
   );
-};
+});

@@ -14,6 +14,7 @@ import { CalendarProvider } from "./components/context/CalendarContext";
 import { Calendar } from "./modules/pages/CalendarPage/Calendar";
 import { Students } from "./modules/pages/Students/Students";
 import { SheduleAndPanel } from "./modules/pages/Shedule/SheduleAndPanel";
+import { ConfigProvider } from "antd";
 
 const isLoggedIn = true;
 
@@ -94,9 +95,19 @@ async function enableMocking() {
 enableMocking().then(() =>
   createRoot(document.getElementById("root")!).render(
     <StrictMode>
-      <CalendarProvider>
-        <RouterProvider router={router} />
-      </CalendarProvider>
+      <ConfigProvider
+        theme={{
+          components: {
+            Modal: {
+              borderRadiusLG: 24,
+            },
+          },
+        }}
+      >
+        <CalendarProvider>
+          <RouterProvider router={router} />
+        </CalendarProvider>
+      </ConfigProvider>
     </StrictMode>
   )
 );
