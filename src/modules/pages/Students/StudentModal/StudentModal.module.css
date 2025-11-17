@@ -1,3 +1,9 @@
+.dialogForm {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
 .formLabel {
   margin-bottom: 8px;
 }

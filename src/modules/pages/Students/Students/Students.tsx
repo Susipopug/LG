@@ -1,5 +1,5 @@
 import styles from "./Students.module.css";
-import {  DynamicTabs } from "@/components/UI/Tab/BasicTabs";
+import { DynamicTabs } from "@/components/UI/Tab/BasicTabs";
 import { MyButton } from "@/components/UI/MyButton";
 import empty from "@assets/images/empty.svg";
 import { useCalendar } from "@/components/context/CalendarContext";
@@ -11,6 +11,7 @@ import { SearchInput } from "@/components/UI/SearchInput";
 export const Students = () => {
   const { onOpenStudentModal } = useCalendar();
   const [student, setStudent] = useState<IStudent[]>([]);
+  const [searchQuery, setSearchQuery] = useState("");
 
   const addNewStudent = (student: IStudent) => {
     setStudent((prev) => [...prev, student]);
@@ -28,11 +29,17 @@ export const Students = () => {
     lessonsCount: lessonsCountMap[item.phoneNumber] || 0,
   }));
 
+  const filteredStudents = simplifiedStudentData.filter((item) =>
+    item.name.toLowerCase().includes(searchQuery.toLowerCase())
+  );
   return (
     <>
       <section>
         <header className={styles.studentsHeader}>
-          <SearchInput />
+          <SearchInput
+            value={searchQuery}
+            onChange={(event) => setSearchQuery(event.target.value)}
+          />
           <DynamicTabs configKey="students" />
           <div className={styles.studentsButton}>
             <MyButton
@@ -46,9 +53,9 @@ export const Students = () => {
         </header>
         <main>
           <h2 className={styles.visuallyHidden}>Ученики</h2>
-          {simplifiedStudentData.length > 0 ? (
+          {filteredStudents.length > 0 ? (
             <div className={styles.studentsMain}>
-              {simplifiedStudentData.map((item) => (
+              {filteredStudents.map((item) => (
                 <div className={styles.studentsList}>
                   <p className={styles.studentsItem}>{item.name}</p>
                   <p className={styles.studentsItem}>{item.lessonsCount}</p>

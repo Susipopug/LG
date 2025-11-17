@@ -1,6 +1,6 @@
 import { MyButton } from "@/components/UI/MyButton";
 import { DynamicTabs } from "@/components/UI/Tab/BasicTabs";
-import { Input, Modal } from "antd";
+import { Input, Modal, Switch } from "antd";
 import { Controller, useForm } from "react-hook-form";
 import styles from "./HeaderModalLarge.module.css";
 import { useCalendar } from "@/components/context/CalendarContext";
@@ -15,7 +15,6 @@ export const HeaderModalLarge = ({
   isModalLargeOpen,
   onModalLargeClose,
 }: ModarLargeProps) => {
-  const { onCloseStudentModal, addStudent } = useCalendar();
   const { handleSubmit, control, reset } = useForm<IUser>({
     mode: "onSubmit",
   });
@@ -59,6 +58,17 @@ export const HeaderModalLarge = ({
             />
 
             <Controller
+              name="deviceTime"
+              control={control}
+              render={({ field: { value, onChange } }) => (
+                <label className={styles.switchLabel} htmlFor="switch">
+                  <Switch size="small" value={value} onChange={onChange} />
+                  Время устройства
+                </label>
+              )}
+            />
+
+            <Controller
               name="phoneNumber"
               control={control}
               render={({ field }) => (
@@ -85,7 +95,7 @@ export const HeaderModalLarge = ({
               render={({ field }) => (
                 <label className={styles.formLabel}>
                   Пароль
-                  <Input {...field} />
+                  <Input.Password {...field} />
                 </label>
               )}
             />
@@ -96,9 +106,9 @@ export const HeaderModalLarge = ({
             <MyButton
               buttonType="default"
               htmlType="button"
-              onClick={onCloseStudentModal}
+              onClick={onModalLargeClose}
             >
-              Удалить ученика
+              Удалить аккаунт
             </MyButton>
           </form>
         </Modal>
