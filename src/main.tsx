@@ -15,6 +15,11 @@ import { Calendar } from "./modules/pages/CalendarPage/Calendar";
 import { Students } from "./modules/pages/Students/Students";
 import { SheduleAndPanel } from "./modules/pages/Shedule/SheduleAndPanel";
 import { ConfigProvider } from "antd";
+import locale from "antd/locale/ru_RU";
+import dayjs from "dayjs";
+import "dayjs/locale/ru";
+
+dayjs.locale("ru");
 
 const isLoggedIn = true;
 
@@ -96,6 +101,7 @@ enableMocking().then(() =>
   createRoot(document.getElementById("root")!).render(
     <StrictMode>
       <ConfigProvider
+        locale={locale}
         theme={{
           components: {
             Modal: {

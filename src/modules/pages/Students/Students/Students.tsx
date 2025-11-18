@@ -7,6 +7,8 @@ import { memo, useState } from "react";
 import type { IStudent } from "../interfaces/StudentInterface";
 import { StudentModal } from "../StudentModal";
 import { SearchInput } from "@/components/UI/SearchInput";
+import { Tabs } from "antd";
+import { STUDENTS } from "./constants";
 
 export const Students = memo(() => {
   const { onOpenStudentModal } = useCalendar();
@@ -42,7 +44,7 @@ export const Students = memo(() => {
             value={searchQuery}
             onChange={(event) => setSearchQuery(event.target.value)}
           />
-          <DynamicTabs configKey="students" />
+          <Tabs items={STUDENTS} />
           <div className={styles.studentsButton}>
             <MyButton
               onClick={onOpenStudentModal}
@@ -53,12 +55,12 @@ export const Students = memo(() => {
             </MyButton>
           </div>
         </header>
-        <main>
+        <main className={styles.studentsMain}>
           <h2 className={styles.visuallyHidden}>Ученики</h2>
           {filteredStudents.length > 0 ? (
-            <div className={styles.studentsMain}>
+            <div className={styles.studentsList}>
               {filteredStudents.map((item) => (
-                <div className={styles.studentsList}>
+                <div className={styles.studentsItems}>
                   <p className={styles.studentsItem}>{item.name}</p>
                   <p className={styles.studentsItem}>{item.lessonsCount}</p>
                 </div>

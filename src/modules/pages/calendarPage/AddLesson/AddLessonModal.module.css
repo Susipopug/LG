@@ -1,4 +1,4 @@
-.dialogForm{
+.dialogForm {
   display: flex;
   flex-direction: column;
   gap: 16px;
@@ -10,7 +10,9 @@
   margin-bottom: 16px;
 }
 .inputLabel {
-  margin-bottom: 8px;
+  display: flex;
+  flex-direction: column;
+  row-gap: 8px;
 }
 .switchLabel {
   display: flex;
@@ -18,3 +20,14 @@
   align-items: center;
 }
 
+.regularLabel {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.commentLabel {
+  display: flex;
+  flex-direction: column;
+  row-gap: 8px;
+}

@@ -36,7 +36,6 @@ a {
   align-items: center;
   gap: 16px;
   cursor: pointer;
- 
 }
 
 .navItem:not(:last-child) {

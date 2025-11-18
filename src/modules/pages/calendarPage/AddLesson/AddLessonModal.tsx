@@ -3,8 +3,17 @@ import { MyButton } from "@/components/UI/MyButton";
 import type { Lesson } from "@/entities";
 import { Controller, useForm } from "react-hook-form";
 import styles from "./AddLessonModal.module.css";
-import { DatePicker, Input, Modal, Select, Switch, TimePicker } from "antd";
+import {
+  DatePicker,
+  Input,
+  Modal,
+  Select,
+  Switch,
+  TimePicker,
+  InputNumber,
+} from "antd";
 import type { Dayjs } from "dayjs";
+import { useState } from "react";
 
 interface LessonForm
 
@@ -19,6 +28,7 @@ interface LessonForm
 }
 export const AddLesson = () => {
   const { addLesson, onCloseCaledarModal, students } = useCalendar();
+  const [value, setValue] = useState<string | number | null>("1");
 
   const { control, watch } = useForm<LessonForm>({
     mode: "onSubmit",
@@ -34,21 +44,23 @@ export const AddLesson = () => {
         footer={null}
       >
         <form className={styles.dialogForm}>
-          <label className={styles.inputLabel}>Ученик</label>
           {/* вставить в controller */}
           <Controller
             control={control}
             name="userId"
             render={({ field: { value, onChange } }) => (
-              <Select
-                style={{ width: "100%" }}
-                onChange={onChange}
-                value={value}
-                options={students.map((student) => ({
-                  value: student.id,
-                  label: `${student.firstName} ${student.lastName}`,
-                }))}
-              />
+              <label className={styles.inputLabel}>
+                Ученик
+                <Select
+                  style={{ width: "100%" }}
+                  onChange={onChange}
+                  value={value}
+                  options={students.map((student) => ({
+                    value: student.id,
+                    label: `${student.firstName} ${student.lastName}`,
+                  }))}
+                />
+              </label>
             )}
           />
 
@@ -85,8 +97,6 @@ export const AddLesson = () => {
             />
           </div>
 
-          {/* changed to the antdesign */}
-
           <Controller
             name="isRegular"
             control={control}
@@ -100,26 +110,20 @@ export const AddLesson = () => {
 
           {isRegular && (
             <>
-              <label>
+              <label className={styles.regularLabel}>
                 Регулярность
                 <span>Недели</span>
-                <Input type="number" min={1} defaultValue={1} />
-              </label>
-
-              {/* <label>
-                Недели
-                <Select
-                  style={{ width: "100%" }}
-                  {...register("every")}
-                  options={students.map((student) => ({
-                    value: student.id,
-                    label: `${student.firstName} ${student.lastName}`,
-                  }))}
+                <InputNumber
+                  min={1}
+                  defaultValue={1}
+                  max={52}
+                  value={value}
+                  onChange={setValue}
                 />
-              </label> */}
+              </label>
             </>
           )}
-          <label>
+          <label className={styles.commentLabel}>
             Комментарий к занятию
             <Input.TextArea
               rows={4}
