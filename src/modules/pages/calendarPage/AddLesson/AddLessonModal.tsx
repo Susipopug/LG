@@ -14,6 +14,7 @@ import {
 } from "antd";
 import type { Dayjs } from "dayjs";
 import { useState } from "react";
+import dayjs from "dayjs";
 
 interface LessonForm
 
@@ -26,6 +27,7 @@ interface LessonForm
   startTime: Dayjs;
   endTime: Dayjs;
 }
+
 export const AddLesson = () => {
   const { addLesson, onCloseCaledarModal, students } = useCalendar();
   const [value, setValue] = useState<string | number | null>("1");
@@ -43,6 +45,7 @@ export const AddLesson = () => {
         onCancel={onCloseCaledarModal}
         footer={null}
       >
+        <div className={styles.modalHeader}></div>
         <form className={styles.dialogForm}>
           {/* вставить в controller */}
           <Controller
@@ -69,7 +72,12 @@ export const AddLesson = () => {
               name="date"
               control={control}
               render={({ field: { value, onChange } }) => (
-                <DatePicker value={value} onChange={onChange} />
+                <DatePicker
+                  value={value}
+                  onChange={onChange}
+                  defaultValue={dayjs("01.01.2015")}
+                  format={["DD.MM.YYYY"]}
+                />
               )}
             />
             <Controller
@@ -77,6 +85,7 @@ export const AddLesson = () => {
               control={control}
               render={({ field: { value, onChange } }) => (
                 <TimePicker
+                  defaultValue={dayjs("8:00", "HH:mm")}
                   value={value}
                   onChange={onChange}
                   showSecond={false}
@@ -89,6 +98,7 @@ export const AddLesson = () => {
               control={control}
               render={({ field: { value, onChange } }) => (
                 <TimePicker
+                  defaultValue={dayjs("9:00", "HH:mm")}
                   value={value}
                   onChange={onChange}
                   showSecond={false}

@@ -1,4 +1,3 @@
-import React from "react";
 import { Flex, Input } from "antd";
 import styles from "./SearchInput.module.css";
 
@@ -10,6 +9,7 @@ interface SearchInputProps {
 export const SearchInput = ({ value, onChange }: SearchInputProps) => (
   <Flex vertical gap={12}>
     <Input.Search
+      allowClear
       size="large"
       placeholder="Поиск ученика"
       className={styles.customInput}

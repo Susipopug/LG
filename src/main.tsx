@@ -107,6 +107,9 @@ enableMocking().then(() =>
             Modal: {
               borderRadiusLG: 24,
             },
+            Button: {
+              colorPrimaryBg: " #1677FF",
+            },
           },
         }}
       >

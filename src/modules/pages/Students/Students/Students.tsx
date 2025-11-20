@@ -1,5 +1,4 @@
 import styles from "./Students.module.css";
-import { DynamicTabs } from "@/components/UI/Tab/BasicTabs";
 import { MyButton } from "@/components/UI/MyButton";
 import empty from "@assets/images/empty.svg";
 import { useCalendar } from "@/components/context/CalendarContext";
@@ -12,27 +11,33 @@ import { STUDENTS } from "./constants";
 
 export const Students = memo(() => {
   const { onOpenStudentModal } = useCalendar();
-  const [student, setStudent] = useState<IStudent[]>([]);
+  const [student, setStudent] = useState<IStudent[]>(() => {
+    const getNewStudentData = localStorage.getItem("newStudentData");
+    if (getNewStudentData) {
+      return JSON.parse(getNewStudentData);
+    }
+    return [];
+  });
   const [searchQuery, setSearchQuery] = useState("");
 
   const addNewStudent = (student: IStudent) => {
-    setStudent((prev) => [...prev, student]);
-  };
-
-  const lessonsCountMap: Record<string, string> = {
-    "Джон Траволта": "5 занятий",
-    "Брюс Уиллис": "3 занятия",
-    "Майк Тайсон": "4 занятий",
-    "Перис Хилтон": "2 занятия",
+    setStudent((prev) => {
+      const newStudentData = [...prev, student];
+      localStorage.setItem("newStudentData", JSON.stringify(newStudentData));
+      return newStudentData;
+    });
   };
 
   const simplifiedStudentData = student?.map((item) => ({
     name: item.name,
-    lessonsCount: lessonsCountMap[item.phoneNumber] || 0,
+    lessonsCount: item.lessonsBalance || 0,
   }));
 
+  // making sure there is no filter without the entered value
+  const clearSearchQuery = searchQuery.trim().toLowerCase();
+
   const filteredStudents = simplifiedStudentData.filter((item) =>
-    item.name.toLowerCase().includes(searchQuery.toLowerCase())
+    item.name.toLowerCase().includes(clearSearchQuery.toLowerCase())
   );
   console.log("Students");
 

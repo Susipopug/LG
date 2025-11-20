@@ -4,4 +4,5 @@ export interface IStudent {
   telegram: string;
   whatsapp: string;
   phoneNumber: string;
+  lessonsBalance: number;
 }
