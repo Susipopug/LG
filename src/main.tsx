@@ -18,6 +18,7 @@ import { ConfigProvider } from "antd";
 import locale from "antd/locale/ru_RU";
 import dayjs from "dayjs";
 import "dayjs/locale/ru";
+import { AppProvider } from "./components/context/AppContext";
 
 dayjs.locale("ru");
 
@@ -113,9 +114,11 @@ enableMocking().then(() =>
           },
         }}
       >
-        <CalendarProvider>
-          <RouterProvider router={router} />
-        </CalendarProvider>
+        <AppProvider>
+          <CalendarProvider>
+            <RouterProvider router={router} />
+          </CalendarProvider>
+        </AppProvider>
       </ConfigProvider>
     </StrictMode>
   )

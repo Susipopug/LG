@@ -9,6 +9,10 @@ import React, {
 import { studentApi } from "@/api/studentApi";
 import { calendarApi } from "@/api/calendarApi";
 import type { Student } from "@/entities/student";
+import type { DateSelectArg, EventInput } from "@fullcalendar/core/index.js";
+import type { LessonForm } from "@/modules/pages/CalendarPage/AddLessonModal/AddLessonModal";
+import dayjs from "dayjs";
+import type { Lesson } from "@/entities";
 
 const ScheduleStatus = {
   Cancelled: "CANCELLED",
@@ -30,16 +34,17 @@ interface CalendarContextType {
   students: Student[];
   isLoading: boolean;
   addLesson: boolean;
-  currentEvents: CalendarEvent[];
+  currentEvents: LessonForm[];
   currentStudent: string;
   addStudent: boolean;
   updatedScheduleItems: SheduleItem[];
   StatusMap: Record<TSheduleStatus, string>;
   setCurrentStudent: React.Dispatch<React.SetStateAction<string>>;
-  setCurrentEvents: React.Dispatch<React.SetStateAction<CalendarEvent[]>>;
+  setCurrentEvents: React.Dispatch<React.SetStateAction<LessonForm[]>>;
   fetchCalendar: () => Promise<void>;
   fetchStudents: () => Promise<void>;
   onAddLesson: () => void;
+  handleAddEvent: (studentName: string, selectedDate: DateSelectArg) => void;
   onCloseCaledarModal: () => void;
   onCloseStudentModal: () => void;
   onOpenStudentModal: () => void;
@@ -56,7 +61,7 @@ interface CalendarProviderProps {
 export const CalendarProvider: React.FC<CalendarProviderProps> = ({
   children,
 }) => {
-  const [currentEvents, setCurrentEvents] = useState<CalendarEvent[]>([]);
+  const [currentEvents, setCurrentEvents] = useState<LessonForm[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [students, setStudents] = useState<Student[]>([]);
   const [currentStudent, setCurrentStudent] = useState<Student["id"]>("");
@@ -98,6 +103,45 @@ export const CalendarProvider: React.FC<CalendarProviderProps> = ({
     fetchCalendar();
     fetchStudents();
   }, [fetchCalendar]);
+
+  const handleAddEvent = (studentName: string, selectedDate: DateSelectArg) => {
+    if (studentName && selectedDate) {
+      const calendarLibraryApi = selectedDate.view.calendar;
+      calendarLibraryApi.unselect();
+
+      console.log("Selected Date:", selectedDate);
+      const newEvent: LessonForm = {
+        id: Date.now(),
+        date: dayjs(selectedDate.start),
+        userName: studentName,
+        startTime: dayjs(selectedDate.start),
+        endTime: dayjs(selectedDate?.end || selectedDate.start),
+        every: 0, // default value, adjust as needed
+        userId: 0, // placeholder, replace with actual userId if available
+        frequency: "",
+        isRegular: false, // or true based on your logic
+        description: "",
+      };
+
+      // Convert Dayjs to Date for calendar event
+      const calendarEvent: EventInput = {
+        id: newEvent.id.toString(),
+        start: newEvent.startTime.toDate(),
+        end: newEvent.endTime.toDate(),
+        title: newEvent.userName,
+        allDay: false,
+        extendedProps: {
+          description: newEvent.description,
+          isRegular: newEvent.isRegular,
+        },
+      };
+
+      setCurrentEvents((prevEvents) => [...prevEvents, newEvent]);
+
+      // Также добавляем в календарь
+      calendarLibraryApi.addEvent(calendarEvent);
+    }
+  };
 
   const onAddLesson = () => {
     setAddLesson(true);
@@ -162,6 +206,7 @@ export const CalendarProvider: React.FC<CalendarProviderProps> = ({
     StatusMap,
     scheduleItems,
     setCurrentStudent,
+    handleAddEvent,
     onAddLesson,
     setCurrentEvents,
     fetchCalendar,

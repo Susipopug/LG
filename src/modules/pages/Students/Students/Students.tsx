@@ -3,32 +3,19 @@ import { MyButton } from "@/components/UI/MyButton";
 import empty from "@assets/images/empty.svg";
 import { useCalendar } from "@/components/context/CalendarContext";
 import { memo, useState } from "react";
-import type { IStudent } from "../interfaces/StudentInterface";
 import { StudentModal } from "../StudentModal";
 import { SearchInput } from "@/components/UI/SearchInput";
 import { Tabs } from "antd";
 import { STUDENTS } from "./constants";
+import { useAppContext } from "@/components/context/AppContext";
 
 export const Students = memo(() => {
   const { onOpenStudentModal } = useCalendar();
-  const [student, setStudent] = useState<IStudent[]>(() => {
-    const getNewStudentData = localStorage.getItem("newStudentData");
-    if (getNewStudentData) {
-      return JSON.parse(getNewStudentData);
-    }
-    return [];
-  });
+  const { students, addNewStudent } = useAppContext();
+
   const [searchQuery, setSearchQuery] = useState("");
 
-  const addNewStudent = (student: IStudent) => {
-    setStudent((prev) => {
-      const newStudentData = [...prev, student];
-      localStorage.setItem("newStudentData", JSON.stringify(newStudentData));
-      return newStudentData;
-    });
-  };
-
-  const simplifiedStudentData = student?.map((item) => ({
+  const simplifiedStudentData = students?.map((item) => ({
     name: item.name,
     lessonsCount: item.lessonsBalance || 0,
   }));

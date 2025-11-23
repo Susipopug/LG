@@ -4,6 +4,7 @@ export interface Lesson {
   //userID is sent to backend
   //solo lessons only
   userId: number;
+  userName: string;
   dateStart: string;
   dateEnd: string;
   isRegular: boolean;

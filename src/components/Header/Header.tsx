@@ -13,7 +13,7 @@ export const Header: React.FC<HeaderProps> = ({ teacherAvatar }) => {
   const [isAccountOpen, setIsAccountOpen] = useState(false);
 
   const openUserAccount = () => {
-    setIsAccountOpen(true);
+    setIsAccountOpen(!isAccountOpen);
   };
 
   return (

@@ -10,47 +10,47 @@ import { studentApi } from "@/api/studentApi";
 import type { Student } from "@/entities/student";
 import ruLocale from "@fullcalendar/core/locales/ru";
 import { useCalendar } from "@/components/context/CalendarContext";
-import { AddLesson } from "../AddLesson/AddLessonModal";
+import { AddLesson } from "../AddLessonModal/AddLessonModal";
 import { CalendarModal } from "@/modules/pages/CalendarPage/CalendarModal";
 
 export const Calendar = () => {
-  const [currentEvents, setCurrentEvents] = useState<EventInput[]>([]);
+  // const [currentEvents, setCurrentEvents] = useState<EventInput[]>([]);
   const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
   const [selectedDate, setSelectedDate] = useState<DateSelectArg | null>(null);
   const [students, setStudents] = useState<Student[]>([]);
   const [currentStudent, setCurrentStudent] = useState<Student["id"]>("");
   const [isCreateLessonLoading, setIsCreateLessonLoading] = useState(false);
 
-  const { onAddLesson } = useCalendar();
+  const { onAddLesson, currentEvents } = useCalendar();
 
-  const fetchCalendar = useCallback(async () => {
-    const { data } = await calendarApi.getAll();
-    console.log(data);
-    setCurrentEvents(
-      data.map((item) => ({
-        id: item.id.toString(),
-        start: item.dateStart,
-        end: item.dateEnd,
-        title: item.description,
-        allDay: false,
-        extendedProps: {
-          completed: false,
-          isHidden: false,
-        },
-      }))
-    );
-  }, []);
+  // const fetchCalendar = useCallback(async () => {
+  //   const { data } = await calendarApi.getAll();
+  //   console.log(data);
+  //   setCurrentEvents(
+  //     data.map((item) => ({
+  //       id: item.id.toString(),
+  //       start: item.dateStart,
+  //       end: item.dateEnd,
+  //       title: item.description,
+  //       allDay: false,
+  //       extendedProps: {
+  //         completed: false,
+  //         isHidden: false,
+  //       },
+  //     }))
+  //   );
+  // }, []);
 
-  const fetchStudents = useCallback(async () => {
-    const { data } = await studentApi.getAll();
-    console.log("students data", data);
-    setStudents(data);
-  }, []);
+  // const fetchStudents = useCallback(async () => {
+  //   const { data } = await studentApi.getAll();
+  //   console.log("students data", data);
+  //   setStudents(data);
+  // }, []);
 
-  useEffect(() => {
-    fetchCalendar();
-    fetchStudents();
-  }, [fetchCalendar]);
+  // useEffect(() => {
+  //   fetchCalendar();
+  //   fetchStudents();
+  // }, [fetchCalendar]);
 
   const handleDateClick = (selected: DateSelectArg) => {
     console.log("Date selected:", selected);
@@ -74,30 +74,30 @@ export const Calendar = () => {
     setIsDialogOpen(false);
   };
 
-  const handleAddEvent = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (currentStudent && selectedDate) {
-      const calendarLibraryApi = selectedDate.view.calendar;
-      calendarLibraryApi.unselect();
+  // const handleAddEvent = async (e: React.FormEvent) => {
+  //   e.preventDefault();
+  //   if (currentStudent && selectedDate) {
+  //     const calendarLibraryApi = selectedDate.view.calendar;
+  //     calendarLibraryApi.unselect();
 
-      const newEvent: EventInput = {
-        id: `${selectedDate.start.toISOString()}-${currentStudent}`,
-        title: currentStudent,
-        start: selectedDate?.start,
-        end: selectedDate?.end || selectedDate.start,
-        allDay: selectedDate?.allDay,
-        extendedProps: {
-          completed: false,
-        },
-      };
+  //     const newEvent: EventInput = {
+  //       id: `${selectedDate.start.toISOString()}-${currentStudent}`,
+  //       title: currentStudent,
+  //       start: selectedDate?.start,
+  //       end: selectedDate?.end || selectedDate.start,
+  //       allDay: selectedDate?.allDay,
+  //       extendedProps: {
+  //         completed: false,
+  //       },
+  //     };
 
-      setCurrentEvents((prevEvents) => [...prevEvents, newEvent]);
+  //     setCurrentEvents((prevEvents) => [...prevEvents, newEvent]);
 
-      // Также добавляем в календарь
-      calendarLibraryApi.addEvent(newEvent);
-      handleCloseDialog();
-    }
-  };
+  //     // Также добавляем в календарь
+  //     calendarLibraryApi.addEvent(newEvent);
+  //     handleCloseDialog();
+  //   }
+  // };
 
   return (
     <>

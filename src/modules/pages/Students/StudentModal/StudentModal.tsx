@@ -43,6 +43,7 @@ export const StudentModal = ({ onAddNewStudent }: studentModalProps) => {
         onCancel={onCloseStudentModal}
         footer={null}
       >
+          <div className={styles.modalHeader}></div>
         <form className={styles.dialogForm} onSubmit={handleSubmit(onSubmit)}>
           <div className={styles.tabs}>
             <Tabs

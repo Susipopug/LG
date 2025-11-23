@@ -16,36 +16,39 @@ export const HeaderModalSmall = ({
 }: HeaderModuleSmallProps) => {
   const [isModalLargeOpen, setIsModalLargeOpen] = useState(false);
 
-  const onModalLargeClose = ()=>{
-    setIsModalLargeOpen(false)
-  }
+  const onModalLargeClose = () => {
+    setIsModalLargeOpen(false);
+  };
   return (
     <>
       {isAccountOpen && (
         <>
-          <nav className={styles.nav}>
+          <div className={styles.headerModal}>
             <CloseOutlined
               onClick={() => setIsAccountOpen(false)}
-              className={`${styles.navItem} ${styles.closeButton}`}
+              className={styles.closeButton}
             />
+            <div className={styles.navUserLine}> </div>
+            <nav className={styles.nav}>
+              <h3 className={styles.navUser}>User</h3>
 
-            <h3 className={styles.navUser}>User</h3>
-            <button
-              onClick={() => setIsModalLargeOpen(true)}
-              className={styles.navItem}
-            >
-              <img src={settings} alt="settings" />
-              <span>Настройки</span>
-            </button>
-            <a className={styles.navItem}>
-              <img src={exit} alt="exit" />
-              <span>Выйти из аккаунта</span>
-            </a>
-          </nav>
-          <HeaderModalLarge
-            isModalLargeOpen={isModalLargeOpen}
-            onModalLargeClose={onModalLargeClose}
-          />
+              <button
+                onClick={() => setIsModalLargeOpen(true)}
+                className={styles.navItem}
+              >
+                <img src={settings} alt="settings" />
+                <span>Настройки</span>
+              </button>
+              <a className={styles.navItem}>
+                <img src={exit} alt="exit" />
+                <span>Выйти из аккаунта</span>
+              </a>
+            </nav>
+            <HeaderModalLarge
+              isModalLargeOpen={isModalLargeOpen}
+              onModalLargeClose={onModalLargeClose}
+            />
+          </div>
         </>
       )}
     </>

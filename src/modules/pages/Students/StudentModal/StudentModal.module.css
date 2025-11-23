@@ -1,8 +1,17 @@
+.modalHeader {
+  height: 56px;
+  width: 100%;
+  border-bottom: 1px #d9d9d9 solid;
+  position: absolute;
+  left: 0;
+  top: 0;
+}
 .dialogForm {
   display: flex;
   flex-direction: column;
   gap: 16px;
   min-height: 556px;
+  margin-top: 56px;
 }
 
 .formLabel {

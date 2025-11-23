@@ -15,13 +15,19 @@ import {
 import type { Dayjs } from "dayjs";
 import { useState } from "react";
 import dayjs from "dayjs";
+import { useAppContext } from "@/components/context/AppContext";
+import type { DateSelectArg, EventInput } from "@fullcalendar/core/index.js";
 
-interface LessonForm
-
-  // to change to omit
+export interface LessonForm
   extends Pick<
     Lesson,
-    "userId" | "isRegular" | "description" | "frequency" | "every"
+    | "userId"
+    | "id"
+    | "userName"
+    | "isRegular"
+    | "description"
+    | "frequency"
+    | "every"
   > {
   date: Dayjs;
   startTime: Dayjs;
@@ -29,12 +35,26 @@ interface LessonForm
 }
 
 export const AddLesson = () => {
-  const { addLesson, onCloseCaledarModal, students } = useCalendar();
+  const { addLesson, onCloseCaledarModal, handleAddEvent } = useCalendar();
+  const { students } = useAppContext();
   const [value, setValue] = useState<string | number | null>("1");
 
-  const { control, watch } = useForm<LessonForm>({
+  const { handleSubmit, control, reset, watch } = useForm<LessonForm>({
     mode: "onSubmit",
   });
+
+  const onSubmit = (data: LessonForm) => {
+    handleAddEvent(data.userName, {
+      start: data.date.toDate(),
+    } as DateSelectArg);
+    onCloseCaledarModal();
+    reset();
+    console.log(data);
+  };
+
+  // const { control, watch } = useForm<LessonForm>({
+  //   mode: "onSubmit",
+  // });
   const isRegular = watch("isRegular");
 
   return (
@@ -46,7 +66,7 @@ export const AddLesson = () => {
         footer={null}
       >
         <div className={styles.modalHeader}></div>
-        <form className={styles.dialogForm}>
+        <form className={styles.dialogForm} onSubmit={handleSubmit(onSubmit)}>
           {/* вставить в controller */}
           <Controller
             control={control}
@@ -59,8 +79,9 @@ export const AddLesson = () => {
                   onChange={onChange}
                   value={value}
                   options={students.map((student) => ({
-                    value: student.id,
-                    label: `${student.firstName} ${student.lastName}`,
+                    id: student.id,
+                    value: student.name,
+                    label: student.name,
                   }))}
                 />
               </label>
@@ -74,8 +95,10 @@ export const AddLesson = () => {
               render={({ field: { value, onChange } }) => (
                 <DatePicker
                   value={value}
-                  onChange={onChange}
-                  defaultValue={dayjs("01.01.2015")}
+                   onChange={(date) => {
+    setSelectedDate(date); // or your state updater
+  }}
+                  defaultValue={dayjs(new Date())}
                   format={["DD.MM.YYYY"]}
                 />
               )}
@@ -133,18 +156,24 @@ export const AddLesson = () => {
               </label>
             </>
           )}
-          <label className={styles.commentLabel}>
-            Комментарий к занятию
-            <Input.TextArea
-              rows={4}
-              placeholder="Текст комментария"
-              maxLength={256}
-            />
-          </label>
+          <Controller
+            name="description"
+            control={control}
+            render={({ field: { value, onChange } }) => (
+              <label className={styles.commentLabel}>
+                Комментарий к занятию
+                <Input.TextArea
+                  rows={4}
+                  placeholder="Текст комментария"
+                  maxLength={256}
+                  value={value}
+                  onChange={onChange}
+                />
+              </label>
+            )}
+          />
 
-          <MyButton htmlType="submit" onClick={onCloseCaledarModal}>
-            Сохранить изменения
-          </MyButton>
+          <MyButton htmlType="submit">Сохранить изменения</MyButton>
           <MyButton
             htmlType="button"
             buttonType="default"

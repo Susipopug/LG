@@ -20,6 +20,7 @@ export const MyButton = ({
 }: MyButtonProps) => {
   return (
     <Button
+    // переопределить стили в самомо компоненте
       size={size}
       type={buttonType}
       htmlType={htmlType}

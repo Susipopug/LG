@@ -1,4 +1,5 @@
 export interface IStudent {
+  id: number;
   name: string;
   comment: string;
   telegram: string;

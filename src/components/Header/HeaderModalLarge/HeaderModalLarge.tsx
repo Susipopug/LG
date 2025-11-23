@@ -36,11 +36,12 @@ export const HeaderModalLarge = ({
           onCancel={onModalLargeClose}
           footer={null}
         >
-          <div className={styles.tabs}>
-         <Tabs items={USER_INFO_TABS_ITEMS}/>
-          </div>
+          <div className={styles.modalHeader}></div>
 
           <form className={styles.dialogForm} onSubmit={handleSubmit(onSubmit)}>
+            <div className={styles.tabs}>
+              <Tabs items={USER_INFO_TABS_ITEMS} />
+            </div>
             <Controller
               name="name"
               rules={{ required: "Имя обязательно" }}
