@@ -10,9 +10,9 @@ import { STUDENTS } from "./constants";
 import { useAppContext } from "@/components/context/AppContext";
 
 export const Students = memo(() => {
+  const [tab, setTab] = useState("1");
   const { onOpenStudentModal } = useCalendar();
   const { students, addNewStudent } = useAppContext();
-
   const [searchQuery, setSearchQuery] = useState("");
 
   const simplifiedStudentData = students?.map((item) => ({
@@ -28,6 +28,10 @@ export const Students = memo(() => {
   );
   console.log("Students");
 
+  const onChangeTab = (value: string) => {
+    setTab(value);
+  };
+
   return (
     <>
       <section>
@@ -36,7 +40,7 @@ export const Students = memo(() => {
             value={searchQuery}
             onChange={(event) => setSearchQuery(event.target.value)}
           />
-          <Tabs items={STUDENTS} />
+          <Tabs activeKey={tab} items={STUDENTS} onChange={onChangeTab} />
           <div className={styles.studentsButton}>
             <MyButton
               onClick={onOpenStudentModal}
@@ -47,27 +51,33 @@ export const Students = memo(() => {
             </MyButton>
           </div>
         </header>
+
         <main className={styles.studentsMain}>
           <h2 className={styles.visuallyHidden}>Ученики</h2>
-          {filteredStudents.length > 0 ? (
-            <div className={styles.studentsList}>
-              {filteredStudents.map((item) => (
-                <div className={styles.studentsItems}>
-                  <p className={styles.studentsItem}>{item.name}</p>
-                  <p className={styles.studentsItem}>{item.lessonsCount}</p>
+          {tab == "1" ? (
+            <>
+              {filteredStudents.length > 0 ? (
+                <div className={styles.studentsList}>
+                  {filteredStudents.map((item) => (
+                    <div className={styles.studentsItems}>
+                      <p className={styles.studentsItem}>{item.name}</p>
+                      <p className={styles.studentsItem}>{item.lessonsCount}</p>
+                    </div>
+                  ))}
                 </div>
-              ))}
-            </div>
+              ) : (
+                <div className={styles.students}>
+                  <img height={180} width={200} src={empty} alt="empty" />
+                  <h3>Нет учеников</h3>
+                  <p>Добавьте ученика и назначьте ему занятия</p>
+                </div>
+              )}
+            </>
           ) : (
-            <div className={styles.students}>
-              <img height={180} width={200} src={empty} alt="empty" />
-              <h3>Нет учеников</h3>
-              <p>Добавьте ученика и назначьте ему занятия</p>
-            </div>
+            <div>Неактивные ученики</div>
           )}
-
-          <StudentModal onAddNewStudent={addNewStudent} />
         </main>
+        <StudentModal onAddNewStudent={addNewStudent} />
       </section>
     </>
   );

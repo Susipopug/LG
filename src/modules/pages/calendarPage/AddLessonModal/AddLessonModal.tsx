@@ -60,6 +60,7 @@ export const AddLesson = () => {
   return (
     <div className={styles.dialog}>
       <Modal
+        width={440}
         open={addLesson}
         onOk={onCloseCaledarModal}
         onCancel={onCloseCaledarModal}
@@ -95,9 +96,9 @@ export const AddLesson = () => {
               render={({ field: { value, onChange } }) => (
                 <DatePicker
                   value={value}
-                   onChange={(date) => {
-    setSelectedDate(date); // or your state updater
-  }}
+                  // onChange={(date) => {
+                  //   setSelectedDate(date); // or your state updater
+                  // }}
                   defaultValue={dayjs(new Date())}
                   format={["DD.MM.YYYY"]}
                 />

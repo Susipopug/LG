@@ -1,18 +1,37 @@
 import styles from "./StudentModal.module.css";
 import { MyButton } from "@/components/UI/MyButton";
 import { useCalendar } from "@/components/context/CalendarContext";
-import { Input, InputNumber, Modal, Tabs } from "antd";
+import {
+  Input,
+  InputNumber,
+  message,
+  Modal,
+  Tabs,
+  Upload,
+  type GetProp,
+  type UploadProps,
+} from "antd";
 import type { IStudent } from "../interfaces/StudentInterface";
 import { Controller, useForm } from "react-hook-form";
 import { STUDENTS_INFO } from "./constants";
 import { useState } from "react";
+import { LoadingOutlined, PlusOutlined } from "@ant-design/icons";
 
 interface studentModalProps {
   onAddNewStudent: (student: IStudent) => void;
 }
+type FileType = Parameters<GetProp<UploadProps, "beforeUpload">>[0];
+
+const getBase64 = (img: FileType, callback: (url: string) => void) => {
+  const reader = new FileReader();
+  reader.addEventListener("load", () => callback(reader.result as string));
+  reader.readAsDataURL(img);
+};
 
 export const StudentModal = ({ onAddNewStudent }: studentModalProps) => {
   const { onCloseStudentModal, addStudent } = useCalendar();
+  const [loading, setLoading] = useState(false);
+  const [imageUrl, setImageUrl] = useState<string>();
 
   const { handleSubmit, control, reset } = useForm<IStudent>({
     mode: "onSubmit",
@@ -34,16 +53,49 @@ export const StudentModal = ({ onAddNewStudent }: studentModalProps) => {
   const onChangeTab = (value: string) => {
     setTab(value);
   };
+  const handleChange: UploadProps["onChange"] = (info) => {
+    if (info.file.status === "uploading") {
+      setLoading(true);
+      return;
+    }
+    if (info.file.status === "done") {
+      // Get this url from response in real world.
+      getBase64(info.file.originFileObj as FileType, (url) => {
+        setLoading(false);
+        setImageUrl(url);
+      });
+    }
+  };
+
+  const beforeUpload = (file: FileType) => {
+    const isJpgOrPng = file.type === "image/jpeg" || file.type === "image/png";
+    if (!isJpgOrPng) {
+      message.error("You can only upload JPG/PNG file!");
+    }
+    const isLt2M = file.size / 1024 / 1024 < 2;
+    if (!isLt2M) {
+      message.error("Image must smaller than 2MB!");
+    }
+    return isJpgOrPng && isLt2M;
+  };
+
+  const uploadButton = (
+    <button style={{ border: 0, background: "none" }} type="button">
+      {loading ? <LoadingOutlined /> : <PlusOutlined />}
+      <div style={{ marginTop: 8 }}>Upload</div>
+    </button>
+  );
 
   return (
     <div className={styles.dialog}>
       <Modal
+        width={440}
         open={addStudent}
         onOk={onCloseStudentModal}
         onCancel={onCloseStudentModal}
         footer={null}
       >
-          <div className={styles.modalHeader}></div>
+        <div className={styles.modalHeader}></div>
         <form className={styles.dialogForm} onSubmit={handleSubmit(onSubmit)}>
           <div className={styles.tabs}>
             <Tabs
@@ -54,6 +106,28 @@ export const StudentModal = ({ onAddNewStudent }: studentModalProps) => {
           </div>
           {tab == "1" ? (
             <>
+              <div>
+                <Upload
+                  name="avatar"
+                  listType="picture-circle"
+                  className="avatar-uploader"
+                  showUploadList={false}
+                  action="https://660d2bd96ddfa2943b33731c.mockapi.io/api/upload"
+                  beforeUpload={beforeUpload}
+                  onChange={handleChange}
+                >
+                  {imageUrl ? (
+                    <img
+                      draggable={false}
+                      src={imageUrl}
+                      alt="avatar"
+                      style={{ width: "100%" }}
+                    />
+                  ) : (
+                    uploadButton
+                  )}
+                </Upload>
+              </div>
               <Controller
                 name="name"
                 rules={{ required: "Имя обязательно" }}
