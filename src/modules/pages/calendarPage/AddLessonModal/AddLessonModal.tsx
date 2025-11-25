@@ -24,7 +24,7 @@ export interface LessonForm extends Omit<Lesson, "dateStart" | "dateEnd"> {
 }
 
 export const AddLesson = () => {
-  const { addLesson, onCloseCaledarModal, handleAddEvent } = useCalendar();
+  const { calendarModal, onCloseCaledarModal, handleAddEvent } = useCalendar();
   const { students } = useAppContext();
   const [value, setValue] = useState<string | number | null>("1");
 
@@ -33,8 +33,6 @@ export const AddLesson = () => {
   });
 
   const onSubmit = (data: LessonForm) => {
-    console.log(data);
-
     handleAddEvent(data);
     onCloseCaledarModal();
     reset();
@@ -50,7 +48,7 @@ export const AddLesson = () => {
     <div className={styles.dialog}>
       <Modal
         width={440}
-        open={addLesson}
+        open={calendarModal}
         onOk={onCloseCaledarModal}
         onCancel={onCloseCaledarModal}
         footer={null}

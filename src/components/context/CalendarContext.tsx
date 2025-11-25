@@ -34,17 +34,17 @@ interface CalendarContextType {
   students: Student[];
   isLoading: boolean;
   addLesson: boolean;
-  currentEvents: LessonForm[];
+  currentEvents: EventInput[];
   currentStudent: string;
-  addStudent: boolean;
+  calendarModal: boolean;
   updatedScheduleItems: SheduleItem[];
   StatusMap: Record<TSheduleStatus, string>;
   setCurrentStudent: React.Dispatch<React.SetStateAction<string>>;
   setCurrentEvents: React.Dispatch<React.SetStateAction<EventInput[]>>;
   fetchCalendar: () => Promise<void>;
   fetchStudents: () => Promise<void>;
-  onAddLesson: () => void;
   handleAddEvent: (form: LessonForm) => void;
+  onOpenCalendarModal: () => void;
   onCloseCaledarModal: () => void;
   onCloseStudentModal: () => void;
   onOpenStudentModal: () => void;
@@ -65,14 +65,13 @@ export const CalendarProvider: React.FC<CalendarProviderProps> = ({
   const [isLoading, setIsLoading] = useState(false);
   const [students, setStudents] = useState<Student[]>([]);
   const [currentStudent, setCurrentStudent] = useState<Student["id"]>("");
-  const [addLesson, setAddLesson] = useState(false);
+  const [calendarModal, setCalendarModal] = useState(false);
   const [addStudent, setAddStudent] = useState(false);
 
   const fetchStudents = useCallback(async () => {
     setIsLoading(true);
     try {
       const { data } = await studentApi.getAll();
-      console.log("students data", data);
       setStudents(data);
     } catch (error) {
       console.error("Error fetching students:", error);
@@ -83,7 +82,6 @@ export const CalendarProvider: React.FC<CalendarProviderProps> = ({
 
   const fetchCalendar = useCallback(async () => {
     const { data } = await calendarApi.getAll();
-    console.log(data);
     setCurrentEvents(
       data.map((item) => ({
         id: item.id,
@@ -105,10 +103,7 @@ export const CalendarProvider: React.FC<CalendarProviderProps> = ({
   }, [fetchCalendar]);
 
   const handleAddEvent = (form: LessonForm) => {
-    console.log("Selected Date:", form);
     //  const calendarLibraryApi = form.view.calendar;
-
-    // const start = form.date.set("hour", 0).add(form.startTime.valueOf());
 
     const datePart = dayjs(form.date).startOf("day");
 
@@ -141,14 +136,14 @@ export const CalendarProvider: React.FC<CalendarProviderProps> = ({
     // calendarLibraryApi.addEvent(calendarEvent);
   };
 
-  const onAddLesson = () => {
-    setAddLesson(true);
+  const onOpenCalendarModal = () => {
+    setCalendarModal(true);
   };
   const onOpenStudentModal = () => {
     setAddStudent(true);
   };
   const onCloseCaledarModal = () => {
-    setAddLesson(false);
+    setCalendarModal(false);
   };
   const onCloseStudentModal = () => {
     setAddStudent(false);
@@ -196,7 +191,7 @@ export const CalendarProvider: React.FC<CalendarProviderProps> = ({
   const value = {
     currentEvents,
     isLoading,
-    addLesson,
+    calendarModal,
     currentStudent,
     students,
     addStudent,
@@ -205,7 +200,7 @@ export const CalendarProvider: React.FC<CalendarProviderProps> = ({
     scheduleItems,
     setCurrentStudent,
     handleAddEvent,
-    onAddLesson,
+    onOpenCalendarModal,
     setCurrentEvents,
     fetchCalendar,
     fetchStudents,

@@ -21,7 +21,7 @@ export const Calendar = () => {
   const [currentStudent, setCurrentStudent] = useState<Student["id"]>("");
   const [isCreateLessonLoading, setIsCreateLessonLoading] = useState(false);
 
-  const { onAddLesson, currentEvents } = useCalendar();
+  const { onOpenCalendarModal, currentEvents } = useCalendar();
 
   // const fetchCalendar = useCallback(async () => {
   //   const { data } = await calendarApi.getAll();
@@ -129,7 +129,7 @@ export const Calendar = () => {
               createLessonButton: {
                 text: "Создать занятие",
                 click: () => {
-                  onAddLesson();
+                  onOpenCalendarModal();
                 },
               },
             }}
