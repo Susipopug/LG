@@ -44,7 +44,7 @@ interface CalendarContextType {
   fetchCalendar: () => Promise<void>;
   fetchStudents: () => Promise<void>;
   onAddLesson: () => void;
-  handleAddEvent: (studentName: string, selectedDate: DateSelectArg) => void;
+  handleAddEvent: (form: LessonForm) => void;
   onCloseCaledarModal: () => void;
   onCloseStudentModal: () => void;
   onOpenStudentModal: () => void;
@@ -108,12 +108,24 @@ export const CalendarProvider: React.FC<CalendarProviderProps> = ({
     console.log("Selected Date:", form);
     //  const calendarLibraryApi = form.view.calendar;
 
-    const start = form.date.set("hour", 0).add(form.startTime.valueOf());
+    // const start = form.date.set("hour", 0).add(form.startTime.valueOf());
+
+    const datePart = dayjs(form.date).startOf("day");
+
+    // Add startTime and endTime (assuming they are durations or timestamps)
+    const start = datePart
+      .add(form.startTime.hour(), "hour")
+      .add(form.startTime.minute(), "minute");
+
+    const end = datePart
+      .add(form.endTime.hour(), "hour")
+      .add(form.endTime.minute(), "minute");
+
     // Convert Dayjs to Date for calendar event
     const calendarEvent: EventInput = {
       id: Date.now().toString(),
       start: start.toDate(),
-      end: start.set("hour", 0).add(form.endTime.valueOf()).toDate(),
+      end: end.toDate(),
       title: form.userName,
       allDay: false,
       extendedProps: {

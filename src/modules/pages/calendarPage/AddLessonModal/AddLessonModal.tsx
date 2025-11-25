@@ -16,19 +16,8 @@ import type { Dayjs } from "dayjs";
 import { useState } from "react";
 import dayjs from "dayjs";
 import { useAppContext } from "@/components/context/AppContext";
-import type { DateSelectArg, EventInput } from "@fullcalendar/core/index.js";
 
-export interface LessonForm
-  extends Pick<
-    Lesson,
-    | "userId"
-    | "id"
-    | "userName"
-    | "isRegular"
-    | "description"
-    | "frequency"
-    | "every"
-  > {
+export interface LessonForm extends Omit<Lesson, "dateStart" | "dateEnd"> {
   date: Dayjs;
   startTime: Dayjs;
   endTime: Dayjs;
