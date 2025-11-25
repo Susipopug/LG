@@ -40,7 +40,7 @@ interface CalendarContextType {
   updatedScheduleItems: SheduleItem[];
   StatusMap: Record<TSheduleStatus, string>;
   setCurrentStudent: React.Dispatch<React.SetStateAction<string>>;
-  setCurrentEvents: React.Dispatch<React.SetStateAction<LessonForm[]>>;
+  setCurrentEvents: React.Dispatch<React.SetStateAction<EventInput[]>>;
   fetchCalendar: () => Promise<void>;
   fetchStudents: () => Promise<void>;
   onAddLesson: () => void;
@@ -61,7 +61,7 @@ interface CalendarProviderProps {
 export const CalendarProvider: React.FC<CalendarProviderProps> = ({
   children,
 }) => {
-  const [currentEvents, setCurrentEvents] = useState<LessonForm[]>([]);
+  const [currentEvents, setCurrentEvents] = useState<EventInput[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [students, setStudents] = useState<Student[]>([]);
   const [currentStudent, setCurrentStudent] = useState<Student["id"]>("");
@@ -104,43 +104,29 @@ export const CalendarProvider: React.FC<CalendarProviderProps> = ({
     fetchStudents();
   }, [fetchCalendar]);
 
-  const handleAddEvent = (studentName: string, selectedDate: DateSelectArg) => {
-    if (studentName && selectedDate) {
-      const calendarLibraryApi = selectedDate.view.calendar;
-      calendarLibraryApi.unselect();
+  const handleAddEvent = (form: LessonForm) => {
+    console.log("Selected Date:", form);
+    //  const calendarLibraryApi = form.view.calendar;
 
-      console.log("Selected Date:", selectedDate);
-      const newEvent: LessonForm = {
-        id: Date.now(),
-        date: dayjs(selectedDate.start),
-        userName: studentName,
-        startTime: dayjs(selectedDate.start),
-        endTime: dayjs(selectedDate?.end || selectedDate.start),
-        every: 0, // default value, adjust as needed
-        userId: 0, // placeholder, replace with actual userId if available
-        frequency: "",
-        isRegular: false, // or true based on your logic
-        description: "",
-      };
+    const start = form.date.set("hour", 0).add(form.startTime.valueOf());
+    // Convert Dayjs to Date for calendar event
+    const calendarEvent: EventInput = {
+      id: Date.now().toString(),
+      start: start.toDate(),
+      end: start.set("hour", 0).add(form.endTime.valueOf()).toDate(),
+      title: form.userName,
+      allDay: false,
+      extendedProps: {
+        description: form.description,
+        isRegular: form.isRegular,
+      },
+    };
+    console.log(calendarEvent);
 
-      // Convert Dayjs to Date for calendar event
-      const calendarEvent: EventInput = {
-        id: newEvent.id.toString(),
-        start: newEvent.startTime.toDate(),
-        end: newEvent.endTime.toDate(),
-        title: newEvent.userName,
-        allDay: false,
-        extendedProps: {
-          description: newEvent.description,
-          isRegular: newEvent.isRegular,
-        },
-      };
+    setCurrentEvents((prevEvents) => [...prevEvents, calendarEvent]);
 
-      setCurrentEvents((prevEvents) => [...prevEvents, newEvent]);
-
-      // Также добавляем в календарь
-      calendarLibraryApi.addEvent(calendarEvent);
-    }
+    // Также добавляем в календарь
+    // calendarLibraryApi.addEvent(calendarEvent);
   };
 
   const onAddLesson = () => {

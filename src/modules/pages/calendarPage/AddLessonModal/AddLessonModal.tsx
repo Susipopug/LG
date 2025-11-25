@@ -44,9 +44,9 @@ export const AddLesson = () => {
   });
 
   const onSubmit = (data: LessonForm) => {
-    handleAddEvent(data.userName, {
-      start: data.date.toDate(),
-    } as DateSelectArg);
+    console.log(data);
+
+    handleAddEvent(data);
     onCloseCaledarModal();
     reset();
     console.log(data);
@@ -71,7 +71,7 @@ export const AddLesson = () => {
           {/* вставить в controller */}
           <Controller
             control={control}
-            name="userId"
+            name="userName"
             render={({ field: { value, onChange } }) => (
               <label className={styles.inputLabel}>
                 Ученик
@@ -91,25 +91,23 @@ export const AddLesson = () => {
 
           <div className={styles.formDate}>
             <Controller
+              defaultValue={dayjs(new Date())}
               name="date"
               control={control}
               render={({ field: { value, onChange } }) => (
                 <DatePicker
                   value={value}
-                  // onChange={(date) => {
-                  //   setSelectedDate(date); // or your state updater
-                  // }}
-                  defaultValue={dayjs(new Date())}
+                  onChange={onChange}
                   format={["DD.MM.YYYY"]}
                 />
               )}
             />
             <Controller
+              defaultValue={dayjs("8:00", "HH:mm")}
               name="startTime"
               control={control}
               render={({ field: { value, onChange } }) => (
                 <TimePicker
-                  defaultValue={dayjs("8:00", "HH:mm")}
                   value={value}
                   onChange={onChange}
                   showSecond={false}
@@ -118,11 +116,11 @@ export const AddLesson = () => {
             />
 
             <Controller
+              defaultValue={dayjs("9:00", "HH:mm")}
               name="endTime"
               control={control}
               render={({ field: { value, onChange } }) => (
                 <TimePicker
-                  defaultValue={dayjs("9:00", "HH:mm")}
                   value={value}
                   onChange={onChange}
                   showSecond={false}
