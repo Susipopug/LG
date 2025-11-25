@@ -2,7 +2,7 @@ import styles from "./Students.module.css";
 import { MyButton } from "@/components/UI/MyButton";
 import empty from "@assets/images/empty.svg";
 import { useCalendar } from "@/components/context/CalendarContext";
-import { memo, useState } from "react";
+import { memo, useCallback, useMemo, useState } from "react";
 import { StudentModal } from "../StudentModal";
 import { SearchInput } from "@/components/UI/SearchInput";
 import { Tabs } from "antd";
@@ -15,31 +15,45 @@ export const Students = memo(() => {
   const { students, addNewStudent } = useAppContext();
   const [searchQuery, setSearchQuery] = useState("");
 
-  const simplifiedStudentData = students?.map((item) => ({
-    name: item.name,
-    lessonsCount: item.lessonsBalance || 0,
-  }));
+  const simplifiedStudentData = useMemo(() => {
+    return (
+      students?.map((item) => ({
+        name: item.name,
+        lessonsCount: item.lessonsBalance || 0,
+      })) || []
+    );
+  }, [students]);
 
   // making sure there is no filter without the entered value
   const clearSearchQuery = searchQuery.trim().toLowerCase();
 
-  const filteredStudents = simplifiedStudentData.filter((item) =>
-    item.name.toLowerCase().includes(clearSearchQuery.toLowerCase())
-  );
+  const filteredStudents = useMemo(() => {
+    return simplifiedStudentData.filter((item) =>
+      item.name.toLowerCase().includes(clearSearchQuery.toLowerCase())
+    );
+  }, [simplifiedStudentData, clearSearchQuery]);
+
   console.log("Students");
 
-  const onChangeTab = (value: string) => {
-    setTab(value);
-  };
+  const onChangeTab = useCallback(
+    (value: string) => {
+      setTab(value);
+    },
+    [tab]
+  );
+
+  const handleSearchChange = useCallback(
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      setSearchQuery(event.target.value);
+    },
+    [searchQuery]
+  );
 
   return (
     <>
       <section>
         <header className={styles.studentsHeader}>
-          <SearchInput
-            value={searchQuery}
-            onChange={(event) => setSearchQuery(event.target.value)}
-          />
+          <SearchInput value={searchQuery} onChange={handleSearchChange} />
           <Tabs activeKey={tab} items={STUDENTS} onChange={onChangeTab} />
           <div className={styles.studentsButton}>
             <MyButton

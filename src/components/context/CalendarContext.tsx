@@ -34,6 +34,7 @@ interface CalendarContextType {
   students: Student[];
   isLoading: boolean;
   addLesson: boolean;
+  addStudent: boolean;
   currentEvents: EventInput[];
   currentStudent: string;
   calendarModal: boolean;
@@ -66,6 +67,7 @@ export const CalendarProvider: React.FC<CalendarProviderProps> = ({
   const [students, setStudents] = useState<Student[]>([]);
   const [currentStudent, setCurrentStudent] = useState<Student["id"]>("");
   const [calendarModal, setCalendarModal] = useState(false);
+
   const [addStudent, setAddStudent] = useState(false);
 
   const fetchStudents = useCallback(async () => {

@@ -22,7 +22,7 @@
 .inputLabel {
   display: flex;
   flex-direction: column;
-  row-gap: 8px;
+  gap: 8px;
 }
 .switchLabel {
   display: flex;

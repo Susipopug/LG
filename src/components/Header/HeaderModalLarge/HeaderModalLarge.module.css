@@ -21,3 +21,9 @@
   gap: 6px;
   align-items: center;
 }
+
+.formLabel {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}

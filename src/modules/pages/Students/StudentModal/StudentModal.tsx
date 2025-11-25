@@ -14,7 +14,7 @@ import {
 import type { IStudent } from "../interfaces/StudentInterface";
 import { Controller, useForm } from "react-hook-form";
 import { STUDENTS_INFO } from "./constants";
-import { useState } from "react";
+import { memo, useCallback, useState } from "react";
 import { LoadingOutlined, PlusOutlined } from "@ant-design/icons";
 
 interface studentModalProps {
@@ -28,7 +28,7 @@ const getBase64 = (img: FileType, callback: (url: string) => void) => {
   reader.readAsDataURL(img);
 };
 
-export const StudentModal = ({ onAddNewStudent }: studentModalProps) => {
+export const StudentModal = memo(({ onAddNewStudent }: studentModalProps)=>{
   const { onCloseStudentModal, addStudent } = useCalendar();
   const [loading, setLoading] = useState(false);
   const [imageUrl, setImageUrl] = useState<string>();
@@ -50,9 +50,18 @@ export const StudentModal = ({ onAddNewStudent }: studentModalProps) => {
 
   console.log("StudentModal");
 
-  const onChangeTab = (value: string) => {
-    setTab(value);
-  };
+  //doesn't re-render the component Student on the tab change
+  const onChangeTab = useCallback(
+    (value: string) => {
+      setTab(value);
+    },
+    [tab]
+  );
+
+  // const onChangeTab = (value: string) => {
+  //   setTab(value);
+  // };
+
   const handleChange: UploadProps["onChange"] = (info) => {
     if (info.file.status === "uploading") {
       setLoading(true);
@@ -222,4 +231,4 @@ export const StudentModal = ({ onAddNewStudent }: studentModalProps) => {
       </Modal>
     </div>
   );
-};
+});

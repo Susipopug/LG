@@ -100,26 +100,26 @@ async function enableMocking() {
 
 enableMocking().then(() =>
   createRoot(document.getElementById("root")!).render(
-    <StrictMode>
-      <ConfigProvider
-        locale={locale}
-        theme={{
-          components: {
-            Modal: {
-              borderRadiusLG: 24,
-            },
-            Button: {
-              colorPrimaryBg: " #1677FF",
-            },
+    // <StrictMode>
+    <ConfigProvider
+      locale={locale}
+      theme={{
+        components: {
+          Modal: {
+            borderRadiusLG: 24,
           },
-        }}
-      >
-        <AppProvider>
-          <CalendarProvider>
-            <RouterProvider router={router} />
-          </CalendarProvider>
-        </AppProvider>
-      </ConfigProvider>
-    </StrictMode>
+          Button: {
+            colorPrimaryBg: " #1677FF",
+          },
+        },
+      }}
+    >
+      <AppProvider>
+        <CalendarProvider>
+          <RouterProvider router={router} />
+        </CalendarProvider>
+      </AppProvider>
+    </ConfigProvider>
+    // </StrictMode>
   )
 );

@@ -16,7 +16,8 @@ import { CalendarModal } from "@/modules/pages/CalendarPage/CalendarModal";
 export const Calendar = () => {
   // const [currentEvents, setCurrentEvents] = useState<EventInput[]>([]);
   const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
-  const [selectedDate, setSelectedDate] = useState<DateSelectArg | null>(null);
+  const [calendarDateSelected, setCalendarDateSelected] =
+    useState<DateSelectArg | null>(null);
   const [students, setStudents] = useState<Student[]>([]);
   const [currentStudent, setCurrentStudent] = useState<Student["id"]>("");
   const [isCreateLessonLoading, setIsCreateLessonLoading] = useState(false);
@@ -52,27 +53,27 @@ export const Calendar = () => {
   //   fetchStudents();
   // }, [fetchCalendar]);
 
-  const handleDateClick = (selected: DateSelectArg) => {
-    console.log("Date selected:", selected);
-    setSelectedDate(selected);
-    setIsDialogOpen(true);
+  // const handleDateClick = (selected: DateSelectArg) => {
+  //   console.log("Date selected:", selected);
+  //   setCalendarDateSelected(selected);
+  //   onOpenCalendarModal();
 
-    // Extract time information
-    const startTime = selected.start.toLocaleTimeString([], {
-      hour: "2-digit",
-      minute: "2-digit",
-    });
-    const endTime = selected.end.toLocaleTimeString([], {
-      hour: "2-digit",
-      minute: "2-digit",
-    });
+  //   // Extract time information
+  //   const startTime = selected.start.toLocaleTimeString([], {
+  //     hour: "2-digit",
+  //     minute: "2-digit",
+  //   });
+  //   const endTime = selected.end.toLocaleTimeString([], {
+  //     hour: "2-digit",
+  //     minute: "2-digit",
+  //   });
 
-    console.log(`Selected time: ${startTime} - ${endTime}`);
-  };
+  //   console.log(`Selected time: ${startTime} - ${endTime}`);
+  // };
 
-  const handleCloseDialog = () => {
-    setIsDialogOpen(false);
-  };
+  // const handleCloseDialog = () => {
+  //   setIsDialogOpen(false);
+  // };
 
   // const handleAddEvent = async (e: React.FormEvent) => {
   //   e.preventDefault();
@@ -139,7 +140,7 @@ export const Calendar = () => {
             selectable={true}
             selectMirror={true}
             dayMaxEvents={true}
-            select={handleDateClick}
+            // select={handleDateClick}
             events={currentEvents}
             allDaySlot={false}
             selectConstraint={{
