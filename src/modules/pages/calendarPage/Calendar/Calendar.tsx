@@ -9,9 +9,9 @@ import { calendarApi } from "@/api/calendarApi";
 import { studentApi } from "@/api/studentApi";
 import type { Student } from "@/entities/student";
 import ruLocale from "@fullcalendar/core/locales/ru";
-import { useCalendar } from "@/components/context/CalendarContext";
-import { AddLesson } from "../AddLessonModal/AddLessonModal";
+import { useCalendarContext } from "@/components/context/CalendarContext";
 import { CalendarModal } from "@/modules/pages/CalendarPage/CalendarModal";
+import { AddLessonModal } from "../AddLessonModal";
 
 export const Calendar = () => {
   // const [currentEvents, setCurrentEvents] = useState<EventInput[]>([]);
@@ -22,7 +22,7 @@ export const Calendar = () => {
   const [currentStudent, setCurrentStudent] = useState<Student["id"]>("");
   const [isCreateLessonLoading, setIsCreateLessonLoading] = useState(false);
 
-  const { onOpenCalendarModal, currentEvents } = useCalendar();
+  const { onOpenCalendarModal, currentEvents, calendarRef } = useCalendarContext();
 
   // const fetchCalendar = useCallback(async () => {
   //   const { data } = await calendarApi.getAll();
@@ -135,6 +135,7 @@ export const Calendar = () => {
               },
             }}
             initialView="timeGridWeek"
+            ref={calendarRef}
             locale={ruLocale}
             editable={true}
             selectable={true}
@@ -159,7 +160,7 @@ export const Calendar = () => {
           students={students}
         /> */}
 
-        <AddLesson />
+        <AddLessonModal />
       </section>
     </>
   );

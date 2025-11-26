@@ -1,4 +1,4 @@
-import { useCalendar } from "@/components/context/CalendarContext";
+import { useCalendarContext } from "@/components/context/CalendarContext";
 import { MyButton } from "@/components/UI/MyButton";
 import type { Lesson } from "@/entities";
 import { Controller, useForm } from "react-hook-form";
@@ -23,8 +23,9 @@ export interface LessonForm extends Omit<Lesson, "dateStart" | "dateEnd"> {
   endTime: Dayjs;
 }
 
-export const AddLesson = () => {
-  const { calendarModal, onCloseCaledarModal, handleAddEvent } = useCalendar();
+export const AddLessonModal = () => {
+  const { calendarModal, onCloseCaledarModal, handleAddEvent } =
+    useCalendarContext();
   const { students } = useAppContext();
   const [value, setValue] = useState<string | number | null>("1");
 

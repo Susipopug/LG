@@ -16,6 +16,8 @@ export const Header: React.FC<HeaderProps> = ({ teacherAvatar }) => {
     setIsAccountOpen(!isAccountOpen);
   };
 
+  console.log("Header");
+
   return (
     <div className={styles.header}>
       <Link to={"/"} className={styles.logo}>

@@ -2,7 +2,7 @@ import styles from "./SheduleAndPanel.module.css";
 import { useState } from "react";
 import { SheduleEmpty } from "../SheduleEmpty/SheduleEmpty";
 import { Schedule } from "../DaySchedule/Schedule";
-import { useCalendar } from "@/components/context/CalendarContext";
+import { useCalendarContext } from "@/components/context/CalendarContext";
 import { ScheduleHeader } from "../ScheduleHeader";
 import { ProfilePanel } from "../ProfilePanel";
 
@@ -11,10 +11,8 @@ interface SelectedStudent {
   time: string;
 }
 
-
-
 export const SheduleAndPanel: React.FC = () => {
-  const { updatedScheduleItems, StatusMap } = useCalendar();
+  const { updatedScheduleItems, StatusMap } = useCalendarContext();
 
   const [selectedStudent, setSelectedStudent] = useState<SelectedStudent>(
     updatedScheduleItems.length > 0

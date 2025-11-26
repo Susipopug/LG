@@ -19,6 +19,8 @@ export const HeaderModalSmall = ({
   const onModalLargeClose = () => {
     setIsModalLargeOpen(false);
   };
+
+  console.log("HeaderModalSmall");
   return (
     <>
       {isAccountOpen && (

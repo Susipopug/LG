@@ -29,6 +29,7 @@ export const HeaderModalLarge = ({
   const onChangeTab = (value: string) => {
     setTab(value);
   };
+  console.log("HeaderModalLarge");
 
   return (
     <>

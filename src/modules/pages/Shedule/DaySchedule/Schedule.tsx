@@ -1,9 +1,12 @@
 import styles from "./Schedule.module.css";
 import time from "@/assets/icons/time.svg";
-import type {
-  SheduleItem,
-  TSheduleStatus,
+import {
+  useCalendarContext,
+  type SheduleItem,
+  type TSheduleStatus,
 } from "@/components/context/CalendarContext";
+import type { DateInput } from "@fullcalendar/core/index.js";
+import dayjs from "dayjs";
 
 interface ScheduleProps {
   onItemClick: (index: number, name: string, time: string) => void;
@@ -18,9 +21,39 @@ export const Schedule: React.FC<ScheduleProps> = ({
   statusMap,
   selectedIndex,
 }) => {
+  const { currentEvents } = useCalendarContext();
+
+  // Format the time for display - handles all DateInput types
+  const formatEventTime = (
+    start: string | Date | number[],
+    end: string | Date | number[]
+  ) => {
+    if (!start || !end) {
+      return "Time not set";
+    }
+
+    try {
+      // Convert DateInput to proper format for dayjs
+      // const startDate = typeof start === "number" ? new Date(start) : start;
+      // const endDate = typeof end === "number" ? new Date(end) : end;
+
+      const startTime = dayjs(startDate).format("HH:mm");
+      const endTime = dayjs(endDate).format("HH:mm");
+      return `${startTime} - ${endTime}`;
+    } catch (error) {
+      console.error("Error formatting time:", error);
+      return "Invalid time";
+    }
+  };
+
+  // Get initials from title (student name)
+  const getInitials = (name: string | undefined) => {
+    return name ? name.charAt(0).toUpperCase() : "?";
+  };
+
   return (
     <div className={styles.schedule}>
-      {updatedScheduleItems.map((item, index) => {
+      {currentEvents.map((item, index) => {
         const isFirstItem = index === 0;
         const isSelected = selectedIndex === index;
 
@@ -29,6 +62,9 @@ export const Schedule: React.FC<ScheduleProps> = ({
           isSelected ? styles.selected : "",
           isFirstItem ? styles.first : "", // Apply styles for first selected item
         ].join(" ");
+
+        const timeString = formatEventTime(item.start, item.end);
+        const initials = getInitials(item.title);
 
         return (
           <section
@@ -39,15 +75,15 @@ export const Schedule: React.FC<ScheduleProps> = ({
             <div className={styles.timeAndStatus}>
               <div className={styles.time}>
                 <img src={time} alt="time" />
-                <div>{item.time}</div>
+                <div>{item.start}</div>
               </div>
 
-              <div>{statusMap[item.status]}</div>
+              {/* <div>{statusMap[item.status]}</div> */}
             </div>
 
             <div className={styles.student}>
-              <div className={styles.avatar}>{item.studentInitials}</div>
-              <div className={styles.name}>{item.studentName}</div>
+              <div className={styles.avatar}>{item.initials}</div>
+              <div className={styles.name}>{item.title}</div>
             </div>
           </section>
         );

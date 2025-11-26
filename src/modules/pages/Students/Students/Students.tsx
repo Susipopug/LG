@@ -1,7 +1,7 @@
 import styles from "./Students.module.css";
 import { MyButton } from "@/components/UI/MyButton";
 import empty from "@assets/images/empty.svg";
-import { useCalendar } from "@/components/context/CalendarContext";
+import { useCalendarContext } from "@/components/context/CalendarContext";
 import { memo, useCallback, useMemo, useState } from "react";
 import { StudentModal } from "../StudentModal";
 import { SearchInput } from "@/components/UI/SearchInput";
@@ -11,7 +11,7 @@ import { useAppContext } from "@/components/context/AppContext";
 
 export const Students = memo(() => {
   const [tab, setTab] = useState("1");
-  const { onOpenStudentModal } = useCalendar();
+  const { onOpenStudentModal } = useCalendarContext();
   const { students, addNewStudent } = useAppContext();
   const [searchQuery, setSearchQuery] = useState("");
 
@@ -42,12 +42,9 @@ export const Students = memo(() => {
     [tab]
   );
 
-  const handleSearchChange = useCallback(
-    (event: React.ChangeEvent<HTMLInputElement>) => {
-      setSearchQuery(event.target.value);
-    },
-    [searchQuery]
-  );
+  const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchQuery(event.target.value);
+  };
 
   return (
     <>
@@ -73,7 +70,7 @@ export const Students = memo(() => {
               {filteredStudents.length > 0 ? (
                 <div className={styles.studentsList}>
                   {filteredStudents.map((item) => (
-                    <div className={styles.studentsItems}>
+                    <div key={item.name} className={styles.studentsItems}>
                       <p className={styles.studentsItem}>{item.name}</p>
                       <p className={styles.studentsItem}>{item.lessonsCount}</p>
                     </div>

@@ -5,14 +5,20 @@ import React, {
   useEffect,
   useCallback,
   type ReactNode,
+  useRef,
 } from "react";
 import { studentApi } from "@/api/studentApi";
 import { calendarApi } from "@/api/calendarApi";
 import type { Student } from "@/entities/student";
-import type { DateSelectArg, EventInput } from "@fullcalendar/core/index.js";
+import type {
+  CalendarApi,
+  DateSelectArg,
+  EventInput,
+} from "@fullcalendar/core/index.js";
 import type { LessonForm } from "@/modules/pages/CalendarPage/AddLessonModal/AddLessonModal";
 import dayjs from "dayjs";
 import type { Lesson } from "@/entities";
+import type FullCalendar from "@fullcalendar/react";
 
 const ScheduleStatus = {
   Cancelled: "CANCELLED",
@@ -33,17 +39,17 @@ export interface SheduleItem {
 interface CalendarContextType {
   students: Student[];
   isLoading: boolean;
-  addLesson: boolean;
   addStudent: boolean;
   currentEvents: EventInput[];
   currentStudent: string;
   calendarModal: boolean;
   updatedScheduleItems: SheduleItem[];
   StatusMap: Record<TSheduleStatus, string>;
+  calendarRef?: React.RefObject<FullCalendar>;
   setCurrentStudent: React.Dispatch<React.SetStateAction<string>>;
   setCurrentEvents: React.Dispatch<React.SetStateAction<EventInput[]>>;
-  fetchCalendar: () => Promise<void>;
-  fetchStudents: () => Promise<void>;
+  // fetchCalendar: () => Promise<void>;
+  // fetchStudents: () => Promise<void>;
   handleAddEvent: (form: LessonForm) => void;
   onOpenCalendarModal: () => void;
   onCloseCaledarModal: () => void;
@@ -59,53 +65,73 @@ interface CalendarProviderProps {
   children: ReactNode;
 }
 
+// const getNewLessonData = () => {
+//   const newLessonsData = localStorage.getItem("newLessonsData");
+//   if (newLessonsData) {
+//     return JSON.parse(newLessonsData);
+//   }
+//   return [];
+// };
+
 export const CalendarProvider: React.FC<CalendarProviderProps> = ({
   children,
 }) => {
-  const [currentEvents, setCurrentEvents] = useState<EventInput[]>([]);
+  const [currentEvents, setCurrentEvents] = useState<EventInput[]>(() => {
+    // Load from localStorage on initial state
+    const savedEvents = localStorage.getItem("newLessonsData");
+    return savedEvents ? JSON.parse(savedEvents) : [];
+  });
   const [isLoading, setIsLoading] = useState(false);
   const [students, setStudents] = useState<Student[]>([]);
   const [currentStudent, setCurrentStudent] = useState<Student["id"]>("");
   const [calendarModal, setCalendarModal] = useState(false);
 
   const [addStudent, setAddStudent] = useState(false);
+  const calendarRef = useRef<FullCalendar | null>(null);
 
-  const fetchStudents = useCallback(async () => {
-    setIsLoading(true);
-    try {
-      const { data } = await studentApi.getAll();
-      setStudents(data);
-    } catch (error) {
-      console.error("Error fetching students:", error);
-    } finally {
-      setIsLoading(false);
-    }
-  }, []);
+  // const fetchStudents = useCallback(async () => {
+  //   setIsLoading(true);
+  //   try {
+  //     const { data } = await studentApi.getAll();
+  //     setStudents(data);
+  //   } catch (error) {
+  //     console.error("Error fetching students:", error);
+  //   } finally {
+  //     setIsLoading(false);
+  //   }
+  // }, []);
 
-  const fetchCalendar = useCallback(async () => {
-    const { data } = await calendarApi.getAll();
-    setCurrentEvents(
-      data.map((item) => ({
-        id: item.id,
-        start: new Date(item.start),
-        end: new Date(item.end),
-        title: item.name,
-        allDay: false,
-        extendedProps: {
-          completed: false,
-          isHidden: false,
-        },
-      }))
-    );
-  }, []);
+  // const fetchCalendar = useCallback(async () => {
+  //   const { data } = await calendarApi.getAll();
+  //   setCurrentEvents(
+  //     data.map((item) => ({
+  //       id: item.id,
+  //       start: new Date(item.start),
+  //       end: new Date(item.end),
+  //       title: item.name,
+  //       allDay: false,
+  //       extendedProps: {
+  //         completed: false,
+  //         isHidden: false,
+  //       },
+  //     }))
+  //   );
+  // }, []);
 
-  useEffect(() => {
-    fetchCalendar();
-    fetchStudents();
-  }, [fetchCalendar]);
+  // useEffect(() => {
+  //   fetchCalendar();
+  //   fetchStudents();
+  // }, [fetchCalendar]);
+
+  // const addEvent = (eventData: any) => {
+  //   const calendarApi: CalendarApi | undefined = calendarRef.current?.getApi();
+  //   if (calendarApi) {
+  //     calendarApi.addEvent(eventData);
+  //   }
+  // };
 
   const handleAddEvent = (form: LessonForm) => {
-    //  const calendarLibraryApi = form.view.calendar;
+    const calendarLibraryApi = calendarRef.current?.getApi();
 
     const datePart = dayjs(form.date).startOf("day");
 
@@ -132,10 +158,15 @@ export const CalendarProvider: React.FC<CalendarProviderProps> = ({
     };
     console.log(calendarEvent);
 
-    setCurrentEvents((prevEvents) => [...prevEvents, calendarEvent]);
-
+    setCurrentEvents((prevEvents) => {
+      const newLessonsData = [...prevEvents, calendarEvent];
+      localStorage.setItem("newLessonsData", JSON.stringify(newLessonsData));
+      return newLessonsData;
+    });
     // Также добавляем в календарь
-    // calendarLibraryApi.addEvent(calendarEvent);
+    if (calendarLibraryApi) {
+      calendarLibraryApi.addEvent(calendarEvent);
+    }
   };
 
   const onOpenCalendarModal = () => {
@@ -200,12 +231,13 @@ export const CalendarProvider: React.FC<CalendarProviderProps> = ({
     updatedScheduleItems,
     StatusMap,
     scheduleItems,
+    calendarRef,
     setCurrentStudent,
     handleAddEvent,
     onOpenCalendarModal,
     setCurrentEvents,
-    fetchCalendar,
-    fetchStudents,
+    // fetchCalendar,
+    // fetchStudents,
     onCloseCaledarModal,
     onCloseStudentModal,
     onOpenStudentModal,
@@ -218,10 +250,12 @@ export const CalendarProvider: React.FC<CalendarProviderProps> = ({
   );
 };
 
-export const useCalendar = () => {
+export const useCalendarContext = () => {
   const context = useContext(CalendarContext);
   if (context === undefined) {
-    throw new Error("useCalendar must be used within a CalendarProvider");
+    throw new Error(
+      "useCalendarContext must be used within a CalendarProvider"
+    );
   }
   return context;
 };

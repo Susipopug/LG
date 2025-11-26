@@ -72,11 +72,10 @@ export const ProfilePanel: React.FC<ProfilePanelProps> = ({
         <h3>Статус занятия</h3>
         <div className={styles.switches}>
           {switchesToDisplay.map((s) => (
-            <div className={styles.panelSwitches}>
+            <div key={s.id} className={styles.panelSwitches}>
               <Switch
                 size="small"
                 defaultChecked
-                key={s.id}
                 id={s.id}
                 checked={activeSwitch === s.id}
                 onChange={(checked) => handleSwitchChange(checked, s.id)}

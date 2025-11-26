@@ -1,6 +1,6 @@
 import styles from "./StudentModal.module.css";
 import { MyButton } from "@/components/UI/MyButton";
-import { useCalendar } from "@/components/context/CalendarContext";
+import { useCalendarContext } from "@/components/context/CalendarContext";
 import {
   Input,
   InputNumber,
@@ -28,8 +28,8 @@ const getBase64 = (img: FileType, callback: (url: string) => void) => {
   reader.readAsDataURL(img);
 };
 
-export const StudentModal = memo(({ onAddNewStudent }: studentModalProps)=>{
-  const { onCloseStudentModal, addStudent } = useCalendar();
+export const StudentModal = memo(({ onAddNewStudent }: studentModalProps) => {
+  const { onCloseStudentModal, addStudent } = useCalendarContext();
   const [loading, setLoading] = useState(false);
   const [imageUrl, setImageUrl] = useState<string>();
 

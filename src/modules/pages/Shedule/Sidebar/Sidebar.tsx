@@ -53,7 +53,7 @@ const Sidebar = () => {
               activeItem === "calendar" ? styles.activeText : ""
             }`}
           >
-            Календарь{" "}
+            Календарь
           </p>
         </Link>
 
@@ -66,7 +66,13 @@ const Sidebar = () => {
           <StudentsIcon
             color={activeItem === "students" ? "#1890FF" : "#000000"}
           />
-          <a href="#">Ученики</a>
+          <p
+            className={`${styles.sidebarItemText} ${
+              activeItem === "students" ? styles.activeText : ""
+            }`}
+          >
+            Ученики
+          </p>
         </Link>
       </nav>
       <div className={styles.sidebarBottom}>
