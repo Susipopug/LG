@@ -3,10 +3,11 @@ import styles from "./EditLessonModal.module.css";
 import { Controller, useForm } from "react-hook-form";
 import { MyButton } from "@/components/UI/MyButton";
 import time from "@/assets/icons/time.svg";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import type { Lesson } from "@/entities";
 import type { Dayjs } from "dayjs";
 import { useCalendarContext } from "@/components/context/CalendarContext";
+import dayjs from "dayjs";
 
 export interface IEditLesson extends Omit<Lesson, "dateStart" | "dateEnd"> {
   date: Dayjs;
@@ -18,11 +19,65 @@ export interface IEditLesson extends Omit<Lesson, "dateStart" | "dateEnd"> {
 export const EditLessonModal = () => {
   const [activeSwitch, setActiveSwitch] = useState<string | null>(null);
 
-  const { editModal, onCloseEditModal, currentEvents,  } = useCalendarContext();
+  const {
+    editModal,
+    onCloseEditModal,
+    currentEvents,
+    selectedEvent,
+    setSelectedEvent,
+  } = useCalendarContext();
 
-  const { handleSubmit, control, reset } = useForm<IEditLesson>({
+  const { handleSubmit, control, reset, setValue } = useForm<IEditLesson>({
     mode: "onSubmit",
   });
+
+  useEffect(() => {
+    if (selectedEvent && editModal) {
+      const eventDef = selectedEvent._def;
+      const extendedProps = eventDef.extendedProps;
+
+      // Преобразуем даты из FullCalendar в Dayjs
+      const start = dayjs(selectedEvent.start);
+      const end = dayjs(selectedEvent.end);
+
+      // Заполняем форму данными из события
+      setValue("userName", eventDef.title || "");
+      setValue("description", extendedProps?.description || "");
+      setValue("date", start);
+      setValue("startTime", start);
+      setValue("endTime", end);
+
+      // Установите статус если он есть в extendedProps
+      if (extendedProps?.status) {
+        setActiveSwitch(extendedProps.status);
+      }
+    }
+  }, [selectedEvent, editModal, setValue]);
+
+  const formatTime = (date: Date | Dayjs) => {
+    return dayjs(date).format("HH:mm");
+  };
+
+  const formatDate = (date: Date | Dayjs) => {
+    return dayjs(date).format("DD.MM.YYYY");
+  };
+
+  // Функция для получения времени урока
+  const getLessonTime = () => {
+    if (!selectedEvent) return "";
+
+    const start = selectedEvent.start;
+    const end = selectedEvent.end;
+
+    return `${formatTime(start)} - ${formatTime(end)}`;
+  };
+
+  // Функция для получения даты урока
+  const getLessonDate = () => {
+    if (!selectedEvent) return "";
+    return formatDate(selectedEvent.start);
+  };
+
   const switches = [
     { id: "default", label: "Проведено" },
     { id: "missed", label: "Пропущено" },
@@ -39,7 +94,7 @@ export const EditLessonModal = () => {
     }
   };
 
-    const handleEditModalData = (id: string) => {
+  const handleEditModalData = (id: string) => {
     return currentEvents?.map((item) => {
       if (item.id === id) {
         return item.title, item.start, item.end;
@@ -48,12 +103,22 @@ export const EditLessonModal = () => {
     });
   };
 
+  const handleClose = () => {
+    setSelectedEvent(null);
+    onCloseEditModal();
+    reset();
+    setActiveSwitch(null);
+  };
 
   const onSubmit = (data: IEditLesson) => {
-    //   handleEditEvent(data);
-    //   onCloseCaledarModal();
+    console.log("updated data", data);
+    if (selectedEvent) {
+      selectedEvent.setProp("title", data.userName);
+      selectedEvent.setExtendedProp("description", data.description);
+      selectedEvent.setExtendedProp("status", activeSwitch);
+    }
+    handleClose();
     reset();
-    console.log(data);
   };
 
   return (
@@ -69,12 +134,12 @@ export const EditLessonModal = () => {
         <form className={styles.dialogForm} onSubmit={handleSubmit(onSubmit)}>
           <div className={styles.time}>
             <img src={time} alt="time" />
-            <div>{/* {item.start} */}</div>
+            <div>{getLessonTime()}</div>
           </div>
 
           <div className={styles.studentName}>
             <img src="" alt="" />
-            <span>Student name</span>
+            <span>{selectedEvent?._def?.title || "Неизвестный ученик"}</span>
           </div>
 
           <Controller
@@ -111,7 +176,7 @@ export const EditLessonModal = () => {
             <MyButton
               buttonType="default"
               htmlType="button"
-              onClick={onCloseEditModal}
+              onClick={handleClose}
             >
               Перенести занятие
             </MyButton>

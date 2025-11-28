@@ -24,7 +24,7 @@ export const Calendar = () => {
   const [currentStudent, setCurrentStudent] = useState<Student["id"]>("");
   const [isCreateLessonLoading, setIsCreateLessonLoading] = useState(false);
 
-  const { onOpenCalendarModal, currentEvents, onOpenEditModal } =
+  const { onOpenCalendarModal, currentEvents, handleSelectEvent } =
     useCalendarContext();
 
   const setStatusColor = () => {
@@ -112,7 +112,7 @@ export const Calendar = () => {
             dayMaxEvents={true}
             // select={handleDateClick}
             events={setStatusColor()}
-            eventClick={onOpenEditModal}
+            eventClick={(clickInfo) => handleSelectEvent(clickInfo.event)}
             allDaySlot={false}
             selectConstraint={{
               startTime: "00:00",

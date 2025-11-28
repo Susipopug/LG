@@ -6,7 +6,7 @@ import {
   type TSheduleStatus,
 } from "@/components/context/CalendarContext";
 import type { DateInput } from "@fullcalendar/core/index.js";
-import dayjs from "dayjs";
+import dayjs, { Dayjs } from "dayjs";
 
 interface ScheduleProps {
   onItemClick: (index: number, name: string, time: string) => void;
@@ -14,6 +14,8 @@ interface ScheduleProps {
   statusMap: Record<TSheduleStatus, string>;
   selectedIndex: number | null;
 }
+
+type DateInput = Date | string | number | number[];
 
 export const Schedule: React.FC<ScheduleProps> = ({
   onItemClick,
@@ -23,29 +25,7 @@ export const Schedule: React.FC<ScheduleProps> = ({
 }) => {
   const { currentEvents } = useCalendarContext();
 
-  // Format the time for display - handles all DateInput types
-  const formatEventTime = (
-    start: string | Date | number[],
-    end: string | Date | number[]
-  ) => {
-    if (!start || !end) {
-      return "Time not set";
-    }
-
-    try {
-      // Convert DateInput to proper format for dayjs
-      // const startDate = typeof start === "number" ? new Date(start) : start;
-      // const endDate = typeof end === "number" ? new Date(end) : end;
-
-      const startTime = dayjs(startDate).format("HH:mm");
-      const endTime = dayjs(endDate).format("HH:mm");
-      return `${startTime} - ${endTime}`;
-    } catch (error) {
-      console.error("Error formatting time:", error);
-      return "Invalid time";
-    }
-  };
-
+  
   // Get initials from title (student name)
   const getInitials = (name: string | undefined) => {
     return name ? name.charAt(0).toUpperCase() : "?";
@@ -63,7 +43,13 @@ export const Schedule: React.FC<ScheduleProps> = ({
           isFirstItem ? styles.first : "", // Apply styles for first selected item
         ].join(" ");
 
-        const timeString = formatEventTime(item.start, item.end);
+        const timeString =
+          item.start && item.end
+            ? `${dayjs(item.start as Date).format("HH:mm")} - ${dayjs(
+                item.end as Date
+              ).format("HH:mm")}`
+            : "Time not set";
+
         const initials = getInitials(item.title);
 
         return (
@@ -75,14 +61,14 @@ export const Schedule: React.FC<ScheduleProps> = ({
             <div className={styles.timeAndStatus}>
               <div className={styles.time}>
                 <img src={time} alt="time" />
-                <div>{item.start}</div>
+                <div>{timeString}</div>
               </div>
 
               {/* <div>{statusMap[item.status]}</div> */}
             </div>
 
             <div className={styles.student}>
-              <div className={styles.avatar}>{item.initials}</div>
+              <div className={styles.avatar}>{initials}</div>
               <div className={styles.name}>{item.title}</div>
             </div>
           </section>

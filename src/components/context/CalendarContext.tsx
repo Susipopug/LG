@@ -41,6 +41,7 @@ interface CalendarContextType {
   isLoading: boolean;
   addStudent: boolean;
   currentEvents: EventInput[];
+  selectedEvent: any | null;
   currentStudent: string;
   calendarModal: boolean;
   editModal: boolean;
@@ -51,12 +52,14 @@ interface CalendarContextType {
   // fetchCalendar: () => Promise<void>;
   // fetchStudents: () => Promise<void>;
   handleAddEvent: (form: LessonForm) => void;
-  onOpenEditModal: () => void;
+  handleSelectEvent: (event: any) => void;
   onOpenCalendarModal: () => void;
   onCloseEditModal: () => void;
   onCloseCaledarModal: () => void;
   onCloseStudentModal: () => void;
   onOpenStudentModal: () => void;
+
+  setSelectedEvent: React.Dispatch<React.SetStateAction<any | null>>;
 }
 
 const CalendarContext = createContext<CalendarContextType | undefined>(
@@ -67,22 +70,17 @@ interface CalendarProviderProps {
   children: ReactNode;
 }
 
-// const getNewLessonData = () => {
-//   const newLessonsData = localStorage.getItem("newLessonsData");
-//   if (newLessonsData) {
-//     return JSON.parse(newLessonsData);
-//   }
-//   return [];
-// };
+const getSavedEvents = () => {
+  const savedEvents = localStorage.getItem("newLessonsData");
+  return savedEvents ? JSON.parse(savedEvents) : [];
+};
 
 export const CalendarProvider: React.FC<CalendarProviderProps> = ({
   children,
 }) => {
-  const [currentEvents, setCurrentEvents] = useState<EventInput[]>(() => {
-    // Load from localStorage on initial state
-    const savedEvents = localStorage.getItem("newLessonsData");
-    return savedEvents ? JSON.parse(savedEvents) : [];
-  });
+  const [currentEvents, setCurrentEvents] =
+    useState<EventInput[]>(getSavedEvents);
+  const [selectedEvent, setSelectedEvent] = useState<any | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [students, setStudents] = useState<Student[]>([]);
   const [currentStudent, setCurrentStudent] = useState<Student["id"]>("");
@@ -165,14 +163,16 @@ export const CalendarProvider: React.FC<CalendarProviderProps> = ({
     });
   };
 
-
   const onOpenCalendarModal = () => {
     setCalendarModal(true);
   };
   const onOpenStudentModal = () => {
     setAddStudent(true);
   };
-  const onOpenEditModal = () => {
+  const handleSelectEvent = (event: any) => {
+    console.log("Setting selected event and opening modal", event);
+    console.log(event);
+    setSelectedEvent(event);
     setEditModal(true);
   };
   const onCloseEditModal = () => {
@@ -235,6 +235,7 @@ export const CalendarProvider: React.FC<CalendarProviderProps> = ({
     StatusMap,
     scheduleItems,
     editModal,
+    selectedEvent,
     setCurrentStudent,
     handleAddEvent,
     setCurrentEvents,
@@ -242,7 +243,8 @@ export const CalendarProvider: React.FC<CalendarProviderProps> = ({
     // fetchStudents,
     onOpenCalendarModal,
     onOpenStudentModal,
-    onOpenEditModal,
+    setSelectedEvent,
+    handleSelectEvent,
     onCloseStudentModal,
     onCloseCaledarModal,
     onCloseEditModal,
