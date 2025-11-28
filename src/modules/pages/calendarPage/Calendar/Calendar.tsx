@@ -12,6 +12,8 @@ import ruLocale from "@fullcalendar/core/locales/ru";
 import { useCalendarContext } from "@/components/context/CalendarContext";
 import { CalendarModal } from "@/modules/pages/CalendarPage/CalendarModal";
 import { AddLessonModal } from "../AddLessonModal";
+import dayjs from "dayjs";
+import { EditLessonModal } from "../EditLessonModal";
 
 export const Calendar = () => {
   // const [currentEvents, setCurrentEvents] = useState<EventInput[]>([]);
@@ -22,7 +24,27 @@ export const Calendar = () => {
   const [currentStudent, setCurrentStudent] = useState<Student["id"]>("");
   const [isCreateLessonLoading, setIsCreateLessonLoading] = useState(false);
 
-  const { onOpenCalendarModal, currentEvents, calendarRef } = useCalendarContext();
+  const { onOpenCalendarModal, currentEvents, onOpenEditModal } =
+    useCalendarContext();
+
+  const setStatusColor = () => {
+    return currentEvents.map((event) => {
+      const isAfter = dayjs(new Date()).isAfter(
+        dayjs(event.end as string),
+        "day"
+      );
+      const isBefore = dayjs(new Date()).isBefore(
+        dayjs(event.end as string),
+        "day"
+      );
+
+      return {
+        ...event,
+        textColor: "#000000",
+        backgroundColor: isAfter || isBefore ? "#F0F0F0" : "#FFFFFF",
+      };
+    });
+  };
 
   // const fetchCalendar = useCallback(async () => {
   //   const { data } = await calendarApi.getAll();
@@ -47,58 +69,6 @@ export const Calendar = () => {
   //   console.log("students data", data);
   //   setStudents(data);
   // }, []);
-
-  // useEffect(() => {
-  //   fetchCalendar();
-  //   fetchStudents();
-  // }, [fetchCalendar]);
-
-  // const handleDateClick = (selected: DateSelectArg) => {
-  //   console.log("Date selected:", selected);
-  //   setCalendarDateSelected(selected);
-  //   onOpenCalendarModal();
-
-  //   // Extract time information
-  //   const startTime = selected.start.toLocaleTimeString([], {
-  //     hour: "2-digit",
-  //     minute: "2-digit",
-  //   });
-  //   const endTime = selected.end.toLocaleTimeString([], {
-  //     hour: "2-digit",
-  //     minute: "2-digit",
-  //   });
-
-  //   console.log(`Selected time: ${startTime} - ${endTime}`);
-  // };
-
-  // const handleCloseDialog = () => {
-  //   setIsDialogOpen(false);
-  // };
-
-  // const handleAddEvent = async (e: React.FormEvent) => {
-  //   e.preventDefault();
-  //   if (currentStudent && selectedDate) {
-  //     const calendarLibraryApi = selectedDate.view.calendar;
-  //     calendarLibraryApi.unselect();
-
-  //     const newEvent: EventInput = {
-  //       id: `${selectedDate.start.toISOString()}-${currentStudent}`,
-  //       title: currentStudent,
-  //       start: selectedDate?.start,
-  //       end: selectedDate?.end || selectedDate.start,
-  //       allDay: selectedDate?.allDay,
-  //       extendedProps: {
-  //         completed: false,
-  //       },
-  //     };
-
-  //     setCurrentEvents((prevEvents) => [...prevEvents, newEvent]);
-
-  //     // Также добавляем в календарь
-  //     calendarLibraryApi.addEvent(newEvent);
-  //     handleCloseDialog();
-  //   }
-  // };
 
   return (
     <>
@@ -135,14 +105,14 @@ export const Calendar = () => {
               },
             }}
             initialView="timeGridWeek"
-            ref={calendarRef}
             locale={ruLocale}
             editable={true}
             selectable={true}
             selectMirror={true}
             dayMaxEvents={true}
             // select={handleDateClick}
-            events={currentEvents}
+            events={setStatusColor()}
+            eventClick={onOpenEditModal}
             allDaySlot={false}
             selectConstraint={{
               startTime: "00:00",
@@ -161,6 +131,7 @@ export const Calendar = () => {
         /> */}
 
         <AddLessonModal />
+        <EditLessonModal />
       </section>
     </>
   );

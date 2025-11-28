@@ -43,15 +43,17 @@ interface CalendarContextType {
   currentEvents: EventInput[];
   currentStudent: string;
   calendarModal: boolean;
+  editModal: boolean;
   updatedScheduleItems: SheduleItem[];
   StatusMap: Record<TSheduleStatus, string>;
-  calendarRef?: React.RefObject<FullCalendar>;
   setCurrentStudent: React.Dispatch<React.SetStateAction<string>>;
   setCurrentEvents: React.Dispatch<React.SetStateAction<EventInput[]>>;
   // fetchCalendar: () => Promise<void>;
   // fetchStudents: () => Promise<void>;
   handleAddEvent: (form: LessonForm) => void;
+  onOpenEditModal: () => void;
   onOpenCalendarModal: () => void;
+  onCloseEditModal: () => void;
   onCloseCaledarModal: () => void;
   onCloseStudentModal: () => void;
   onOpenStudentModal: () => void;
@@ -85,9 +87,9 @@ export const CalendarProvider: React.FC<CalendarProviderProps> = ({
   const [students, setStudents] = useState<Student[]>([]);
   const [currentStudent, setCurrentStudent] = useState<Student["id"]>("");
   const [calendarModal, setCalendarModal] = useState(false);
+  const [editModal, setEditModal] = useState(false);
 
   const [addStudent, setAddStudent] = useState(false);
-  const calendarRef = useRef<FullCalendar | null>(null);
 
   // const fetchStudents = useCallback(async () => {
   //   setIsLoading(true);
@@ -131,8 +133,6 @@ export const CalendarProvider: React.FC<CalendarProviderProps> = ({
   // };
 
   const handleAddEvent = (form: LessonForm) => {
-    const calendarLibraryApi = calendarRef.current?.getApi();
-
     const datePart = dayjs(form.date).startOf("day");
 
     // Add startTime and endTime (assuming they are durations or timestamps)
@@ -163,17 +163,20 @@ export const CalendarProvider: React.FC<CalendarProviderProps> = ({
       localStorage.setItem("newLessonsData", JSON.stringify(newLessonsData));
       return newLessonsData;
     });
-    // Также добавляем в календарь
-    if (calendarLibraryApi) {
-      calendarLibraryApi.addEvent(calendarEvent);
-    }
   };
+
 
   const onOpenCalendarModal = () => {
     setCalendarModal(true);
   };
   const onOpenStudentModal = () => {
     setAddStudent(true);
+  };
+  const onOpenEditModal = () => {
+    setEditModal(true);
+  };
+  const onCloseEditModal = () => {
+    setEditModal(false);
   };
   const onCloseCaledarModal = () => {
     setCalendarModal(false);
@@ -231,16 +234,18 @@ export const CalendarProvider: React.FC<CalendarProviderProps> = ({
     updatedScheduleItems,
     StatusMap,
     scheduleItems,
-    calendarRef,
+    editModal,
     setCurrentStudent,
     handleAddEvent,
-    onOpenCalendarModal,
     setCurrentEvents,
     // fetchCalendar,
     // fetchStudents,
-    onCloseCaledarModal,
-    onCloseStudentModal,
+    onOpenCalendarModal,
     onOpenStudentModal,
+    onOpenEditModal,
+    onCloseStudentModal,
+    onCloseCaledarModal,
+    onCloseEditModal,
   };
 
   return (

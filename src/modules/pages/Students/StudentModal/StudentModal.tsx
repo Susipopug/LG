@@ -67,6 +67,8 @@ export const StudentModal = memo(({ onAddNewStudent }: studentModalProps) => {
       setLoading(true);
       return;
     }
+    console.log(info.file.status);
+
     if (info.file.status === "done") {
       // Get this url from response in real world.
       getBase64(info.file.originFileObj as FileType, (url) => {
@@ -121,7 +123,6 @@ export const StudentModal = memo(({ onAddNewStudent }: studentModalProps) => {
                   listType="picture-circle"
                   className="avatar-uploader"
                   showUploadList={false}
-                  action="https://660d2bd96ddfa2943b33731c.mockapi.io/api/upload"
                   beforeUpload={beforeUpload}
                   onChange={handleChange}
                 >

@@ -105,6 +105,20 @@
   white-space: nowrap;
   padding: 8px 15px;
 }
+
+.calendarContainer :global(.fc-scrollgrid-section-header .fc-scroller) {
+  overflow: unset !important;
+}
+
+.calendarContainer :global(.fc-timegrid-event .fc-event-main) {
+  padding: 12px 12px 0px;
+}
+.calendarContainer
+  :global(.fc-scrollgrid-section-body .fc-scroller-liquid-absolute) {
+}
+.calendarContainer :global(.fc-v-event .fc-event-time) {
+  display: none;
+}
 .calendarContainer :global(.fc-createLessonButton-button):hover {
   background-color: var(--fc-event-bg-color-blue);
   color: #ffffff;

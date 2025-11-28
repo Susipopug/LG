@@ -1,0 +1,52 @@
+.modalHeader {
+  height: 56px;
+  width: 100%;
+  border-bottom: 1px #d9d9d9 solid;
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+
+.dialogForm {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 56px;
+}
+.studentName {
+  display: flex;
+  gap: 8px;
+}
+.formDate {
+  display: flex;
+  gap: 10px;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+.inputLabel {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.switches {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.switchItem {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+.regularLabel {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.commentLabel {
+  display: flex;
+  flex-direction: column;
+  row-gap: 8px;
+}
