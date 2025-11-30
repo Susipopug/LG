@@ -22,12 +22,12 @@ export const SheduleAndPanel: React.FC = () => {
       ? dayjs(item.start as Date).format("HH:mm")
       : "";
     const endTime = item.end ? dayjs(item.end as Date).format("HH:mm") : "";
-    const timeString = `${startTime} ${endTime} `;
+    const timeString = `${startTime} - ${endTime} `;
 
     return {
       ...item,
       studentInitials: item.title?.charAt(0),
-      description: item.extendedProps?.description || 0,
+      description: item.extendedProps?.description || '',
       time: timeString,
     };
   });

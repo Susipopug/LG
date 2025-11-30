@@ -5,21 +5,38 @@ import { useCalendarContext } from "@/components/context/CalendarContext";
 import { memo, useCallback, useMemo, useState } from "react";
 import { StudentModal } from "../StudentModal";
 import { SearchInput } from "@/components/UI/SearchInput";
-import { Tabs } from "antd";
+import { Divider, Flex, Tabs } from "antd";
 import { STUDENTS } from "./constants";
 import { useAppContext } from "@/components/context/AppContext";
+import { Tag } from "antd";
+
+const presets = [
+  "magenta",
+  "red",
+  "volcano",
+  "orange",
+  "gold",
+  "lime",
+  "green",
+  "cyan",
+  "blue",
+  "geekblue",
+  "purple",
+];
 
 export const Students = memo(() => {
   const [tab, setTab] = useState("1");
   const { onOpenStudentModal } = useCalendarContext();
   const { students, addNewStudent } = useAppContext();
   const [searchQuery, setSearchQuery] = useState("");
+  const variants = ["solid"] as const;
 
   const simplifiedStudentData = useMemo(() => {
     return (
       students?.map((item) => ({
         name: item.name,
         lessonsCount: item.lessonsBalance || 0,
+        tag: item.tag || "",
       })) || []
     );
   }, [students]);
@@ -72,6 +89,26 @@ export const Students = memo(() => {
                   {filteredStudents.map((item) => (
                     <div key={item.name} className={styles.studentsItems}>
                       <p className={styles.studentsItem}>{item.name}</p>
+                      {item.tag && (
+                        <div>
+                          <Flex gap="small" align="center" wrap>
+                            <Tag
+                              color={
+                                presets[
+                                  Math.abs(
+                                    item.tag.split("").reduce((a, b) => {
+                                      a = (a << 5) - a + b.charCodeAt(0);
+                                      return a & a;
+                                    }, 0)
+                                  ) % presets.length
+                                ]
+                              }
+                            >
+                              {item.tag}
+                            </Tag>
+                          </Flex>
+                        </div>
+                      )}
                       <p className={styles.studentsItem}>{item.lessonsCount}</p>
                     </div>
                   ))}

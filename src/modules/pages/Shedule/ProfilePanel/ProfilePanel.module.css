@@ -70,8 +70,14 @@
   text-align: left;
 }
 .commentText {
-  margin-bottom: 24px;
   text-align: left;
+}
+
+.commentLabel {
+  display: flex;
+  flex-direction: column;
+  row-gap: 8px;
+  margin-bottom: 24px;
 }
 h3 {
   align-items: center;

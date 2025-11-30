@@ -172,6 +172,22 @@ export const StudentModal = memo(({ onAddNewStudent }: studentModalProps) => {
               />
 
               <Controller
+                name="tag"
+                control={control}
+                render={({ field, fieldState }) => (
+                  <>
+                    <label className={styles.formLabel}>
+                      Tag
+                      <Input {...field} />
+                    </label>
+                    {fieldState.error && (
+                      <p style={{ color: "red" }}>{fieldState.error.message}</p>
+                    )}
+                  </>
+                )}
+              />
+
+              <Controller
                 name="telegram"
                 control={control}
                 render={({ field }) => (
