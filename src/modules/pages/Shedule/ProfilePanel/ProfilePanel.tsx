@@ -5,17 +5,20 @@ import { Switch } from "antd";
 import { useState } from "react";
 import { MyButton } from "@/components/UI/MyButton";
 import type { SheduleItem } from "@/components/context/CalendarContext";
+import type { EventInput } from "@fullcalendar/core/index.js";
 
 interface ProfilePanelProps {
-  studentName: string;
+  studentName: string | undefined;
   time: string;
-  selectedItem: SheduleItem | null;
+  selectedItem: EventInput | null;
+  description: string;
 }
 
 export const ProfilePanel: React.FC<ProfilePanelProps> = ({
   studentName,
   time,
   selectedItem,
+  description,
 }) => {
   const [activeSwitch, setActiveSwitch] = useState<string | null>(null);
   const [showAdditionalText, setShowAdditionalText] = useState<boolean>(false);
@@ -62,11 +65,8 @@ export const ProfilePanel: React.FC<ProfilePanelProps> = ({
         <h4 className={styles.name}>{studentName}</h4>
       </div>
       <div className={styles.commentSection}>
-        <p className={styles.comment}>Комментарий к занятию</p>
-        <p className={styles.commentText}>
-          Нужно уделить больше времени практическим заданиям на следующем
-          занятии
-        </p>
+        <p className={styles.comment}>Комментарий</p>
+        <p className={styles.commentText}>{description}</p>
       </div>
       <div className={styles.statusSection}>
         <h3>Статус занятия</h3>

@@ -5,22 +5,41 @@ import { Schedule } from "../DaySchedule/Schedule";
 import { useCalendarContext } from "@/components/context/CalendarContext";
 import { ScheduleHeader } from "../ScheduleHeader";
 import { ProfilePanel } from "../ProfilePanel";
+import type { EventInput } from "@fullcalendar/core/index.js";
+import dayjs from "dayjs";
 
 interface SelectedStudent {
-  name: string;
+  name: string | undefined;
   time: string;
+  description: string;
 }
 
 export const SheduleAndPanel: React.FC = () => {
-  const { updatedScheduleItems, StatusMap } = useCalendarContext();
+  const { currentEvents, StatusMap } = useCalendarContext();
+
+  const updatedScheduleItems: EventInput[] = currentEvents.map((item) => {
+    const startTime = item.start
+      ? dayjs(item.start as Date).format("HH:mm")
+      : "";
+    const endTime = item.end ? dayjs(item.end as Date).format("HH:mm") : "";
+    const timeString = `${startTime} ${endTime} `;
+
+    return {
+      ...item,
+      studentInitials: item.title?.charAt(0),
+      description: item.extendedProps?.description || 0,
+      time: timeString,
+    };
+  });
 
   const [selectedStudent, setSelectedStudent] = useState<SelectedStudent>(
     updatedScheduleItems.length > 0
       ? {
-          name: updatedScheduleItems[0].studentName,
+          name: updatedScheduleItems[0].title || "",
           time: updatedScheduleItems[0].time,
+          description: updatedScheduleItems[0].description || "",
         }
-      : { name: "", time: "" }
+      : { name: "", time: "", description: "" }
   );
 
   const [selectedIndex, setSelectedIndex] = useState<number | null>(0);
@@ -28,9 +47,14 @@ export const SheduleAndPanel: React.FC = () => {
   const selectedItem =
     selectedIndex !== null ? updatedScheduleItems[selectedIndex] : null;
 
-  const handleItemClick = (index: number, name: string, time: string): void => {
+  const handleItemClick = (
+    index: number,
+    name: string | undefined,
+    time: string
+  ): void => {
     setSelectedIndex(index);
-    setSelectedStudent({ name, time });
+    const item = updatedScheduleItems[index];
+    setSelectedStudent({ name, time, description: item.description });
   };
 
   return (
@@ -49,6 +73,7 @@ export const SheduleAndPanel: React.FC = () => {
             <ProfilePanel
               studentName={selectedStudent.name}
               time={selectedStudent.time}
+              description={selectedStudent.description}
               selectedItem={selectedItem}
             />
           </>

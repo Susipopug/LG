@@ -5,12 +5,12 @@ import {
   type SheduleItem,
   type TSheduleStatus,
 } from "@/components/context/CalendarContext";
-import type { DateInput } from "@fullcalendar/core/index.js";
+import type {  EventInput } from "@fullcalendar/core/index.js";
 import dayjs, { Dayjs } from "dayjs";
 
 interface ScheduleProps {
-  onItemClick: (index: number, name: string, time: string) => void;
-  updatedScheduleItems: SheduleItem[];
+  onItemClick: (index: number, name: string|undefined, time: string) => void;
+  updatedScheduleItems: EventInput[];
   statusMap: Record<TSheduleStatus, string>;
   selectedIndex: number | null;
 }
@@ -56,7 +56,7 @@ export const Schedule: React.FC<ScheduleProps> = ({
           <section
             key={index}
             className={itemClassName}
-            onClick={() => onItemClick(index, item.studentName, item.time)}
+            onClick={() => onItemClick(index, item.title, timeString)}
           >
             <div className={styles.timeAndStatus}>
               <div className={styles.time}>
