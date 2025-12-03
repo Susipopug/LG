@@ -69,9 +69,6 @@
   opacity: 45%;
   text-align: left;
 }
-.commentText {
-  text-align: left;
-}
 
 .commentLabel {
   display: flex;

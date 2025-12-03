@@ -146,7 +146,7 @@ export const StudentModal = memo(({ onAddNewStudent }: studentModalProps) => {
                   <>
                     <label className={styles.formLabel}>
                       Имя
-                      <Input {...field} />
+                      <Input {...field} maxLength={20} />
                     </label>
                     {fieldState.error && (
                       <p style={{ color: "red" }}>{fieldState.error.message}</p>
@@ -178,7 +178,7 @@ export const StudentModal = memo(({ onAddNewStudent }: studentModalProps) => {
                   <>
                     <label className={styles.formLabel}>
                       Tag
-                      <Input {...field} />
+                      <Input {...field} maxLength={20} />
                     </label>
                     {fieldState.error && (
                       <p style={{ color: "red" }}>{fieldState.error.message}</p>
@@ -193,7 +193,7 @@ export const StudentModal = memo(({ onAddNewStudent }: studentModalProps) => {
                 render={({ field }) => (
                   <label className={styles.formLabel}>
                     Telegram
-                    <Input {...field} />
+                    <Input {...field} maxLength={20} />
                   </label>
                 )}
               />
@@ -204,19 +204,39 @@ export const StudentModal = memo(({ onAddNewStudent }: studentModalProps) => {
                 render={({ field }) => (
                   <label className={styles.formLabel}>
                     Whatsapp
-                    <Input {...field} />
+                    <Input {...field} maxLength={20} />
                   </label>
                 )}
               />
 
               <Controller
                 name="phoneNumber"
-                rules={{ required: "Номер телефона обязателен" }}
+                rules={{
+                  pattern: {
+                    value: /^\+[1-9]\d{1,14}$/,
+                    message: "Введите верный номер телефона",
+                  },
+                }}
                 control={control}
-                render={({ field }) => (
+                render={({ field, fieldState }) => (
                   <label className={styles.formLabel}>
                     Номер телефона
-                    <Input {...field} />
+                    <Input
+                      {...field}
+                      maxLength={20}
+                      type="tel"
+                      value={field.value || ""}
+                      onChange={(e) => {
+                        // Only allow numbers and plus sign at the beginning
+                        const value = e.target.value;
+                        if (value === "" || /^\+?\d*$/.test(value)) {
+                          field.onChange(value);
+                        }
+                      }}
+                    />
+                    {fieldState.error && (
+                      <p style={{ color: "red" }}>{fieldState.error.message}</p>
+                    )}
                   </label>
                 )}
               />

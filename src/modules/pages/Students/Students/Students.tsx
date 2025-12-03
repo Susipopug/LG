@@ -29,7 +29,6 @@ export const Students = memo(() => {
   const { onOpenStudentModal } = useCalendarContext();
   const { students, addNewStudent } = useAppContext();
   const [searchQuery, setSearchQuery] = useState("");
-  const variants = ["solid"] as const;
 
   const simplifiedStudentData = useMemo(() => {
     return (
@@ -62,6 +61,13 @@ export const Students = memo(() => {
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchQuery(event.target.value);
   };
+  const hashString = (str: string) => {
+    let hash = 0;
+    for (let i = 0; i < str.length; i++) {
+      hash = (hash * 31 + str.charCodeAt(i)) >>> 0; // ensure non-negative
+    }
+    return hash;
+  };
 
   return (
     <>
@@ -86,22 +92,15 @@ export const Students = memo(() => {
             <>
               {filteredStudents.length > 0 ? (
                 <div className={styles.studentsList}>
-                  {filteredStudents.map((item) => (
-                    <div key={item.name} className={styles.studentsItems}>
+                  {filteredStudents.map((item, index) => (
+                    <div key={index} className={styles.studentsItems}>
                       <p className={styles.studentsItem}>{item.name}</p>
                       {item.tag && (
                         <div>
                           <Flex gap="small" align="center" wrap>
                             <Tag
                               color={
-                                presets[
-                                  Math.abs(
-                                    item.tag.split("").reduce((a, b) => {
-                                      a = (a << 5) - a + b.charCodeAt(0);
-                                      return a & a;
-                                    }, 0)
-                                  ) % presets.length
-                                ]
+                                presets[hashString(item.tag) % presets.length]
                               }
                             >
                               {item.tag}

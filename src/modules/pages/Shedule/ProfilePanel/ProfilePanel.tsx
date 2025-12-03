@@ -65,8 +65,7 @@ export const ProfilePanel: React.FC<ProfilePanelProps> = ({
         <h4 className={styles.name}>{studentName}</h4>
       </div>
       <div className={styles.commentSection}>
-        {/* <p className={styles.comment}>Комментарий</p> */}
-        {/* <p className={styles.commentText}>{description}</p> */}
+    
         <label className={styles.commentLabel}>
           Комментарий
           <Input.TextArea

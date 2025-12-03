@@ -27,9 +27,9 @@ const getNewStudentData = () => {
 export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
   const [students, setStudents] = useState<IStudent[]>(getNewStudentData);
 
-  const addNewStudent = (students: IStudent) => {
+  const addNewStudent = (student: IStudent) => {
     setStudents((prev) => {
-      const newStudentData = [...prev, students];
+      const newStudentData = [...prev, student];
       localStorage.setItem("newStudentData", JSON.stringify(newStudentData));
       return newStudentData;
     });
